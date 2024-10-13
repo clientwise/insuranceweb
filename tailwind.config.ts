@@ -1,19 +1,35 @@
 import type { Config } from "tailwindcss";
+import { nextui } from "@nextui-org/react";
+import { Colors } from "./src/assets/colors";
 
 const config: Config = {
   content: [
     "./pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./components/**/*.{js,ts,jsx,tsx,mdx}",
     "./app/**/*.{js,ts,jsx,tsx,mdx}",
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    ".next/types/**/*.ts",
+    "src/components/SideBarNew.jsx",
+    "src/components/common/SelectSearchNew.js",
+    "./node_modules/@nextui-org/theme/dist/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
     extend: {
-      colors: {
-        background: "var(--background)",
-        foreground: "var(--foreground)",
+      backgroundImage: {
+        "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
+        "gradient-conic":
+          "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
       },
+      "custom-gradient": "linear-gradient(to right, #683FDB 0%, #A05AD8 100%)",
+
+      fontFamily: {
+        poppins: ["var(--font-poppins)"],
+      },
+      colors: Colors,
     },
   },
-  plugins: [],
+  plugins: [nextui()],
 };
 export default config;
