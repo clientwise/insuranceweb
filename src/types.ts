@@ -73,3 +73,16 @@ export type WishProps = {
   Name: string;
   Date: string;
 };
+
+export type Client = {
+  ID: number;
+  Name: string;
+  UpdatedAt: string;
+  DeletedAt: string | null;
+  Contact: string;
+  Status: number;
+  PhoneNumber: string;
+  Date: string;
+  Amount: number;
+  Profession: string;
+};
