@@ -5,10 +5,10 @@ import { ToastContainer } from "react-toastify";
 import { LocationProps } from "./Breadcrumb";
 import DashHeader from "./pages/dashboard/DashHeader";
 import Sidebar, { SidebarItem } from "./SideBarNew";
-import { Home, BookmarkCheckIcon, BookText } from "lucide-react";
 import { useRouter, usePathname } from "next/navigation";
 import Bottombar from "./pages/dashboard/Bottombar";
 import { useDisclosure } from "@nextui-org/react";
+import { Clients, Home, Marketing, Transaction } from "../assets/images/Images";
 
 interface Props {
   children: React.ReactNode;
@@ -59,28 +59,40 @@ function SidebarNew({
   return (
     <Sidebar setExpandedMain={setExpandedMain}>
       <SidebarItem
-        icon={<Home />}
+        icon={<Home color={pathname === "/dashboard" ? "#fff" : "#683FDB"} />}
         text={"Dashboard"}
         alert={pathname === "/dashboard"}
         active={pathname === "/dashboard"}
         href="/dashboard"
       />
       <SidebarItem
-        icon={<BookText />}
+        icon={
+          <Clients
+            color={pathname === "/dashboard/clients" ? "#fff" : "#683FDB"}
+          />
+        }
         text={"Clients"}
         alert={pathname === "/dashboard/clients"}
         active={pathname === "/dashboard/clients"}
         href="/dashboard/clients"
       />
       <SidebarItem
-        icon={<BookText />}
+        icon={
+          <Marketing
+            color={pathname === "/dashboard/marketing" ? "#fff" : "#683FDB"}
+          />
+        }
         text={"Marketing"}
         alert={pathname === "/dashboard/marketing"}
         active={pathname === "/dashboard/marketing"}
         href="/dashboard/marketing"
       />
       <SidebarItem
-        icon={<BookmarkCheckIcon />}
+        icon={
+          <Transaction
+            color={pathname === "/dashboard/transaction" ? "#fff" : "#683FDB"}
+          />
+        }
         text={"Transactions"}
         alert={pathname === "/dashboard/saved"}
         active={pathname === "/dashboard/saved"}

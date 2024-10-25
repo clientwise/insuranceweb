@@ -4,36 +4,20 @@
 import React from "react";
 import {
   Navbar,
-  NavbarBrand,
   NavbarContent,
-  Link,
   Input,
   DropdownItem,
   DropdownTrigger,
   Dropdown,
   DropdownMenu,
   Avatar,
-  Button,
 } from "@nextui-org/react";
-import { Add } from "@/src/assets/Add";
 import Image from "next/image";
 import BellIcon from "../../../assets/bell.svg";
 import { useRouter } from "next/navigation";
 import { nextLocalStorage } from "@/src/utils/nextLocalStorage";
 import { Search } from "lucide-react";
-import Logo2 from "../../../assets/workistlogo.svg";
-interface UserData {
-  id: number;
-  name: string;
-  username: string;
-  email: string;
-  college: string;
-  company: string;
-  phoneNo: string;
-  gender: string;
-  course: string;
-  createdAt: string; // Assuming createdAt is always a string in ISO 8601 format
-}
+
 interface DashHeaderProps {
   onOpen: () => void;
 }
@@ -51,21 +35,7 @@ export default function DashHeader({ onOpen }: DashHeaderProps) {
   const handleUpdateProfile = React.useCallback(() => {
     // router.replace("/updateprofile");
     onOpen();
-  }, [router, onOpen]);
-
-  const [data, setData] = React.useState<UserData>();
-
-  React.useEffect(() => {
-    const storedData = nextLocalStorage()?.getItem("user_data");
-    if (storedData) {
-      try {
-        const parsedData = JSON.parse(storedData);
-        setData(parsedData);
-      } catch (error) {
-        console.log("USER DATA NOT PARSED");
-      }
-    }
-  }, []);
+  }, [onOpen]);
 
   return (
     <Navbar isBordered>
@@ -105,15 +75,11 @@ export default function DashHeader({ onOpen }: DashHeaderProps) {
           type="search"
         /> */}
 
-        <Button
-          isIconOnly
-          color="warning"
-          variant="faded"
-          aria-label="Take a photo"
-          className="h-8"
-        >
-          <Image height={18} src={BellIcon} alt="File" />
-        </Button>
+        <p className="font-normal font-poppins text-sm text-tableHeaderColor">
+          {name != "" ? name : ""}
+        </p>
+
+        <Image className="mr-2" height={20} src={BellIcon} alt="File" />
 
         <Dropdown placement="bottom-end">
           <DropdownTrigger>
