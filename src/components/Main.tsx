@@ -73,6 +73,13 @@ function SidebarNew({
         href="/dashboard/clients"
       />
       <SidebarItem
+        icon={<BookText />}
+        text={"Marketing"}
+        alert={pathname === "/dashboard/marketing"}
+        active={pathname === "/dashboard/marketing"}
+        href="/dashboard/marketing"
+      />
+      <SidebarItem
         icon={<BookmarkCheckIcon />}
         text={"Transactions"}
         alert={pathname === "/dashboard/saved"}

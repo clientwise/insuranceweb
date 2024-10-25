@@ -86,3 +86,16 @@ export type Client = {
   Amount: number;
   Profession: string;
 };
+
+export type Article = {
+  author: string;
+  content: string;
+  createdAt: string;
+  description: string;
+  id: string;
+  image: string;
+  metadata: string;
+  slug: string;
+  title: string;
+  updatedAt: string;
+};
