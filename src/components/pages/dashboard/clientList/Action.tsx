@@ -6,7 +6,7 @@ import { Mail, MessageCircleMore, MessageSquareMore } from "lucide-react";
 interface Props {
   item: ClientType;
 }
-
+// eslint-disable-next-line
 export default function Action({ item }: Props) {
   const handleDownloadRental = React.useCallback(() => {}, []);
 

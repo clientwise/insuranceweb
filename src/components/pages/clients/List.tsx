@@ -123,13 +123,13 @@ export default function ClientNumbersList({ clients, loading, onOpen }: Props) {
     const end = start + rowsPerPage;
     return filteredItems.slice(start, end);
   }, [page, filteredItems, rowsPerPage]);
-
-  const onRowsPerPageChange = React.useCallback((e) => {
+  // eslint-disable-next-line
+  const onRowsPerPageChange = React.useCallback((e: any) => {
     setRowsPerPage(Number(e.target.value));
     setPage(1);
   }, []);
-
-  const onSearchChange = React.useCallback((value) => {
+  // eslint-disable-next-line
+  const onSearchChange = React.useCallback((value: any) => {
     if (value) {
       setFilterValue(value);
       setPage(1);

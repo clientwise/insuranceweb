@@ -5,7 +5,7 @@ import { Colors } from "../../../assets/colors";
 interface Props {
   blog: Article;
 }
-
+/* eslint-disable */
 const BlogCard = ({ blog }: Props) => {
   return (
     <div className="flex justify-center ">

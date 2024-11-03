@@ -1,7 +1,6 @@
 // components/Header.js
 "use client";
 import React, { useState, useEffect } from "react";
-import { Logo } from "@/assets/images/Logo";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import LogoWorkist from "../assets/workistlogo.svg";
@@ -32,9 +31,6 @@ const Header = () => {
     router.push(`/signup`);
   }, [router]);
 
-  const navigateToPricing = React.useCallback(() => {
-    router.push(`/pricing`);
-  }, [router]);
   return (
     <header
       className={`px-4 py-2 sm:py-4 flex justify-center transition-all duration-300 ease-in-out ${

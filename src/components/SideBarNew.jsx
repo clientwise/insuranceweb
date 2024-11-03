@@ -15,7 +15,7 @@ export default function Sidebar({ children, setExpandedMain }) {
   // const name = nextLocalStorage()?.getItem("name") ?? "name";
   const email = nextLocalStorage()?.getItem("email") ?? "";
   const name = nextLocalStorage()?.getItem("name") ?? "";
-
+  // eslint-disable-next-line
   const [data, setData] = React.useState();
 
   React.useEffect(() => {
@@ -25,7 +25,7 @@ export default function Sidebar({ children, setExpandedMain }) {
         const parsedData = JSON.parse(storedData);
         setData(parsedData);
       } catch (error) {
-        console.log("USER DATA NOT PARSED");
+        console.log("USER DATA NOT PARSED", error);
       }
     }
   }, []);

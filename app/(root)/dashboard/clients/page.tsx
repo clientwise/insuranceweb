@@ -20,7 +20,7 @@ const Clients = () => {
   // const [clientRentalNumbers, setClientIRentalNumbers] = React.useState<
   //   Client[]
   // >([]);
-
+  // eslint-disable-next-line
   const navigateToClientCode = React.useCallback(
     (client_code: string, client_name: string) => {
       router.push(

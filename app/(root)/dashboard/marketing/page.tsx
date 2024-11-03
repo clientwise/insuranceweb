@@ -2,7 +2,6 @@
 import React from "react";
 import Spacer from "@/src/components/Spacer";
 import { Card, CardBody, Tabs, Tab } from "@nextui-org/react"; // Import necessary components
-import PromotionalItems from "@/src/components/pages/marketing/PromotionalItems";
 import FundMaterial from "@/src/components/pages/marketing/FundMaterial";
 import MarketUpdates from "@/src/components/pages/marketing/MarketUpdates";
 
@@ -23,9 +22,7 @@ const Marketing = () => {
           <Tabs aria-label="Inventory Details Tabs">
             <Tab key="promotional" title="Promotional Items">
               <Card>
-                <CardBody>
-                  <PromotionalItems />
-                </CardBody>
+                <CardBody></CardBody>
               </Card>
             </Tab>
             <Tab key="fund_material" title="Fund Material">

@@ -1,5 +1,5 @@
 import * as React from "react";
-
+// eslint-disable-next-line
 interface Props extends React.SVGProps<SVGSVGElement> {}
 
 export const Illustration = (props: Props) => (

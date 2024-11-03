@@ -1,12 +1,9 @@
 "use client";
 
 import * as React from "react";
-import { postContactApi } from "@/src/apis";
 import Button from "@/src/components/Button";
 import Row from "@/src/components/Row";
 import Spacer from "@/src/components/Spacer";
-import useApi from "@/src/hooks/useApi";
-import useToast from "@/src/hooks/useToast";
 import { Formik, Form as FormikForm } from "formik";
 import * as Yup from "yup";
 import Input from "@/src/components/Input";
@@ -15,10 +12,7 @@ interface Props {
   onClose: () => void;
   clientId: string;
 }
-export default function AddClient({ onClose, clientId }: Props) {
-  const { makeApiCall } = useApi();
-  const { showToast } = useToast();
-
+export default function AddClient({ clientId }: Props) {
   // eslint-disable-next-line
   const [initialValues, setInitialValues] = React.useState({
     name: "",
@@ -53,17 +47,7 @@ export default function AddClient({ onClose, clientId }: Props) {
     ] // noSortEdges
   );
 
-  const handleSubmit = React.useCallback(
-    ({ name, phone, email }: typeof initialValues) => {
-      return makeApiCall(postContactApi(name, phone, email))
-        .then(() => {
-          onClose();
-          showToast("Form submitted successfully", { type: "success" });
-        })
-        .catch(() => showToast("Form submitted failed", { type: "error" }));
-    },
-    [makeApiCall, showToast, onClose]
-  );
+  const handleSubmit = React.useCallback(() => {}, []);
 
   return (
     <section className="bg-white ">

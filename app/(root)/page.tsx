@@ -1,10 +1,8 @@
 "use client";
 
-import React, { useState } from "react";
+import React from "react";
 
 import { gradients } from "@/src/assets/colors";
-import Footer from "@/src/components/Footer";
-import Header from "@/src/components/Header";
 import { useRouter } from "next/navigation";
 
 export default function About() {

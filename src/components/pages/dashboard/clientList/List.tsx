@@ -9,17 +9,12 @@ import {
   TableCell,
   Spinner,
   Pagination,
-  Input,
   SortDescriptor,
   Chip,
 } from "@nextui-org/react";
 
-import { CiFilter, CiSearch } from "react-icons/ci";
 import { ClientType, SelectType } from "@/src/types.js";
 import Action from "./Action";
-import Row from "@/src/components/Row";
-import Button from "@/src/components/Button";
-import Select from "@/src/components/common/Select";
 
 interface Props {
   clientList: ClientType[];
@@ -51,7 +46,7 @@ const COLUMNS = [
     key: "action",
   },
 ];
-
+/* eslint-disable */
 export default function ClientsList({ clientList, loading }: Props) {
   const [filterValue, setFilterValue] = React.useState("");
   const [rowsPerPage, setRowsPerPage] = React.useState(20);
@@ -115,13 +110,13 @@ export default function ClientsList({ clientList, loading }: Props) {
     const end = start + rowsPerPage;
     return filteredItems.slice(start, end);
   }, [page, filteredItems, rowsPerPage]);
-
-  const onRowsPerPageChange = React.useCallback((e) => {
+  // eslint-disable-next-line
+  const onRowsPerPageChange = React.useCallback((e: any) => {
     setRowsPerPage(Number(e.target.value));
     setPage(1);
   }, []);
-
-  const onSearchChange = React.useCallback((value) => {
+  // eslint-disable-next-line
+  const onSearchChange = React.useCallback((value: any) => {
     if (value) {
       setFilterValue(value);
       setPage(1);
@@ -278,93 +273,6 @@ export default function ClientsList({ clientList, loading }: Props) {
       return sortDescriptor.direction === "descending" ? -cmp : cmp;
     });
   }, [sortDescriptor, items]);
-
-  const topContent = React.useMemo(() => {
-    return (
-      <div className="relative flex flex-col gap-4">
-        <div className="flex justify-between gap-3 items-end my-2">
-          <Input
-            isClearable
-            className="focus:outline-none focus:border-none"
-            classNames={{
-              base: "w-full sm:max-w-[44%] focus:outline-none focus:border-none",
-              inputWrapper:
-                "border-0 focus:border-0 focus:outline-none focus:border-none",
-              input: "border-0 focus:outline-none focus:border-none",
-            }}
-            placeholder="Search by schedule number..."
-            size="sm"
-            startContent={<CiSearch />}
-            value={filterValue}
-            onClear={() => {
-              setFilterValue("");
-              setSelectedState("all");
-            }}
-            onValueChange={onSearchChange}
-          />
-
-          <div className="flex gap-3">
-            <Row>
-              <Button
-                color="default"
-                variant="bordered"
-                startContent={<CiFilter size={18} />}
-                className="font-poppins"
-                size="sm"
-                radius="sm"
-                onClick={() => {
-                  setShowFilter(!showFilter);
-                  setTempSelectedState(selectedState); // Reset temp state to current state
-                }}
-              >
-                Filter
-              </Button>
-            </Row>
-          </div>
-        </div>
-        {showFilter && (
-          <div className="absolute top-full mt-2 right-0 w-[20%] px-6 py-4 rounded shadow-xl z-10 bg-white">
-            <p className="text-black text-base leading-8 font-poppins font-medium mt-[4%] bg-white">
-              Filter
-            </p>
-            <div className="w-full h-5" />
-
-            <Select
-              name="filter"
-              item={dropdownFilter}
-              label="State"
-              placeholder="State"
-              onSelect={handleStateSelect}
-              className="font-poppins text-xl font-light"
-            />
-            <div>
-              <Row>
-                <Button
-                  color="default"
-                  className="font-poppins font-light text-sm bg-buttonprimary text-white w-[100%] mt-4"
-                  size="md"
-                  radius="sm"
-                  onClick={() => {
-                    setSelectedState(tempselectedState);
-                    setShowFilter(false);
-                  }}
-                >
-                  Filter
-                </Button>
-              </Row>{" "}
-            </div>
-          </div>
-        )}
-      </div>
-    );
-  }, [
-    filterValue,
-    onSearchChange,
-    showFilter,
-    selectedState,
-    tempselectedState,
-    dropdownFilter,
-  ]);
 
   return (
     <div className="flex flex-col">

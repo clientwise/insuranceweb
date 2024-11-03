@@ -9,9 +9,7 @@ import { LoadingIcon } from "@/src/assets/images/Loading";
 import { useRouter } from "next/navigation";
 import Select from "@/src/components/common/Select";
 import { SelectType } from "@/src/types";
-import useApi from "@/src/hooks/useApi";
 import { nextLocalStorage } from "@/src/utils/nextLocalStorage";
-import useToast from "@/src/hooks/useToast";
 import Image from "next/image";
 import Worklist from "../../../src/assets/kuantslogo.svg";
 
@@ -38,8 +36,6 @@ export default function SignUp() {
   const [loading, setLoading] = React.useState(false);
   const router = useRouter();
   const emailLocal = nextLocalStorage()?.getItem("email");
-  const { makeApiCall } = useApi();
-  const { showToast } = useToast();
 
   React.useEffect(() => {
     if (emailLocal === "") {
@@ -47,21 +43,13 @@ export default function SignUp() {
       router.replace("/login");
     }
   }, [emailLocal, router]);
-  const Gender: SelectType[] = [
-    {
-      label: "Male",
-      value: "male",
-    },
-    {
-      label: "Female",
-      value: "female",
-    },
-  ];
+
   const navigateToHomePage = React.useCallback(() => {
     router.replace("/");
   }, [router]);
 
   const handleSubmit = React.useCallback(
+    // eslint-disable-next-line
     async (values: typeof INITIAL_VALUES) => {
       setLoading(true);
       navigateToHomePage();

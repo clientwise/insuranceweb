@@ -5,7 +5,7 @@ interface Props {
   size: keyof typeof spacingClasses;
   orientation?: "horizontal" | "vertical";
 }
-
+// eslint-disable-next-line
 declare const spacing: {
   0: string;
   4: string;

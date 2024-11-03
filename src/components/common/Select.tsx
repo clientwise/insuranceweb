@@ -1,7 +1,7 @@
+import { SelectType } from "@/src/types";
 import { Select as NSelect, SelectItem, SelectProps } from "@nextui-org/react";
 import { useField } from "formik";
 import * as React from "react";
-import { SelectType } from "@/types";
 
 interface Props extends Omit<SelectProps, "items" | "children" | "onSelect"> {
   item: SelectType[];
