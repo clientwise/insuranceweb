@@ -15,15 +15,14 @@ import {
 } from "@nextui-org/react";
 
 import { CiFilter, CiSearch } from "react-icons/ci";
-import { ClientList, SelectType } from "@/src/types.js";
+import { ClientType, SelectType } from "@/src/types.js";
 import Action from "./Action";
 import Row from "@/src/components/Row";
 import Button from "@/src/components/Button";
 import Select from "@/src/components/common/Select";
-import Spacer from "@/src/components/Spacer";
 
 interface Props {
-  clientList: ClientList[];
+  clientList: ClientType[];
   loading: boolean;
 }
 
@@ -67,9 +66,9 @@ export default function ClientsList({ clientList, loading }: Props) {
 
   React.useEffect(() => {
     const dropdownOptionsData: SelectType[] = clientList
-      .map((item: ClientList) => ({
-        value: item.Name,
-        label: item.Name,
+      .map((item: ClientType) => ({
+        value: item.name,
+        label: item.name,
       }))
       .filter(
         (option, index, self) =>
@@ -97,14 +96,14 @@ export default function ClientsList({ clientList, loading }: Props) {
     if (hasSearchFilter) {
       filteredUsers = filteredUsers.filter(
         (user) =>
-          user.Name.toLowerCase().includes(filterValue.toLowerCase()) ||
-          user.Name.toLowerCase().includes(filterValue.toLowerCase())
+          user.name.toLowerCase().includes(filterValue.toLowerCase()) ||
+          user.name.toLowerCase().includes(filterValue.toLowerCase())
       );
     }
 
     if (selectedState !== "all" && selectedState) {
       filteredUsers = filteredUsers.filter(
-        (user) => user.Name === selectedState
+        (user) => user.name === selectedState
       );
     }
 
@@ -136,27 +135,27 @@ export default function ClientsList({ clientList, loading }: Props) {
     setTempSelectedState(value);
   };
 
-  const renderStatus = React.useCallback((item: ClientList) => {
-    switch (item?.Status) {
-      case 0:
+  const renderStatus = React.useCallback((item: ClientType) => {
+    switch (item?.status) {
+      case "0":
         return (
           <Chip variant="flat" color="success" size="sm">
             Upload aadhaar
           </Chip>
         );
-      case 1:
+      case "1":
         return (
           <Chip color="danger" variant="flat" size="sm">
             Signature pending
           </Chip>
         );
-      case 2:
+      case "2":
         return (
           <Chip variant="flat" color="warning" size="sm">
             Upload PAN
           </Chip>
         );
-      case 3:
+      case "3":
         return (
           <Chip variant="flat" color="success" size="sm">
             Signature pending
@@ -172,8 +171,8 @@ export default function ClientsList({ clientList, loading }: Props) {
   }, []);
 
   const renderCell = React.useCallback(
-    (client: ClientList, columnKey: React.Key) => {
-      const index = clientList.map((object) => object.ID).indexOf(client.ID);
+    (client: ClientType, columnKey: React.Key) => {
+      const index = clientList.map((object) => object.id).indexOf(client.id);
       switch (columnKey) {
         case "sr_no":
           return (
@@ -184,13 +183,13 @@ export default function ClientsList({ clientList, loading }: Props) {
         case "Name":
           return (
             <div className="flex flex-col">
-              <p className="text-bold text-sm capitalize">{client.Name}</p>
+              <p className="text-bold text-sm capitalize">{client.name}</p>
             </div>
           );
         case "Contact":
           return (
             <div className="flex flex-col">
-              <p className="text-bold text-sm capitalize">{client.Contact}</p>
+              <p className="text-bold text-sm capitalize">{client.phone}</p>
             </div>
           );
         case "Status":
@@ -210,12 +209,12 @@ export default function ClientsList({ clientList, loading }: Props) {
 
   const bottomContent = React.useMemo(() => {
     return (
-      <div className="py-2 px-2 flex justify-between items-center">
+      <div className="px-2 flex justify-between items-center">
         <Pagination
           showControls
           classNames={{
-            item: "bg-pageBackground w-6 h-6 min-w-4 font-roboto",
-            cursor: "w-6 h-6 min-w-4 font-roboto",
+            item: "bg-pageBackground w-6 h-6 min-w-4 font-poppins",
+            cursor: "w-6 h-6 min-w-4 font-poppins",
           }}
           color="default"
           isDisabled={hasSearchFilter}
@@ -225,10 +224,10 @@ export default function ClientsList({ clientList, loading }: Props) {
           onChange={setPage}
         />
         <div className="flex justify-between items-center">
-          <label className="flex items-center text-small font-roboto text-black font-light ">
+          <label className="flex items-center text-small font-poppins text-black font-light ">
             Items per page:&nbsp;
             <select
-              className="border-none shadow-sm outline-none text-default-400 text-small font-roboto font-light px-1 py-0 rounded-md"
+              className="border-none shadow-sm outline-none text-default-400 text-small font-poppins font-light px-1 py-0 rounded-md"
               onChange={onRowsPerPageChange}
               defaultValue={"20"}
             >
@@ -264,16 +263,16 @@ export default function ClientsList({ clientList, loading }: Props) {
         "font-normal",
         "text-textColorGrey",
       ],
-      table: "min-h-[300px]",
+      table: "max-h-[200px]",
       wrapper: "table-wrapper",
     }),
     []
   );
 
   const sortedItems = React.useMemo(() => {
-    return [...items].sort((a: ClientList, b: ClientList) => {
-      const first = a[sortDescriptor.column as keyof ClientList] as number;
-      const second = b[sortDescriptor.column as keyof ClientList] as number;
+    return [...items].sort((a: ClientType, b: ClientType) => {
+      const first = a[sortDescriptor.column as keyof ClientType] as number;
+      const second = b[sortDescriptor.column as keyof ClientType] as number;
       const cmp = first < second ? -1 : first > second ? 1 : 0;
 
       return sortDescriptor.direction === "descending" ? -cmp : cmp;
@@ -310,7 +309,7 @@ export default function ClientsList({ clientList, loading }: Props) {
                 color="default"
                 variant="bordered"
                 startContent={<CiFilter size={18} />}
-                className="font-roboto"
+                className="font-poppins"
                 size="sm"
                 radius="sm"
                 onClick={() => {
@@ -325,7 +324,7 @@ export default function ClientsList({ clientList, loading }: Props) {
         </div>
         {showFilter && (
           <div className="absolute top-full mt-2 right-0 w-[20%] px-6 py-4 rounded shadow-xl z-10 bg-white">
-            <p className="text-black text-base leading-8 font-roboto font-medium mt-[4%] bg-white">
+            <p className="text-black text-base leading-8 font-poppins font-medium mt-[4%] bg-white">
               Filter
             </p>
             <div className="w-full h-5" />
@@ -336,13 +335,13 @@ export default function ClientsList({ clientList, loading }: Props) {
               label="State"
               placeholder="State"
               onSelect={handleStateSelect}
-              className="font-roboto text-xl font-light"
+              className="font-poppins text-xl font-light"
             />
             <div>
               <Row>
                 <Button
                   color="default"
-                  className="font-roboto font-light text-sm bg-buttonprimary text-white w-[100%] mt-4"
+                  className="font-poppins font-light text-sm bg-buttonprimary text-white w-[100%] mt-4"
                   size="md"
                   radius="sm"
                   onClick={() => {
@@ -398,7 +397,7 @@ export default function ClientsList({ clientList, loading }: Props) {
         >
           {(item) => (
             <TableRow
-              key={`${item.ID}-${item.ID}`}
+              key={`${item.id}-${item.id}`}
               className="cursor-pointer h-12"
             >
               {(columnKey) => (

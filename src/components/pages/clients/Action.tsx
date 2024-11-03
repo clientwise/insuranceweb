@@ -1,10 +1,10 @@
 import * as React from "react";
 import Row from "@/src/components/Row";
-import { ClientList } from "@/src/types";
+import { ClientType } from "@/src/types";
 import { CalendarRange, Mail } from "lucide-react";
 
 interface Props {
-  item: ClientList;
+  item: ClientType;
 }
 
 export default function Action({}: Props) {

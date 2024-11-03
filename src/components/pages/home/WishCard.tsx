@@ -1,14 +1,14 @@
 import { Colors } from "@/src/assets/colors";
 import React from "react";
-import { Cake, Search } from "lucide-react";
+import { Cake } from "lucide-react";
 import Button from "../../Button";
+import { TodaysEventsType } from "@/src/types";
 
 interface Props {
-  label?: string;
-  date?: string;
+  event?: TodaysEventsType;
 }
 
-const WishCard = ({ label, date }: Props) => {
+const WishCard = ({ event }: Props) => {
   return (
     <div className="p-2 border rounded-md shadow-md mb-1">
       <div className="flex justify-between">
@@ -18,9 +18,11 @@ const WishCard = ({ label, date }: Props) => {
           </div>
           <div style={{ color: Colors.textprimary }} className="flex-col ">
             <p className="text-base font-normal font-poppins text-black">
-              {label}
+              {event?.event_type}
             </p>
-            <p className="text-xs font-semibold font-poppins">{date}</p>
+            <p className="text-xs font-semibold font-poppins">
+              {event?.date_of_event}
+            </p>
           </div>
         </div>
 

@@ -14,10 +14,20 @@ import { LoginApi, OtpSubmitApi } from "@/src/apis";
 import useToast from "@/src/hooks/useToast";
 import Worklist from "../../../src/assets/kuantslogo.svg";
 import Image from "next/image";
+import { jwtDecode, JwtPayload } from "jwt-decode";
+
+interface CustomJwtPayload extends JwtPayload {
+  agency_name: string;
+  email: string;
+  id: number;
+  mobile: string;
+  name: string;
+}
 
 const INTIAL_VALUES = {
   email: "",
 };
+
 const LoginPage = () => {
   const [email, setEmail] = useState(""); // eslint-disable-line
   const [loading, setLoading] = React.useState(false); // eslint-disable-line
@@ -42,6 +52,7 @@ const LoginPage = () => {
       setLoading(true);
       setEmail(email);
       localStorage.setItem("email", email);
+      console.log("Email sending for login", email);
 
       return makeApiCall(LoginApi(email))
         .then((response) => {
@@ -66,22 +77,21 @@ const LoginPage = () => {
       return makeApiCall(OtpSubmitApi(email, otp))
         .then((response) => {
           console.log(response, "RESPONSE OF OTP verify");
-          if (response?.status == true) {
+          console.log("Decoding decoded");
+
+          const decoded = jwtDecode<CustomJwtPayload>(response.token); // Use the custom type
+
+          console.log(decoded, "Token decoded");
+          if (response?.success == true) {
             console.log("OTP VERIfy SUCCESS");
             showToast("OTP verified successfully!!", { type: "success" });
-            if (response?.existingUser == true) {
-              localStorage.setItem("authToken", response?.token);
-              localStorage.setItem("email", response?.email);
-              localStorage.setItem("name", response?.name);
-              localStorage.setItem("role", response?.role);
-              localStorage.setItem("status", response?.status);
-              localStorage.setItem("id", response?.id);
-              localStorage.setItem("uuid", response?.uuid);
-
-              navigateToHomePage();
-            } else {
-              navigateToSignup();
-            }
+            localStorage.setItem("authToken", response.token);
+            localStorage.setItem("email", decoded.email);
+            localStorage.setItem("agency_name", decoded.agency_name);
+            localStorage.setItem("name", decoded.name);
+            localStorage.setItem("id", decoded.id.toString());
+            localStorage.setItem("mobile", decoded.mobile);
+            navigateToHomePage();
           } else {
             console.log("OTP invalid ");
             showToast("Please enter valid otp!!", { type: "error" });
@@ -94,7 +104,7 @@ const LoginPage = () => {
         })
         .finally(() => setOtpLoading(false));
     },
-    [makeApiCall, navigateToHomePage, navigateToSignup, showToast]
+    [makeApiCall, navigateToHomePage, showToast]
   );
 
   const onOtpChange = (text: string) => {
@@ -131,7 +141,7 @@ const LoginPage = () => {
                 <OtpInput
                   value={otp}
                   onChange={(text) => onOtpChange(text)}
-                  numInputs={6}
+                  numInputs={4}
                   renderSeparator={
                     <span style={{ margin: "0 0.5rem" }}>-</span>
                   }

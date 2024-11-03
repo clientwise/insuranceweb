@@ -99,3 +99,22 @@ export type Article = {
   title: string;
   updatedAt: string;
 };
+
+export type TodaysEventsType = {
+  client_id: string;
+  date_of_event: string;
+  description: string;
+  event_type: string;
+  id: number;
+};
+
+export type ClientType = {
+  address: string;
+  age: number;
+  email: string;
+  name: string;
+  id: number;
+  phone: string;
+  profession: string;
+  status: string;
+};

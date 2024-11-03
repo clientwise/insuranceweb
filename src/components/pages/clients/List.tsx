@@ -18,11 +18,13 @@ import Row from "../../Row.tsx";
 import Button from "../../Button.tsx";
 import Select from "../../common/Select.tsx";
 import Spacer from "../../Spacer.tsx";
-import { Client, SelectType } from "@/src/types.ts";
+import { ClientType, SelectType } from "@/src/types.ts";
+import { Colors } from "@/src/assets/colors.js";
 
 interface Props {
-  clients: Client[];
+  clients: ClientType[];
   loading: boolean;
+  onOpen: () => void;
 }
 
 const COLUMNS = [
@@ -58,7 +60,7 @@ const COLUMNS = [
   },
 ];
 
-export default function ClientNumbersList({ clients, loading }: Props) {
+export default function ClientNumbersList({ clients, loading, onOpen }: Props) {
   const [filterValue, setFilterValue] = React.useState("");
   const [rowsPerPage, setRowsPerPage] = React.useState(20);
   const [showFilter, setShowFilter] = React.useState(false);
@@ -72,9 +74,9 @@ export default function ClientNumbersList({ clients, loading }: Props) {
 
   React.useEffect(() => {
     const dropdownOptionsData: SelectType[] = clients
-      .map((item: Client) => ({
-        value: item.Name,
-        label: item.Name,
+      .map((item: ClientType) => ({
+        value: item.name,
+        label: item.name,
       }))
       .filter(
         (option, index, self) =>
@@ -102,14 +104,14 @@ export default function ClientNumbersList({ clients, loading }: Props) {
     if (hasSearchFilter) {
       filteredUsers = filteredUsers.filter(
         (user) =>
-          user.Name.toLowerCase().includes(filterValue.toLowerCase()) ||
-          user.PhoneNumber.toLowerCase().includes(filterValue.toLowerCase())
+          user.name.toLowerCase().includes(filterValue.toLowerCase()) ||
+          user.phone.toLowerCase().includes(filterValue.toLowerCase())
       );
     }
 
     if (selectedState !== "all" && selectedState) {
       filteredUsers = filteredUsers.filter(
-        (user) => user.Name === selectedState
+        (user) => user.name === selectedState
       );
     }
 
@@ -141,15 +143,15 @@ export default function ClientNumbersList({ clients, loading }: Props) {
     setTempSelectedState(value);
   };
 
-  const renderStatus = React.useCallback((item: Client) => {
-    switch (item?.Status) {
-      case 0:
+  const renderStatus = React.useCallback((item: ClientType) => {
+    switch (item?.status) {
+      case "0":
         return (
           <Chip variant="flat" color="success" size="sm">
             Active
           </Chip>
         );
-      case 1:
+      case "1":
         return (
           <Chip color="danger" variant="flat" size="sm">
             KYC Pending
@@ -165,8 +167,8 @@ export default function ClientNumbersList({ clients, loading }: Props) {
   }, []);
 
   const renderCell = React.useCallback(
-    (client: Client, columnKey: React.Key) => {
-      const index = clients.map((object) => object.ID).indexOf(client.ID);
+    (client: ClientType, columnKey: React.Key) => {
+      const index = clients.map((object) => object.id).indexOf(client.id);
       switch (columnKey) {
         case "sr_no":
           return (
@@ -177,35 +179,35 @@ export default function ClientNumbersList({ clients, loading }: Props) {
         case "Name":
           return (
             <div className="flex flex-col">
-              <p className="text-bold text-sm capitalize">{client.Name}</p>
+              <p className="text-bold text-sm capitalize">{client.name}</p>
             </div>
           );
         case "Amount":
           return (
             <div className="flex flex-col">
-              <p className="text-bold text-sm capitalize">{client.Amount}</p>
+              <p className="text-bold text-sm capitalize">
+                {client.profession}
+              </p>
             </div>
           );
         case "Date":
           return (
             <div className="flex flex-col">
-              <p className="text-bold text-sm capitalize">{client.Date}</p>
+              <p className="text-bold text-sm capitalize">{client.age}</p>
             </div>
           );
         case "Profession":
           return (
             <div className="flex flex-col">
               <p className="text-bold text-sm capitalize">
-                {client.Profession}
+                {client.profession}
               </p>
             </div>
           );
         case "PhoneNumber":
           return (
             <div className="flex flex-col">
-              <p className="text-bold text-sm capitalize">
-                {client.PhoneNumber}
-              </p>
+              <p className="text-bold text-sm capitalize">{client.phone}</p>
             </div>
           );
         case "status":
@@ -286,9 +288,9 @@ export default function ClientNumbersList({ clients, loading }: Props) {
   );
 
   const sortedItems = React.useMemo(() => {
-    return [...items].sort((a: Client, b: Client) => {
-      const first = a[sortDescriptor.column as keyof Client] as number;
-      const second = b[sortDescriptor.column as keyof Client] as number;
+    return [...items].sort((a: ClientType, b: ClientType) => {
+      const first = a[sortDescriptor.column as keyof ClientType] as number;
+      const second = b[sortDescriptor.column as keyof ClientType] as number;
       const cmp = first < second ? -1 : first > second ? 1 : 0;
 
       return sortDescriptor.direction === "descending" ? -cmp : cmp;
@@ -384,7 +386,22 @@ export default function ClientNumbersList({ clients, loading }: Props) {
 
   return (
     <div className="flex flex-col">
-      <p className="text-2xl font-normal font-poppins text-black ">Clients</p>
+      <Spacer size="sm" />
+
+      <div className="flex flex-row justify-between">
+        <p className="text-3xl font-normal font-poppins text-black ">Clients</p>
+
+        <Button
+          style={{ color: Colors.textprimary }}
+          className="rounded-lg bg-yellow-500"
+          size="md"
+          onClick={onOpen}
+        >
+          <p className="text-base font-normal font-poppins text-white">
+            + Add New Client
+          </p>
+        </Button>
+      </div>
       <Spacer size="xs" />
       <Table
         selectionMode="single"
@@ -415,7 +432,7 @@ export default function ClientNumbersList({ clients, loading }: Props) {
         >
           {(item) => (
             <TableRow
-              key={`${item.ID}-${item.ID}`}
+              key={`${item.id}-${item.id}`}
               className="cursor-pointer h-12"
             >
               {(columnKey) => (
