@@ -7,29 +7,41 @@ import Spacer from "@/src/components/Spacer";
 import { Formik, Form as FormikForm } from "formik";
 import * as Yup from "yup";
 import Input from "@/src/components/Input";
+import { ClientType } from "@/src/types";
+import useApi from "@/src/hooks/useApi";
+import { AddClientApi } from "@/src/apis";
+import useToast from "@/src/hooks/useToast";
+import { useRouter } from "next/navigation";
 
 interface Props {
   onClose: () => void;
-  clientId: string;
 }
-export default function AddClient({ clientId }: Props) {
+export default function AddClient({}: Props) {
   // eslint-disable-next-line
-  const [initialValues, setInitialValues] = React.useState({
+  const { makeApiCall } = useApi();
+  const { showToast } = useToast();
+  const router = useRouter();
+
+  const [initialValues] = React.useState<ClientType>({
     name: "",
     phone: "",
     email: "",
-    client_id: clientId,
+    age: "",
+    profession: "",
+    address: "",
+    id: 0,
+    status: "",
   });
 
   const validationSchema = Yup.object().shape(
     {
-      name: Yup.string().required("Contact name is required"),
+      name: Yup.string().required("Client name is required"),
       phone: Yup.string().when("email", {
         is: (email: string) => !email,
         then: () =>
           Yup.string()
             .matches(/^\d{10}$/, "Phone number must be exactly 10 digits")
-            .required("Contact phone is required"),
+            .required("Client phone is required"),
         otherwise: () => Yup.string(),
       }),
       email: Yup.string().when("phone", {
@@ -37,17 +49,44 @@ export default function AddClient({ clientId }: Props) {
         then: () =>
           Yup.string()
             .email("Invalid email format")
-            .required("Contact email is required"),
+            .required("Client email is required"),
         otherwise: () => Yup.string(),
       }),
+      age: Yup.string().required("Client age is required"),
+      profession: Yup.string().required("Client profession is required"),
+      address: Yup.string().required("Client address is required"),
     },
     [
       ["name", "email"],
       ["email", "phone"],
-    ] // noSortEdges
+    ]
   );
 
-  const handleSubmit = React.useCallback(() => {}, []);
+  const handleSubmit = React.useCallback(
+    ({ name, phone, email, age, profession, address }: ClientType) => {
+      console.log(
+        name,
+        phone,
+        email,
+        age,
+        profession,
+        address,
+        typeof age,
+        "Sending client details"
+      );
+      return makeApiCall(
+        AddClientApi(name, phone, email, parseFloat(age), profession, address)
+      )
+        .then(() => {
+          showToast("Client Added successfully", { type: "success" });
+          router.push("/dashboard/clients");
+        })
+        .catch(() => {
+          showToast("Client addition failed", { type: "error" });
+        });
+    },
+    []
+  );
 
   return (
     <section className="bg-white ">
@@ -61,40 +100,28 @@ export default function AddClient({ clientId }: Props) {
           enableReinitialize
         >
           <FormikForm>
-            <Input
-              name="name"
-              label="Name of client "
-              placeholder="Enter Name "
-            />
+            <Input name="name" label="Name " placeholder="Enter Name " />
             <Spacer size="xs" />
-            <Input
-              name="phone"
-              label="Phone of client"
-              placeholder="Enter Phone "
-            />
+            <Input name="phone" label="Phone" placeholder="Enter Phone " />
             <Spacer size="xs" />
-            <Input
-              name="email"
-              label="Email of client "
-              placeholder="Enter email "
-            />
+            <Input name="email" label="Email" placeholder="Enter email " />
             <Spacer size="xs" />
             <Input
               name="age"
-              label="Age of client "
+              label="Age"
               placeholder="Enter age "
               type="number"
             />
             <Spacer size="xs" />
             <Input
               name="profession"
-              label="Profession of client "
+              label="Profession"
               placeholder="Enter profession "
             />
             <Spacer size="xs" />
             <Input
               name="address"
-              label="Address of client "
+              label="Address"
               placeholder="Enter address "
             />
             <Spacer size="xs" />

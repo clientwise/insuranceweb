@@ -37,11 +37,39 @@ export const GetClientsDetails = () => {
 };
 
 //today event api
-export const GetTodaysEventApi = (id: string) => {
-  return onePiece.get(`/event/${id}`, {
+export const GetTodaysEventApi = () => {
+  return onePiece.get(`/today-event`, {
     headers: {
       "Content-Type": "text/plain",
       Authorization: `Bearer ${localStorage.getItem("authToken")}`,
     },
   });
+};
+
+export const AddClientApi = (
+  name: string,
+  phone: string,
+  email: string,
+  age: number,
+  profession: string,
+  address: string
+) => {
+  return onePiece.post(
+    "/client",
+    {
+      name,
+      phone,
+      email,
+      age,
+      profession,
+      address,
+    },
+    {
+      headers: {
+        "Content-Type": "text/plain",
+        Authorization: `Bearer ${localStorage.getItem("authToken")}`,
+        agent_id: localStorage.getItem("id"),
+      },
+    }
+  );
 };

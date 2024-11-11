@@ -39,7 +39,7 @@ export default function Sidebar({ children, setExpandedMain }) {
         }`}
       >
         <nav className="h-full flex flex-col bg-white border-r shadow-sm">
-          <div className="p-4 pb-4 flex justify-between items-center">
+          <div className="p-4 pb-4 flex justify-between items-center mb-8">
             <Image
               src={Logo2}
               alt="logo"
@@ -80,7 +80,10 @@ export default function Sidebar({ children, setExpandedMain }) {
               `}
             >
               <div className="leading-4 text-black">
-                <p> {name != "" ? name : ""}</p>
+                <p className="text-black font-poppins font-light text-sm">
+                  {" "}
+                  {name != "" ? name : ""}
+                </p>
                 <span className="text-xs text-gray-600">
                   <p className="text-black font-poppins font-light text-xs">
                     {email != "" ? email : ""}

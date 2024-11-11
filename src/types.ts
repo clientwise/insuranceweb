@@ -102,6 +102,7 @@ export type Article = {
 
 export type TodaysEventsType = {
   client_id: string;
+  client_name: string;
   date_of_event: string;
   description: string;
   event_type: string;
@@ -110,7 +111,7 @@ export type TodaysEventsType = {
 
 export type ClientType = {
   address: string;
-  age: number;
+  age: string;
   email: string;
   name: string;
   id: number;

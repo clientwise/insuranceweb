@@ -10,10 +10,8 @@ import { ClientType, TodaysEventsType } from "@/src/types";
 import useApi from "@/src/hooks/useApi";
 import WishCard from "@/src/components/pages/home/WishCard";
 import { GetClientsDetails, GetTodaysEventApi } from "@/src/apis";
-import { nextLocalStorage } from "@/src/utils/nextLocalStorage";
 
 const Home: React.FC = () => {
-  const id = nextLocalStorage()?.getItem("id");
   const [todaysEvents, setTodaysEvents] = React.useState<TodaysEventsType[]>(
     []
   );
@@ -46,18 +44,16 @@ const Home: React.FC = () => {
 
   //api call for todays events
   React.useEffect(() => {
-    if (id) {
-      makeApiCall(GetTodaysEventApi(id))
-        .then((response) => {
-          console.log("Today's events response", response);
-          setTodaysEvents(response.data);
-        })
-        .catch((error) => {
-          console.error(error);
-          setError("Failed to fetch today's events.");
-        });
-    }
-  }, [id, makeApiCall]);
+    makeApiCall(GetTodaysEventApi())
+      .then((response) => {
+        console.log("Today's events response", response);
+        setTodaysEvents(response.data);
+      })
+      .catch((error) => {
+        console.error(error);
+        setError("Failed to fetch today's events.");
+      });
+  }, [makeApiCall]);
 
   return (
     <div>
@@ -70,7 +66,7 @@ const Home: React.FC = () => {
             number={clients.length.toString()}
             logo={<People />}
           />
-          {data.map((item) => (
+          {data?.map((item) => (
             <DataShowCard
               key={item.label}
               label={item.label}
@@ -80,7 +76,7 @@ const Home: React.FC = () => {
           ))}
         </div>
       </div>
-      <div className="flex gap-2 ">
+      <div className="flex gap-2 justify-between ">
         <div className="w-[65%] ">
           <div className="flex flex-row justify-between items-center">
             <p
@@ -106,16 +102,16 @@ const Home: React.FC = () => {
           )}
         </div>
 
-        <div className="w-[35%]">
+        <div className="w-[32%]">
           <p
             style={{ color: Colors.textBase }}
-            className="text-xl font-normal font-poppins text-black "
+            className="text-xl font-normal font-poppins text-black  "
           >
             Upcoming Events
           </p>
 
-          <div className="p-4">
-            {todaysEvents.map((wish, index) => (
+          <div className="p-4 h-[40vh] overflow-y-auto">
+            {todaysEvents?.map((wish, index) => (
               <WishCard key={index} event={wish} />
             ))}
           </div>

@@ -10,14 +10,18 @@ interface Props {
 const DataShowCard = ({ label, number, logo }: Props) => {
   return (
     <div className="p-4 border rounded-md shadow-md">
-      <div className="flex items-center">
-        <div className="mr-4">{logo && <div className="logo">{logo}</div>}</div>
+      <div className="flex items-center ml-8 ">
+        <div className="mr-4 ">
+          {logo && <div className="logo">{logo}</div>}
+        </div>
         <div
           style={{ color: Colors.textprimary }}
           className="flex-col  text-center"
         >
-          <p className="text-xl font-semibold font-poppins">{number}</p>
-          <p className="text-xl font-normal font-poppins text-black">{label}</p>
+          <p className="text-3xl font-semibold font-poppins">{number}</p>
+          <p className="text-xl font-normal font-poppins text-black opacity-50">
+            {label}
+          </p>
         </div>
       </div>
     </div>

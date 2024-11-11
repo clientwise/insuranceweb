@@ -145,22 +145,28 @@ export default function ClientNumbersList({ clients, loading, onOpen }: Props) {
 
   const renderStatus = React.useCallback((item: ClientType) => {
     switch (item?.status) {
-      case "0":
+      case "active":
         return (
           <Chip variant="flat" color="success" size="sm">
             Active
           </Chip>
         );
-      case "1":
+      case "in_progress":
         return (
           <Chip color="danger" variant="flat" size="sm">
-            KYC Pending
+            In Progress
+          </Chip>
+        );
+      case "cold_lead":
+        return (
+          <Chip color="danger" variant="flat" size="sm">
+            Cold Lead
           </Chip>
         );
       default:
         return (
           <Chip variant="flat" color="success" size="sm">
-            KYC Pending
+            New Lead
           </Chip>
         );
     }

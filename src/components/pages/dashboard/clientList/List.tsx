@@ -49,7 +49,7 @@ const COLUMNS = [
 /* eslint-disable */
 export default function ClientsList({ clientList, loading }: Props) {
   const [filterValue, setFilterValue] = React.useState("");
-  const [rowsPerPage, setRowsPerPage] = React.useState(20);
+  const [rowsPerPage, setRowsPerPage] = React.useState(5);
   const [showFilter, setShowFilter] = React.useState(false);
   const [selectedState, setSelectedState] = React.useState("all"); // State for selected filter
   const [tempselectedState, setTempSelectedState] = React.useState("all"); // Temp state for selected filter
@@ -132,34 +132,34 @@ export default function ClientsList({ clientList, loading }: Props) {
 
   const renderStatus = React.useCallback((item: ClientType) => {
     switch (item?.status) {
-      case "0":
+      case "new_lead":
         return (
           <Chip variant="flat" color="success" size="sm">
-            Upload aadhaar
+            New Lead
           </Chip>
         );
-      case "1":
+      case "cold_lead":
         return (
           <Chip color="danger" variant="flat" size="sm">
-            Signature pending
+            Cold Lead
           </Chip>
         );
-      case "2":
+      case "active":
         return (
           <Chip variant="flat" color="warning" size="sm">
-            Upload PAN
+            Active
           </Chip>
         );
-      case "3":
+      case "in_progress":
         return (
           <Chip variant="flat" color="success" size="sm">
-            Signature pending
+            In Progress
           </Chip>
         );
       default:
         return (
           <Chip variant="flat" color="success" size="sm">
-            Upload PAN
+            New Lead
           </Chip>
         );
     }
@@ -226,6 +226,7 @@ export default function ClientsList({ clientList, loading }: Props) {
               onChange={onRowsPerPageChange}
               defaultValue={"20"}
             >
+              <option value="5">5</option>
               <option value="10">10</option>
               <option value="15">15</option>
               <option value="20">20</option>
@@ -258,8 +259,8 @@ export default function ClientsList({ clientList, loading }: Props) {
         "font-normal",
         "text-textColorGrey",
       ],
-      table: "max-h-[200px]",
       wrapper: "table-wrapper",
+      base: "min-h-[40vh] max-h-[40vh]",
     }),
     []
   );
@@ -291,7 +292,7 @@ export default function ClientsList({ clientList, loading }: Props) {
               key={column.key}
               align={column.key === "action" ? "end" : "start"}
               width={column.key === "action" ? 100 : undefined}
-              className="text-center"
+              className="text-start"
             >
               {column.name}
             </TableColumn>
@@ -309,7 +310,7 @@ export default function ClientsList({ clientList, loading }: Props) {
               className="cursor-pointer h-12"
             >
               {(columnKey) => (
-                <TableCell className=" text-center ">
+                <TableCell className=" text-start ">
                   {renderCell(item, columnKey)}
                 </TableCell>
               )}

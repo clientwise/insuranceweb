@@ -20,7 +20,6 @@ export default function ClientAddModal({
   isOpen,
   onOpenChange,
   onClose,
-  clientId,
 }: Props) {
   return (
     <>
@@ -38,7 +37,7 @@ export default function ClientAddModal({
                 Add Client
               </ModalHeader>
               <ModalBody>
-                <AddContact onClose={onClose} clientId={clientId} />
+                <AddContact onClose={onClose} />
               </ModalBody>
               <ModalFooter></ModalFooter>
             </>

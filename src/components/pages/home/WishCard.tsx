@@ -18,7 +18,7 @@ const WishCard = ({ event }: Props) => {
           </div>
           <div style={{ color: Colors.textprimary }} className="flex-col ">
             <p className="text-base font-normal font-poppins text-black">
-              {event?.event_type}
+              {event?.client_name}
             </p>
             <p className="text-xs font-semibold font-poppins">
               {event?.date_of_event}
