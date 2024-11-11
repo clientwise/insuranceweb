@@ -284,6 +284,7 @@ export default function ClientsList({ clientList, loading }: Props) {
         bottomContentPlacement="inside"
         sortDescriptor={sortDescriptor}
         onSortChange={setSortDescriptor}
+        isStriped
       >
         <TableHeader columns={COLUMNS}>
           {(column) => (

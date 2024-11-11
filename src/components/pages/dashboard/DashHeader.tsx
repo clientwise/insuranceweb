@@ -38,22 +38,19 @@ export default function DashHeader({ onOpen }: DashHeaderProps) {
   }, [onOpen]);
 
   return (
-    <Navbar isBordered>
-      <NavbarContent justify="start">
-        <NavbarContent className="hidden sm:flex gap-3">
-          <Input
-            classNames={{
-              base: "max-w-full sm:max-w-[32rem] h-10 rounded-2xl",
-              mainWrapper: "h-full",
-              input: "text-small",
-              inputWrapper: "h-full font-normal font-poppins text-default-500 ",
-            }}
-            placeholder="Search ..."
-            size="sm"
-            startContent={<Search />}
-            type="search"
-          />
-        </NavbarContent>
+    <Navbar isBordered className="p-0 h-[7vh] ">
+      <NavbarContent className="hidden sm:flex gap-3">
+        <Input
+          classNames={{
+            base: "max-w-full sm:max-w-[32rem] h-8 rounded-2xl",
+            input: "text-small",
+            inputWrapper: " font-normal font-poppins text-default-500 ",
+          }}
+          placeholder="Search ..."
+          size="sm"
+          startContent={<Search />}
+          type="search"
+        />
       </NavbarContent>
 
       <NavbarContent

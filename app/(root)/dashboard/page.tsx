@@ -23,8 +23,8 @@ const Home: React.FC = () => {
   const [error, setError] = React.useState<string | null>(null);
 
   const data = [
-    { label: "Total AUM", number: "0", logo: <Money /> },
-    { label: "Total Income", number: "₹0", logo: <CoinBag /> },
+    { label: "Total AUM", number: "₹865.33", logo: <Money /> },
+    { label: "Total Income", number: "₹12.98L", logo: <CoinBag /> },
   ];
 
   //api call for client list
@@ -57,7 +57,7 @@ const Home: React.FC = () => {
 
   return (
     <div>
-      <div className="container mx-auto py-5">
+      <div className="container mx-auto pb-5">
         {error && <div className="text-red-500">{error}</div>}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
           <DataShowCard
@@ -81,7 +81,7 @@ const Home: React.FC = () => {
           <div className="flex flex-row justify-between items-center">
             <p
               style={{ color: Colors.textBase }}
-              className="text-xl font-normal font-poppins text-black "
+              className="text-2xl font-normal font-poppins text-black "
             >
               Active Leads
             </p>
@@ -105,7 +105,7 @@ const Home: React.FC = () => {
         <div className="w-[32%]">
           <p
             style={{ color: Colors.textBase }}
-            className="text-xl font-normal font-poppins text-black  "
+            className="text-2xl font-normal font-poppins text-black  "
           >
             Upcoming Events
           </p>

@@ -6,7 +6,7 @@ import Link from "next/link";
 import { nextLocalStorage } from "@/src/utils/nextLocalStorage";
 import Logo2 from "../../src/assets/kuantslogo.svg";
 import Image from "next/image";
-import { gradients } from "@/src/assets/colors";
+import { Colors, gradients } from "@/src/assets/colors";
 
 const SidebarContext = createContext();
 
@@ -40,13 +40,21 @@ export default function Sidebar({ children, setExpandedMain }) {
       >
         <nav className="h-full flex flex-col bg-white border-r shadow-sm">
           <div className="p-4 pb-4 flex justify-between items-center mb-8">
-            <Image
-              src={Logo2}
-              alt="logo"
-              className={`overflow-hidden transition-all ${
-                expanded ? "w-30" : "w-0"
-              }`}
-            />
+            <div className="flex flex-col">
+              <Image
+                src={Logo2}
+                alt="logo"
+                className={`overflow-hidden transition-all ${
+                  expanded ? "w-30" : "w-0"
+                }`}
+              />
+              <p
+                style={{ color: Colors.textBase }}
+                className="text-xs font-normal font-poppins text-black mt-1 "
+              >
+                Kuants Wealth Private Limited
+              </p>
+            </div>
 
             <button
               onClick={() => {
