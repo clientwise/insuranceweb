@@ -51,12 +51,12 @@ const Header = () => {
         </div>
         <div>
           <div className="flex flex-row justify-center items-center">
-            <h1 className="text-black text-base font-light font-poppins">
+            <h1 className="text-black text-base font-light font-rubik">
               What is inside
             </h1>
             {/* <h1
               onClick={navigateToPricing}
-              className="text-black text-base font-semibold font-poppins ml-4 hover:underline hover:cursor-pointer"
+              className="text-black text-base font-semibold font-rubik ml-4 hover:underline hover:cursor-pointer"
             >
               Pricing
             </h1> */}
@@ -65,13 +65,13 @@ const Header = () => {
         <div className="flex space-x-2">
           <button
             onClick={navigateToLogin}
-            className="bg-white text-black border border-black px-4 py-2 rounded-xl hover:bg-black hover:text-white font-poppins"
+            className="bg-white text-black border border-black px-4 py-2 rounded-xl hover:bg-black hover:text-white font-rubik"
           >
             Login
           </button>
           <button
             onClick={navigateToSignup}
-            className="bg-white  sm:block text-black border border-black px-4 py-2 rounded-xl hover:bg-black hover:text-white font-poppins"
+            className="bg-white  sm:block text-black border border-black px-4 py-2 rounded-xl hover:bg-black hover:text-white font-rubik"
           >
             Sign Up
           </button>

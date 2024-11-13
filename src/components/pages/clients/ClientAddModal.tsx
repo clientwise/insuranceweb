@@ -33,7 +33,7 @@ export default function ClientAddModal({
         <ModalContent>
           {(onClose) => (
             <>
-              <ModalHeader className="flex flex-col gap-1 text-base font-normal font-poppins text-black">
+              <ModalHeader className="flex flex-col gap-1 text-base font-normal font-rubik text-black">
                 Add Client
               </ModalHeader>
               <ModalBody>

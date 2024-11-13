@@ -14,9 +14,7 @@ const Marketing = () => {
     <div>
       <div className="text-black bg-pageBackground px-10 min-h-screen ">
         <Spacer size="sm" />
-        <p className="text-2xl font-normal font-poppins text-black ">
-          Marketing
-        </p>
+        <p className="text-2xl font-normal font-rubik text-black ">Marketing</p>
         <Spacer size="xs" />
         <div>
           <Tabs aria-label="Inventory Details Tabs">

@@ -130,7 +130,7 @@ const LoginPage = () => {
         >
           {/* eslint-disable-next-line @next/next/no-img-element */}
           {/* <Logo /> */}
-          <h1 className="text-xl font-semibold font-poppins leading-tight tracking-tight text-gray-900 md:text-4xl">
+          <h1 className="text-xl font-semibold font-rubik leading-tight tracking-tight text-gray-900 md:text-4xl">
             Log In
           </h1>
         </a>
@@ -170,7 +170,7 @@ const LoginPage = () => {
             </div>
           ) : (
             <div className=" p-6 space-y-4 md:space-y-6 sm:p-8">
-              <h1 className="text-xl font-light font-poppins leading-tight tracking-tight text-gray-900 md:text-2xl">
+              <h1 className="text-xl font-light font-rubik leading-tight tracking-tight text-gray-900 md:text-2xl">
                 Sign in to your account
               </h1>
               <Formik

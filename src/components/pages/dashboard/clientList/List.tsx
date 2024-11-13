@@ -208,8 +208,8 @@ export default function ClientsList({ clientList, loading }: Props) {
         <Pagination
           showControls
           classNames={{
-            item: "bg-pageBackground w-6 h-6 min-w-4 font-poppins",
-            cursor: "w-6 h-6 min-w-4 font-poppins",
+            item: "bg-pageBackground w-6 h-6 min-w-4 font-rubik",
+            cursor: "w-6 h-6 min-w-4 font-rubik",
           }}
           color="default"
           isDisabled={hasSearchFilter}
@@ -219,10 +219,10 @@ export default function ClientsList({ clientList, loading }: Props) {
           onChange={setPage}
         />
         <div className="flex justify-between items-center">
-          <label className="flex items-center text-small font-poppins text-black font-light ">
+          <label className="flex items-center text-small font-rubik text-black font-light ">
             Items per page:&nbsp;
             <select
-              className="border-none shadow-sm outline-none text-default-400 text-small font-poppins font-light px-1 py-0 rounded-md"
+              className="border-none shadow-sm outline-none text-default-400 text-small font-rubik font-light px-1 py-0 rounded-md"
               onChange={onRowsPerPageChange}
               defaultValue={"20"}
             >
@@ -245,7 +245,7 @@ export default function ClientsList({ clientList, loading }: Props) {
         "text-tableHeaderColor",
         "border-b",
         "border-divider",
-        "font-poppins",
+        "font-rubik",
         "font-regular",
         "text-sm",
       ],
@@ -255,12 +255,12 @@ export default function ClientsList({ clientList, loading }: Props) {
         "group-data-[middle=true]:before:rounded-none",
         "group-data-[last=true]:first:before:rounded-none",
         "group-data-[last=true]:last:before:rounded-none",
-        "font-poppins",
+        "font-rubik",
         "font-normal",
         "text-textColorGrey",
       ],
-      wrapper: "table-wrapper",
-      base: "min-h-[40vh] max-h-[40vh]",
+      wrapper: "table-wrapper p-0 m-0",
+      base: "min-h-[40vh] max-h-[40vh] p-0",
     }),
     []
   );

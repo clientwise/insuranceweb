@@ -54,7 +54,7 @@ const Clients = () => {
 
   return (
     <div>
-      <div className="text-black bg-pageBackground px-10 min-h-screen ">
+      <div className="text-black bg-pageBackground px-1 min-h-screen ">
         <ClientAddModal
           onOpen={onOpen}
           isOpen={isOpen}

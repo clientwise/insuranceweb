@@ -78,7 +78,7 @@ export default function SignUp() {
           alt="logo"
           className={`w-14 sm:w-24 rounded-xl mb-4`}
         />
-        <h2 className="mb-4 text-2xl font-poppins font-normal text-gray-900">
+        <h2 className="mb-4 text-2xl font-rubik font-normal text-gray-900">
           Sign Up
         </h2>
         <Formik

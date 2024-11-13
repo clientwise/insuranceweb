@@ -128,7 +128,7 @@ export default function AddClient({}: Props) {
             <Row justifyContent="center">
               <Button
                 color="warning"
-                className="text-base font-normal font-poppins text-white"
+                className="text-base font-normal font-rubik text-white"
               >
                 Submit
               </Button>

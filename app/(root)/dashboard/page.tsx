@@ -81,14 +81,14 @@ const Home: React.FC = () => {
           <div className="flex flex-row justify-between items-center">
             <p
               style={{ color: Colors.textBase }}
-              className="text-2xl font-normal font-poppins text-black "
+              className="text-2xl font-normal font-rubik text-black "
             >
               Active Leads
             </p>
             <a
               href="/clients"
               style={{ color: Colors.textLink }}
-              className="text-sm font-light font-poppins text-black mr-2"
+              className="text-sm font-light font-rubik text-black mr-2 "
             >
               View all
             </a>
@@ -105,12 +105,12 @@ const Home: React.FC = () => {
         <div className="w-[32%]">
           <p
             style={{ color: Colors.textBase }}
-            className="text-2xl font-normal font-poppins text-black  "
+            className="text-2xl font-normal font-rubik text-black  "
           >
             Upcoming Events
           </p>
 
-          <div className="p-4 h-[40vh] overflow-y-auto">
+          <div className="p-4 py-2 mt-3 h-[40vh] max-h-[40vh] overflow-y-auto  rounded-2xl shadow-md">
             {todaysEvents?.map((wish, index) => (
               <WishCard key={index} event={wish} />
             ))}

@@ -237,8 +237,8 @@ export default function ClientNumbersList({ clients, loading, onOpen }: Props) {
         <Pagination
           showControls
           classNames={{
-            item: "bg-pageBackground w-6 h-6 min-w-4 font-poppins",
-            cursor: "w-6 h-6 min-w-4 font-poppins",
+            item: "bg-pageBackground w-6 h-6 min-w-4 font-rubik",
+            cursor: "w-6 h-6 min-w-4 font-rubik",
           }}
           color="default"
           isDisabled={hasSearchFilter}
@@ -248,10 +248,10 @@ export default function ClientNumbersList({ clients, loading, onOpen }: Props) {
           onChange={setPage}
         />
         <div className="flex justify-between items-center">
-          <label className="flex items-center text-small font-poppins text-black font-light ">
+          <label className="flex items-center text-small font-rubik text-black font-light ">
             Items per page:&nbsp;
             <select
-              className="border-none shadow-sm outline-none text-default-400 text-small font-poppins font-light px-1 py-0 rounded-md"
+              className="border-none shadow-sm outline-none text-default-400 text-small font-rubik font-light px-1 py-0 rounded-md"
               onChange={onRowsPerPageChange}
               defaultValue={"20"}
             >
@@ -273,7 +273,7 @@ export default function ClientNumbersList({ clients, loading, onOpen }: Props) {
         "text-tableHeaderColor",
         "border-b",
         "border-divider",
-        "font-poppins",
+        "font-rubik",
         "font-regular",
         "text-sm",
       ],
@@ -283,7 +283,7 @@ export default function ClientNumbersList({ clients, loading, onOpen }: Props) {
         "group-data-[middle=true]:before:rounded-none",
         "group-data-[last=true]:first:before:rounded-none",
         "group-data-[last=true]:last:before:rounded-none",
-        "font-poppins",
+        "font-rubik",
         "font-normal",
         "text-textColorGrey",
       ],
@@ -333,7 +333,7 @@ export default function ClientNumbersList({ clients, loading, onOpen }: Props) {
                 color="default"
                 variant="bordered"
                 startContent={<CiFilter size={18} />}
-                className="font-poppins"
+                className="font-rubik"
                 size="sm"
                 radius="sm"
                 onClick={() => {
@@ -348,7 +348,7 @@ export default function ClientNumbersList({ clients, loading, onOpen }: Props) {
         </div>
         {showFilter && (
           <div className="absolute top-full mt-2 right-0 w-[20%] px-6 py-4 rounded shadow-xl z-10 bg-white">
-            <p className="text-black text-base leading-8 font-poppins font-medium mt-[4%] bg-white">
+            <p className="text-black text-base leading-8 font-rubik font-medium mt-[4%] bg-white">
               Filter
             </p>
             <div className="w-full h-5" />
@@ -359,13 +359,13 @@ export default function ClientNumbersList({ clients, loading, onOpen }: Props) {
               label="State"
               placeholder="State"
               onSelect={handleStateSelect}
-              className="font-poppins text-xl font-light"
+              className="font-rubik text-xl font-light"
             />
             <div>
               <Row>
                 <Button
                   color="default"
-                  className="font-poppins font-light text-sm bg-buttonprimary text-white w-[100%] mt-4"
+                  className="font-rubik font-light text-sm bg-buttonprimary text-white w-[100%] mt-4"
                   size="md"
                   radius="sm"
                   onClick={() => {
@@ -395,7 +395,7 @@ export default function ClientNumbersList({ clients, loading, onOpen }: Props) {
       <Spacer size="sm" />
 
       <div className="flex flex-row justify-between">
-        <p className="text-3xl font-normal font-poppins text-black ">Clients</p>
+        <p className="text-3xl font-normal font-rubik text-black ">Clients</p>
 
         <Button
           style={{ color: Colors.textprimary }}
@@ -403,7 +403,7 @@ export default function ClientNumbersList({ clients, loading, onOpen }: Props) {
           size="md"
           onClick={onOpen}
         >
-          <p className="text-base font-normal font-poppins text-white">
+          <p className="text-base font-normal font-rubik text-white">
             + Add New Client
           </p>
         </Button>

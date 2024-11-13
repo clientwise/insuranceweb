@@ -35,7 +35,7 @@ export default function Sidebar({ children, setExpandedMain }) {
       <aside
         id="logo-sidebar"
         className={`fixed top-0  hidden sm:block left-0 z-40 w-64 pt-0 h-screen sm:translate-x-0 transition-all bg-orange-900 ${
-          expanded ? "w-[18%]  hidden sm:block" : "w-[5%] hidden sm:block"
+          expanded ? "w-[17%]  hidden sm:block" : "w-[5%] hidden sm:block"
         }`}
       >
         <nav className="h-full flex flex-col bg-white border-r shadow-sm">
@@ -50,7 +50,7 @@ export default function Sidebar({ children, setExpandedMain }) {
               />
               <p
                 style={{ color: Colors.textBase }}
-                className="text-xs font-normal font-poppins text-black mt-1 "
+                className="text-xs font-normal font-rubik text-black mt-1 "
               >
                 Kuants Wealth Private Limited
               </p>
@@ -88,12 +88,12 @@ export default function Sidebar({ children, setExpandedMain }) {
               `}
             >
               <div className="leading-4 text-black">
-                <p className="text-black font-poppins font-light text-sm">
+                <p className="text-black font-rubik font-light text-sm">
                   {" "}
                   {name != "" ? name : ""}
                 </p>
                 <span className="text-xs text-gray-600">
-                  <p className="text-black font-poppins font-light text-xs">
+                  <p className="text-black font-rubik font-light text-xs">
                     {email != "" ? email : ""}
                   </p>
                 </span>
@@ -113,7 +113,7 @@ export function SidebarItem({ icon, text, active, alert, href }) {
   return (
     <Link href={href}>
       <li
-        className={`relative flex items-center py-3 px-3 my-1 font-normal rounded-md cursor-pointer transition-colors group ${
+        className={`relative flex items-center py-2 px-3 my-1 mx-3 font-normal rounded-md cursor-pointer transition-colors group ${
           active
             ? "text-black" // Only the text color
             : "hover:bg-stone-200 text-gray-600"
@@ -124,7 +124,7 @@ export function SidebarItem({ icon, text, active, alert, href }) {
       >
         {icon}
         <span
-          className={`overflow-hidden transition-all font-poppins font-light ${
+          className={`overflow-hidden transition-all font-rubik font-light ${
             expanded ? "w-52 ml-3" : "w-0"
           }  ${
             active

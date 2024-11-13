@@ -11,10 +11,10 @@ export default function Action({}: Props) {
   return (
     <Row>
       <div className="flex flex-row items-center justify-center gap-3">
-        <button className="text-textColorGrey cursor-pointer font-poppins">
+        <button className="text-textColorGrey cursor-pointer font-rubik">
           <CalendarRange />
         </button>
-        <button className="text-textColorGrey cursor-pointer font-poppins">
+        <button className="text-textColorGrey cursor-pointer font-rubik">
           <Mail />
         </button>
       </div>

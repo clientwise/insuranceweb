@@ -34,7 +34,7 @@ function Bottombar() {
               /> */}
               {link.logocmp}
 
-              <p className="text-sm text-black font-poppins ">{link.label}</p>
+              <p className="text-sm text-black font-rubik ">{link.label}</p>
             </Link>
           );
         })}

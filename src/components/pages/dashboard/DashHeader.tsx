@@ -38,13 +38,13 @@ export default function DashHeader({ onOpen }: DashHeaderProps) {
   }, [onOpen]);
 
   return (
-    <Navbar isBordered className="p-0 h-[7vh] ">
+    <Navbar className="p-0 h-[7vh]  flex flex-row justify-between">
       <NavbarContent className="hidden sm:flex gap-3">
         <Input
           classNames={{
             base: "max-w-full sm:max-w-[32rem] h-8 rounded-2xl",
             input: "text-small",
-            inputWrapper: " font-normal font-poppins text-default-500 ",
+            inputWrapper: " font-normal font-rubik text-default-500 ",
           }}
           placeholder="Search ..."
           size="sm"
@@ -72,7 +72,7 @@ export default function DashHeader({ onOpen }: DashHeaderProps) {
           type="search"
         /> */}
 
-        <p className="font-normal font-poppins text-sm text-tableHeaderColor">
+        <p className="font-normal font-rubik text-sm text-tableHeaderColor">
           {name != "" ? name : ""}
         </p>
 
@@ -92,10 +92,10 @@ export default function DashHeader({ onOpen }: DashHeaderProps) {
           </DropdownTrigger>
           <DropdownMenu aria-label="Profile Actions" variant="flat">
             <DropdownItem key="profile" className="h-14 gap-2">
-              <p className="font-semibold text-black font-poppins">
+              <p className="font-semibold text-black font-rubik">
                 Signed in as
               </p>
-              <p className="font-semibold text-black font-poppins">
+              <p className="font-semibold text-black font-rubik">
                 {name != "" ? name : ""}
               </p>
             </DropdownItem>
@@ -103,19 +103,19 @@ export default function DashHeader({ onOpen }: DashHeaderProps) {
             <DropdownItem key="help_and_feedback">
               <p
                 onClick={handleUpdateProfile}
-                className="font-semibold text-black font-poppins"
+                className="font-semibold text-black font-rubik"
               >
                 Update Profile
               </p>
             </DropdownItem>
 
             <DropdownItem key="help_and_feedback">
-              <p className="font-semibold text-black font-poppins">
+              <p className="font-semibold text-black font-rubik">
                 Help & Feedback
               </p>
             </DropdownItem>
             <DropdownItem key="logout" color="danger" onClick={handleLogout}>
-              <p className="font-semibold text-black font-poppins">Log Out</p>
+              <p className="font-semibold text-black font-rubik">Log Out</p>
             </DropdownItem>
           </DropdownMenu>
         </Dropdown>

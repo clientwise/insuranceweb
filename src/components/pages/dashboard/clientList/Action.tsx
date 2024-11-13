@@ -15,19 +15,19 @@ export default function Action({ item }: Props) {
       <div className="flex flex-row items-center justify-center gap-3">
         <button
           onClick={handleDownloadRental}
-          className="text-textColorGrey cursor-pointer font-poppins"
+          className="text-textColorGrey cursor-pointer font-rubik"
         >
           <MessageSquareMore />
         </button>
         <button
           onClick={handleDownloadRental}
-          className="text-textColorGrey cursor-pointer font-poppins"
+          className="text-textColorGrey cursor-pointer font-rubik"
         >
           <Mail />
         </button>
         <button
           onClick={handleDownloadRental}
-          className="text-textColorGrey cursor-pointer font-poppins"
+          className="text-textColorGrey cursor-pointer font-rubik"
         >
           <MessageCircleMore />
         </button>

@@ -26,6 +26,7 @@ const config: Config = {
 
       fontFamily: {
         poppins: ["var(--font-poppins)"],
+        rubik: ["var(--font-rubik)"],
       },
       colors: Colors,
     },

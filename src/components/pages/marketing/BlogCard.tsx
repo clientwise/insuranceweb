@@ -21,22 +21,22 @@ const BlogCard = ({ blog }: Props) => {
           />
         </div>
         <div className="flex flex-row justify-start items-center px-2 mb-2">
-          <p className="text-black font-light text-sm font-poppins">
+          <p className="text-black font-light text-sm font-rubik">
             {blog?.author}
           </p>
-          <p className="text-black font-light text-xs font-poppins ml-4">
+          <p className="text-black font-light text-xs font-rubik ml-4">
             {blog?.createdAt}
           </p>
         </div>
-        <p className="text-black px-2 text-xl font-poppins font-medium mb-2">
+        <p className="text-black px-2 text-xl font-rubik font-medium mb-2">
           <p>{blog?.title}</p>
         </p>
-        <p className="text-black text-base px-2 leading-5 font-light text-justify font-poppins w-[80%]">
+        <p className="text-black text-base px-2 leading-5 font-light text-justify font-rubik w-[80%]">
           <p>{blog?.description}</p>
         </p>
         <p
           style={{ offsetPosition: "normal", color: Colors.textLink }}
-          className="px-2 mt-2 underline font-poppins font-normal text-base"
+          className="px-2 mt-2 underline font-rubik font-normal text-base"
         >
           Read more
         </p>
