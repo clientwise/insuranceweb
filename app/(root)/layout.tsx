@@ -13,7 +13,7 @@ const poppins = Poppins({
 
 const rubik = Rubik({
   subsets: ["latin"],
-  variable: "--font-poppins",
+  variable: "--font-rubik",
   weight: ["300", "400", "500", "600", "700", "800", "900"],
   style: ["italic", "normal"],
 });

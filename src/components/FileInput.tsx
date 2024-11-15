@@ -77,7 +77,7 @@ const FileInput: React.FC<Props> = ({
                 <Row>
                   <Image src={FileIcon} alt="File" />
                   <Spacer x={4} />
-                  <span className="text-black text-base font-poppins font-light">
+                  <span className="text-black text-base font-rubik font-light">
                     {file.name}
                   </span>
                 </Row>
@@ -101,7 +101,7 @@ const FileInput: React.FC<Props> = ({
               <Row>
                 <Image src={FileIcon} alt="File" />
                 <Spacer x={4} />
-                <span className="text-black text-base font-poppins font-normal">
+                <span className="text-black text-base font-rubik font-normal">
                   {file.name}
                 </span>
               </Row>

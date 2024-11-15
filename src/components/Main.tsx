@@ -56,6 +56,9 @@ function SidebarNew({
   const router = useRouter(); // eslint-disable-line
   const pathname = usePathname();
 
+  const isClientsPage = pathname === "/dashboard/clients";
+  const isClientDetailPage = pathname.startsWith("/dashboard/clients/");
+
   return (
     <Sidebar setExpandedMain={setExpandedMain}>
       <SidebarItem
@@ -68,12 +71,12 @@ function SidebarNew({
       <SidebarItem
         icon={
           <Clients
-            color={pathname === "/dashboard/clients" ? "#fff" : "#683FDB"}
+            color={isClientsPage || isClientDetailPage ? "#fff" : "#683FDB"}
           />
         }
         text={"Clients"}
-        alert={pathname === "/dashboard/clients"}
-        active={pathname === "/dashboard/clients"}
+        alert={isClientsPage}
+        active={isClientsPage || isClientDetailPage}
         href="/dashboard/clients"
       />
       <SidebarItem

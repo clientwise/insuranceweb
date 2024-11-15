@@ -12,6 +12,7 @@
     "@nextui-org/react": "^2.4.8",
     "axios": "^1.7.7",
     "base-64": "^1.0.0",
+    "flowbite-react": "^0.6.4",
     "formik": "^2.4.6",
     "i": "^0.3.7",
     "jwt-decode": "^4.0.0",

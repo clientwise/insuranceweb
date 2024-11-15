@@ -16,21 +16,18 @@ export default function Action({ item }: Props) {
         <button
           onClick={handleDownloadRental}
           className="text-textColorGrey cursor-pointer font-rubik"
-          title="Text"
         >
           <MessageSquareMore />
         </button>
         <button
           onClick={handleDownloadRental}
           className="text-textColorGrey cursor-pointer font-rubik"
-          title="Mail"
         >
           <Mail />
         </button>
         <button
           onClick={handleDownloadRental}
           className="text-textColorGrey cursor-pointer font-rubik"
-          title="Message"
         >
           <MessageCircleMore />
         </button>

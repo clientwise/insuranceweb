@@ -119,3 +119,26 @@ export type ClientType = {
   profession: string;
   status: string;
 };
+
+export type PolicyType = {
+  policy_id: string;
+  name: string;
+  amount: string;
+  status: string;
+  inception_date: string;
+  frequency: string;
+  next_due_date: string;
+  maturity_date: string;
+  client_id: number;
+  agent_id: number;
+  client_name: string;
+};
+
+export type EventType = {
+  client_id: number;
+  client_name: string;
+  date_of_event: string;
+  description: string;
+  event_type: string;
+  id: number;
+};

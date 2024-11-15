@@ -22,14 +22,19 @@ const Clients = () => {
   // >([]);
   // eslint-disable-next-line
   const navigateToClientCode = React.useCallback(
-    (client_code: string, client_name: string) => {
-      router.push(
-        `/client/${client_code}?name=${encodeURIComponent(client_name)}`
-      );
+    (clientId: React.Key) => {
+      console.log(clientId, "Going to client code");
+      router.push(`/dashboard/clients/${clientId}`);
     },
     [router]
   );
 
+  // const handleRowAction = React.useCallback(
+  //   (shipmentId: React.Key) => {
+  //     router.push(`/shipment/${clientCode}/${shipmentId}`);
+  //   },
+  //   [clientCode, router]
+  // );
   //api call for client list
   React.useEffect(() => {
     setLoading(true);
@@ -67,6 +72,7 @@ const Clients = () => {
           clients={clients}
           loading={loading}
           onOpen={onOpen}
+          onRowAction={navigateToClientCode}
         />
       </div>
     </div>
