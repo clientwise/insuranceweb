@@ -7,6 +7,7 @@ import {
   ModalFooter,
 } from "@nextui-org/react";
 import AddPolicy from "./policyList/AddPolicy";
+import AddEvent from "./eventsList/AddEvent";
 
 interface Props {
   isOpen: boolean;
@@ -54,7 +55,7 @@ export default function EditDataModal({
                   <AddPolicy clientId={clientId} onClose={onClose} />
                 )}
                 {type === "add_event_details" && (
-                  <p className="text-black">Add</p>
+                  <AddEvent clientId={clientId} onClose={onClose} />
                 )}
               </ModalBody>
               <ModalFooter></ModalFooter>

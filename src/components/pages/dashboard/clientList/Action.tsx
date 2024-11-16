@@ -1,7 +1,7 @@
 import * as React from "react";
 import Row from "@/src/components/Row";
 import { ClientType } from "@/src/types";
-import { Mail, MessageCircleMore, MessageSquareMore } from "lucide-react";
+import { Mail, Message } from "@/src/assets/images/Images";
 
 interface Props {
   item: ClientType;
@@ -18,7 +18,7 @@ export default function Action({ item }: Props) {
           className="text-textColorGrey cursor-pointer font-rubik"
           title="Text"
         >
-          <MessageSquareMore />
+          <Message />
         </button>
         <button
           onClick={handleDownloadRental}
@@ -26,13 +26,6 @@ export default function Action({ item }: Props) {
           title="Mail"
         >
           <Mail />
-        </button>
-        <button
-          onClick={handleDownloadRental}
-          className="text-textColorGrey cursor-pointer font-rubik"
-          title="Message"
-        >
-          <MessageCircleMore />
         </button>
       </div>
     </Row>

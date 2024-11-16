@@ -42,7 +42,7 @@ export default function UploadInventory({ params }: Props) {
         clientId={clientId}
       />
       <div>
-        <ClientDetails />
+        <ClientDetails clientId={clientId} />
       </div>
 
       <div>

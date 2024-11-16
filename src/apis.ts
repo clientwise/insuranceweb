@@ -125,3 +125,40 @@ export const GetClientAllEvents = (clientId: string) => {
     },
   });
 };
+
+//add policy
+export const postEventApi = (
+  date_of_event: string,
+  event_type: string,
+  description: string,
+  client_id: number
+) => {
+  return onePiece.post(
+    "/event",
+    {
+      date_of_event,
+      event_type,
+      description,
+      client_id,
+    },
+    {
+      headers: {
+        "Content-Type": "text/plain",
+        Authorization: `Bearer ${localStorage.getItem("authToken")}`,
+        agent_id: localStorage.getItem("id"),
+      },
+    }
+  );
+};
+
+//client details
+
+//clients events
+export const GetClientDetails = (clientId: string) => {
+  return onePiece.get(`/client/${clientId}`, {
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("authToken")}`,
+      agent_id: localStorage.getItem("id"),
+    },
+  });
+};

@@ -142,3 +142,14 @@ export type EventType = {
   event_type: string;
   id: number;
 };
+
+export type ClientData = {
+  id: number;
+  name: string;
+  email: string;
+  phone: string;
+  address: string;
+  age: number;
+  profession: string;
+  status: string;
+};

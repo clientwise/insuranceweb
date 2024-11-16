@@ -10,6 +10,7 @@ import { ClientType, TodaysEventsType } from "@/src/types";
 import useApi from "@/src/hooks/useApi";
 import WishCard from "@/src/components/pages/home/WishCard";
 import { GetClientsDetails, GetTodaysEventApi } from "@/src/apis";
+import backgroundImage from "@/src/assets/Comingsoon.png";
 
 const Home: React.FC = () => {
   const [todaysEvents, setTodaysEvents] = React.useState<TodaysEventsType[]>(
@@ -114,6 +115,31 @@ const Home: React.FC = () => {
             {todaysEvents?.map((wish, index) => (
               <WishCard key={index} event={wish} />
             ))}
+          </div>
+        </div>
+      </div>
+
+      {/* 3-Column Layout Using Flex */}
+      <div className="flex w-full py-2 mt-6 gap-4">
+        <div
+          className="flex-1 p-4  bg-white rounded-lg shadow-md "
+          style={{
+            backgroundImage: `url(${backgroundImage.src})`,
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+          }}
+        ></div>
+        <div className="flex-1 p-4 bg-white rounded-lg shadow-md">
+          <div>
+            <h1 className="text-black text-xl font-light font-rubik">
+              Latest News
+            </h1>
+          </div>
+        </div>
+        <div className="flex-1 p-4 bg-white rounded-lg shadow-md">
+          <div className="text-center">
+            <p className="text-lg font-semibold">Right Section</p>
+            <p>Content for the right section goes here.</p>
           </div>
         </div>
       </div>
