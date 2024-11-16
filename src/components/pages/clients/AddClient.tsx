@@ -85,7 +85,7 @@ export default function AddClient({}: Props) {
           showToast("Client addition failed", { type: "error" });
         });
     },
-    []
+    [makeApiCall, router, showToast]
   );
 
   return (

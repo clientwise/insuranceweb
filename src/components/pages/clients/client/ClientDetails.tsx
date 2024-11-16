@@ -6,10 +6,9 @@ import React from "react";
 
 interface Props {
   clientId: string;
-  openPolicyAddModal: () => void;
 }
 
-const ClientDetails = ({ clientId, openPolicyAddModal }: Props) => {
+const ClientDetails = ({ clientId }: Props) => {
   const { makeApiCall } = useApi();
   const [client, setClient] = React.useState<ClientData | null>(null); // Ensure the initial state is null
 
