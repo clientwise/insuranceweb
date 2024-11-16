@@ -227,14 +227,14 @@ export default function ClientNumbersList({
         case "action":
           return (
             <div className="flex">
-              <Action item={client} />
+              <Action item={client} onRowAction={onRowAction} />
             </div>
           );
         default:
           return null;
       }
     },
-    [clients, renderStatus]
+    [clients, onRowAction, renderStatus]
   );
 
   const bottomContent = React.useMemo(() => {

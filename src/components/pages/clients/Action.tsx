@@ -5,17 +5,30 @@ import { CalendarRange, Mail } from "lucide-react";
 
 interface Props {
   item: ClientType;
+  onRowAction: (clientId: React.Key) => void;
 }
 
-export default function Action({}: Props) {
+export default function Action({ onRowAction }: Props) {
   return (
     <Row>
       <div className="flex flex-row items-center justify-center gap-3">
-        <button className="text-textColorGrey cursor-pointer font-rubik">
+        <button
+          title="Calender"
+          className="text-textColorGrey cursor-pointer font-rubik"
+        >
           <CalendarRange />
         </button>
-        <button className="text-textColorGrey cursor-pointer font-rubik">
+        <button
+          title="Mail"
+          className="text-textColorGrey cursor-pointer font-rubik"
+        >
           <Mail />
+        </button>
+        <button
+          onClick={() => onRowAction}
+          className="text-textColorGrey cursor-pointer font-rubik"
+        >
+          <p className="text-textLink text-base font-light font-rubik">View</p>
         </button>
       </div>
     </Row>
