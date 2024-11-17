@@ -162,3 +162,13 @@ export const GetClientDetails = (clientId: string) => {
     },
   });
 };
+
+//marketing
+export const GetMarketing = () => {
+  return onePiece.get(`/marketing-content`, {
+    headers: {
+      "Content-Type": "text/plain",
+      Authorization: `Bearer ${localStorage.getItem("authToken")}`,
+    },
+  });
+};

@@ -153,3 +153,14 @@ export type ClientData = {
   profession: string;
   status: string;
 };
+
+export type MarketingContent = {
+  content_category: string;
+  content_header: string;
+  content_subheader: string;
+  content_type: string;
+  content_url: string;
+  language: string;
+  product_type: string;
+  sno: string;
+};
