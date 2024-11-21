@@ -72,9 +72,7 @@ export default function ClientNumbersList({
   const [showFilter, setShowFilter] = React.useState(false);
   const [selectedState, setSelectedState] = React.useState("all"); // State for selected filter
   const [tempselectedState, setTempSelectedState] = React.useState("all"); // Temp state for selected filter
-  const [dropdownFilter, setDropdownFilters] = React.useState<DropdownType[]>(
-    []
-  );
+  const [, setDropdownFilters] = React.useState<DropdownType[]>([]);
   const [sortDescriptor, setSortDescriptor] = React.useState<SortDescriptor>({
     column: "sr_no",
     direction: "ascending",
