@@ -16,10 +16,10 @@ import Action from "./Action.tsx";
 import { CiFilter, CiSearch } from "react-icons/ci";
 import Row from "../../Row.tsx";
 import Button from "../../Button.tsx";
-import Select from "../../common/Select.tsx";
 import Spacer from "../../Spacer.tsx";
-import { ClientType, SelectType } from "@/src/types.ts";
+import { ClientType, DropdownType } from "@/src/types.ts";
 import { Colors } from "@/src/assets/colors.js";
+import DropdownComponent from "../../common/Dropdown.tsx";
 
 interface Props {
   clients: ClientType[];
@@ -40,7 +40,7 @@ const COLUMNS = [
     sortable: true,
   },
   {
-    name: "Date",
+    name: "Age",
     key: "Date",
   },
   {
@@ -72,25 +72,36 @@ export default function ClientNumbersList({
   const [showFilter, setShowFilter] = React.useState(false);
   const [selectedState, setSelectedState] = React.useState("all"); // State for selected filter
   const [tempselectedState, setTempSelectedState] = React.useState("all"); // Temp state for selected filter
-  const [dropdownFilter, setDropdownFilters] = React.useState<SelectType[]>([]);
+  const [dropdownFilter, setDropdownFilters] = React.useState<DropdownType[]>(
+    []
+  );
   const [sortDescriptor, setSortDescriptor] = React.useState<SortDescriptor>({
     column: "sr_no",
     direction: "ascending",
   });
 
+  const data: DropdownType[] = React.useMemo(
+    () => [
+      { key: "new_lead", value: "New Lead" },
+      { key: "active", value: "Active" },
+      { key: "in_progress", value: "In Progress" },
+      { key: "cold_lead", value: "Cold Lead" },
+    ],
+    []
+  );
+
   React.useEffect(() => {
-    const dropdownOptionsData: SelectType[] = clients
+    const dropdownOptionsData: DropdownType[] = clients
       .map((item: ClientType) => ({
-        value: item.name,
-        label: item.name,
+        key: item.status,
+        value: item.status,
       }))
       .filter(
         (option, index, self) =>
-          index === self.findIndex((o) => o.value === option.value)
+          index === self.findIndex((o) => o.key === option.key)
       );
-
-    dropdownOptionsData.unshift({ value: "all", label: "All" });
-
+    console.log(dropdownOptionsData, "Created dropfown data");
+    dropdownOptionsData.unshift({ value: "all", key: "All" });
     setDropdownFilters(dropdownOptionsData);
   }, [clients]);
 
@@ -145,8 +156,9 @@ export default function ClientNumbersList({
   }, []);
 
   // Handle the state selection change
-  const handleStateSelect = (value: string) => {
-    setTempSelectedState(value);
+  const handleStateSelect = (selectedKey: string | number) => {
+    console.log(selectedKey, "Selected key in client filter dropdown");
+    setTempSelectedState(selectedKey.toString());
   };
 
   const renderStatus = React.useCallback((item: ClientType) => {
@@ -355,17 +367,13 @@ export default function ClientNumbersList({
         {showFilter && (
           <div className="absolute top-full mt-2 right-0 w-[20%] px-6 py-4 rounded shadow-xl z-10 bg-white">
             <p className="text-black text-base leading-8 font-rubik font-medium mt-[4%] bg-white">
-              Filter
+              Select Status
             </p>
             <div className="w-full h-5" />
-
-            <Select
-              name="filter"
-              item={dropdownFilter}
-              label="State"
-              placeholder="State"
-              onSelect={handleStateSelect}
-              className="font-rubik text-xl font-light"
+            <DropdownComponent
+              data={data}
+              initialSelectedKey="Select"
+              onSelectionChange={handleStateSelect}
             />
             <div>
               <Row>
@@ -381,7 +389,7 @@ export default function ClientNumbersList({
                 >
                   Filter
                 </Button>
-              </Row>{" "}
+              </Row>
             </div>
           </div>
         )}
@@ -391,9 +399,9 @@ export default function ClientNumbersList({
     filterValue,
     onSearchChange,
     showFilter,
+    data,
     selectedState,
     tempselectedState,
-    dropdownFilter,
   ]);
 
   return (

@@ -17,9 +17,6 @@ const Clients = () => {
   const [loading, setLoading] = React.useState(true);
   const router = useRouter();
 
-  // const [clientRentalNumbers, setClientIRentalNumbers] = React.useState<
-  //   Client[]
-  // >([]);
   // eslint-disable-next-line
   const navigateToClientCode = React.useCallback(
     (clientId: React.Key) => {
@@ -29,13 +26,6 @@ const Clients = () => {
     [router]
   );
 
-  // const handleRowAction = React.useCallback(
-  //   (shipmentId: React.Key) => {
-  //     router.push(`/shipment/${clientCode}/${shipmentId}`);
-  //   },
-  //   [clientCode, router]
-  // );
-  //api call for client list
   React.useEffect(() => {
     setLoading(true);
     makeApiCall(GetClientsDetails())

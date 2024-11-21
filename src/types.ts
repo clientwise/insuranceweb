@@ -1,3 +1,5 @@
+import { MenuItemProps } from "@nextui-org/react";
+
 export type User = {
   name: string;
   email: string;
@@ -34,14 +36,21 @@ export type Style = {
 };
 
 // YEAR TYPES
-export type DropdownType = {
-  key: string;
-  value: string | number;
-};
+// export type DropdownType = {
+//   key: string;
+//   value: string | number;
+// };
 
 export type SelectType = {
   label: string;
   value: string | number;
+};
+
+export type DropdownType = {
+  key: string;
+  value: string | number;
+  variant?: MenuItemProps["variant"];
+  color?: MenuItemProps["color"];
 };
 
 export type Month =
