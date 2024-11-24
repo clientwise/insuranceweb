@@ -17,13 +17,14 @@ const PolicyDetails = ({ clientId, openPolicyAddModal }: Props) => {
   const [policies, setPolicies] = React.useState<PolicyType[]>([]);
   const [loading, setLoading] = React.useState(true);
 
-  //api call for client list
   React.useEffect(() => {
     setLoading(true);
     makeApiCall(GetClientAllPolicy(clientId))
       .then((response) => {
         console.log("Policy list response", response);
-        setPolicies(response.data);
+        if (response.data != null) {
+          setPolicies(response.data);
+        }
       })
       .catch((error) => {
         console.error(error);

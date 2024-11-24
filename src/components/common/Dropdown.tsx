@@ -8,12 +8,15 @@ import {
 } from "@nextui-org/react";
 import type { Selection } from "@nextui-org/react";
 import { DropdownType } from "@/src/types";
+import { ChevronDown, Search } from "lucide-react";
+import { BiDownArrow } from "react-icons/bi";
 
 interface DropdownComponentProps {
   data: DropdownType[];
   initialSelectedKey?: string | number;
   onSelectionChange: (selectedKey: string | number) => void;
   buttonClassName?: string;
+  placeholder?: string; // Add a placeholder prop
 }
 
 const DropdownComponent: React.FC<DropdownComponentProps> = ({
@@ -21,6 +24,7 @@ const DropdownComponent: React.FC<DropdownComponentProps> = ({
   initialSelectedKey = "",
   onSelectionChange,
   buttonClassName = "",
+  placeholder = "Select", // Default placeholder value
 }) => {
   const [selectedKeys, setSelectedKeys] = React.useState<Selection>(
     new Set([String(initialSelectedKey)])
@@ -40,10 +44,13 @@ const DropdownComponent: React.FC<DropdownComponentProps> = ({
     <Dropdown>
       <DropdownTrigger>
         <Button
+          size="sm"
           variant="bordered"
-          className={`capitalize text-black font-rubik text-base ${buttonClassName}`}
+          className={` capitalize text-black font-rubik text-sm ${buttonClassName}`}
         >
-          {selectedValue || "Select"}
+          <div className="flex flex-row justify-between items-center">
+            {selectedValue || placeholder} <ChevronDown />
+          </div>
         </Button>
       </DropdownTrigger>
       <DropdownMenu

@@ -70,7 +70,8 @@ const MarketUpdates = () => {
           ]}
           initialSelectedKey={selectedCategory}
           onSelectionChange={setSelectedCategory}
-          buttonClassName=" border-0  border-b-2 border-textprimary  rounded-none text-textprimary"
+          buttonClassName=" border-0  border-b-2 border-textprimary  rounded-none text-textprimary  min-w-20"
+          placeholder="Category"
         />
         <Spacer orientation="horizontal" size="xs" />
         <DropdownComponent
@@ -81,7 +82,8 @@ const MarketUpdates = () => {
           ]}
           initialSelectedKey={selectedProductType}
           onSelectionChange={setSelectedProductType}
-          buttonClassName=" border-0  border-b-2 border-textprimary  rounded-none text-textprimary"
+          buttonClassName=" border-0  border-b-2 border-textprimary  rounded-none text-textprimary min-w-20"
+          placeholder="Product Type"
         />
         <Spacer orientation="horizontal" size="xs" />
 
@@ -93,19 +95,24 @@ const MarketUpdates = () => {
           ]}
           initialSelectedKey={selectedLanguage}
           onSelectionChange={setSelectedLanguage}
-          buttonClassName=" border-0  border-b-2 border-textprimary rounded-none text-textprimary"
+          buttonClassName=" border-0  border-b-2 border-textprimary rounded-none text-textprimary  min-w-20"
+          placeholder="Language"
         />
         <Spacer orientation="horizontal" size="xs" />
 
-        <p
-          onClick={resetFilters}
-          className="px-2 py-font-rubik text-textLink rounded-md mt-[1vh] cursor-pointer"
-        >
-          Reset Filters
-        </p>
+        {selectedCategory != "" ||
+        selectedProductType != "" ||
+        selectedLanguage != "" ? (
+          <p
+            onClick={resetFilters}
+            className="px-2 py-font-rubik text-textLink rounded-md mt-[1vh] cursor-pointer"
+          >
+            Reset Filters
+          </p>
+        ) : null}
       </Row>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+      <div className="mt-5 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
         {filteredContent.map((data, index) => (
           <BlogCard key={index} blog={data} />
         ))}

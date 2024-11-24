@@ -6,10 +6,14 @@ import { People, CoinBag, Money } from "@/src/assets/images/Images.js";
 import { Colors } from "@/src/assets/colors";
 import Spacer from "@/src/components/Spacer";
 import ClientsList from "@/src/components/pages/dashboard/clientList/List";
-import { ClientType, TodaysEventsType } from "@/src/types";
+import { ClientType, NewsItem, TodaysEventsType } from "@/src/types";
 import useApi from "@/src/hooks/useApi";
 import WishCard from "@/src/components/pages/home/WishCard";
-import { GetClientsDetails, GetTodaysEventApi } from "@/src/apis";
+import {
+  GetClientsDetails,
+  GetDashboardNews,
+  GetTodaysEventApi,
+} from "@/src/apis";
 import backgroundImage from "@/src/assets/Comingsoon.png";
 
 const Home: React.FC = () => {
@@ -18,6 +22,7 @@ const Home: React.FC = () => {
   );
 
   const [clients, setClients] = React.useState<ClientType[]>([]);
+  const [news, setNews] = React.useState<NewsItem[]>([]);
 
   const { makeApiCall } = useApi();
   const [loading, setLoading] = React.useState(true);
@@ -43,17 +48,33 @@ const Home: React.FC = () => {
       .finally(() => setLoading(false));
   }, [makeApiCall]);
 
-  //api call for todays events
   React.useEffect(() => {
     makeApiCall(GetTodaysEventApi())
       .then((response) => {
         console.log("Today's events response", response);
-        setTodaysEvents(response.data);
+        if (response.data != null) {
+          setTodaysEvents(response.data);
+        }
       })
       .catch((error) => {
         console.error(error);
         setError("Failed to fetch today's events.");
       });
+  }, [makeApiCall]);
+
+  //api call for dashbaord news
+  React.useEffect(() => {
+    setLoading(true);
+    makeApiCall(GetDashboardNews())
+      .then((response) => {
+        console.log("dashboard news response", response);
+        setNews(response);
+      })
+      .catch((error) => {
+        console.error(error);
+        setError("Failed to fetch  dashboard news.");
+      })
+      .finally(() => setLoading(false));
   }, [makeApiCall]);
 
   return (
@@ -111,10 +132,16 @@ const Home: React.FC = () => {
             Upcoming Events
           </p>
 
-          <div className="p-4 py-2 mt-3 h-[40vh] max-h-[40vh] overflow-y-auto  rounded-2xl shadow-md">
-            {todaysEvents?.map((wish, index) => (
-              <WishCard key={index} event={wish} />
-            ))}
+          <div className="p-4 py-2 mt-3 h-[40vh] max-h-[40vh] overflow-y-auto rounded-2xl shadow-md">
+            {todaysEvents?.length == 0 ? (
+              <p className="text-xl font-normal font-rubik text-black">
+                No events
+              </p>
+            ) : (
+              todaysEvents?.map((wish, index) => (
+                <WishCard key={index} event={wish} />
+              ))
+            )}
           </div>
         </div>
       </div>
@@ -129,18 +156,28 @@ const Home: React.FC = () => {
             backgroundPosition: "center",
           }}
         ></div>
-        <div className="flex-1 p-4 bg-white rounded-lg shadow-md">
+        <div className="flex-1 p-4 rounded-lg shadow-md">
           <div>
             <h1 className="text-black text-xl font-light font-rubik">
               Latest News
             </h1>
+            <p
+              style={{ color: Colors.textBase }}
+              className="text-base font-semibold font-rubik text-black"
+              onClick={() => window.open(news[0]?.news_url, "_blank")}
+            >
+              {news[0]?.news_heading}
+            </p>
+            <p
+              style={{ color: Colors.textBase }}
+              className="text-xs font-normal font-rubik text-black"
+            >
+              {new Date(news[0]?.news_date).toLocaleDateString()}
+            </p>
           </div>
         </div>
         <div className="flex-1 p-4 bg-white rounded-lg shadow-md">
-          <div className="text-center">
-            <p className="text-lg font-semibold">Right Section</p>
-            <p>Content for the right section goes here.</p>
-          </div>
+          <div className="text-center"></div>
         </div>
       </div>
     </div>

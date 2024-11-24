@@ -23,7 +23,9 @@ const Events = ({ clientId, openEventAddModal }: Props) => {
     makeApiCall(GetClientAllEvents(clientId))
       .then((response) => {
         console.log("Events list response", response);
-        setEvents(response.data);
+        if (response.data != null) {
+          setEvents(response.data);
+        }
       })
       .catch((error) => {
         console.error(error);

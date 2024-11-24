@@ -172,3 +172,15 @@ export const GetMarketing = () => {
     },
   });
 };
+
+//dashboard news api
+
+//client list
+export const GetDashboardNews = () => {
+  return onePiece.get(`/dashboard-news/1`, {
+    headers: {
+      "Content-Type": "text/plain",
+      Authorization: `Bearer ${localStorage.getItem("authToken")}`,
+    },
+  });
+};

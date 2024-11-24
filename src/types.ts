@@ -173,3 +173,18 @@ export type MarketingContent = {
   product_type: string;
   sno: string;
 };
+
+export interface NewsItem {
+  ID: number;
+  CreatedAt: string;
+  UpdatedAt: string;
+  DeletedAt: string | null;
+  news_heading: string;
+  news_url: string;
+  news_description: string;
+  news_image_url: string;
+  news_date: string;
+  news_scraping_date: string;
+  news_keyword: string;
+  keyword_priority: number;
+}
