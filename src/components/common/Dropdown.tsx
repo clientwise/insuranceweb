@@ -8,8 +8,7 @@ import {
 } from "@nextui-org/react";
 import type { Selection } from "@nextui-org/react";
 import { DropdownType } from "@/src/types";
-import { ChevronDown, Search } from "lucide-react";
-import { BiDownArrow } from "react-icons/bi";
+import { ChevronDown } from "lucide-react";
 
 interface DropdownComponentProps {
   data: DropdownType[];
