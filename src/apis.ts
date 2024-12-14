@@ -195,3 +195,20 @@ export const GetInsuranceList = () => {
     },
   });
 };
+
+//add policy
+export const cobrandImageApi = (image_url: string) => {
+  return onePiece.post(
+    "/co-brand-image",
+    {
+      image_url,
+    },
+    {
+      headers: {
+        "Content-Type": "text/plain",
+        Authorization: `Bearer ${localStorage.getItem("authToken")}`,
+        agent_id: localStorage.getItem("id"),
+      },
+    }
+  );
+};

@@ -1,4 +1,4 @@
-import { GetMarketing } from "@/src/apis";
+import { cobrandImageApi, GetMarketing } from "@/src/apis";
 import useApi from "@/src/hooks/useApi";
 import { MarketingContent } from "@/src/types";
 import React from "react";
@@ -35,6 +35,19 @@ const MarketUpdates = () => {
       })
       .finally(() => setLoading(false));
   }, [makeApiCall]);
+  const handleImageCLick = React.useCallback(
+    (content_url: string) => {
+      makeApiCall(cobrandImageApi(content_url))
+        .then((response) => {
+          console.log("cobrand api image response", response);
+        })
+        .catch((error) => {
+          console.error(error);
+        })
+        .finally(() => setLoading(false));
+    },
+    [makeApiCall]
+  );
 
   const filteredContent = content.filter((item) => {
     const categoryMatch = selectedCategory
@@ -114,7 +127,7 @@ const MarketUpdates = () => {
 
       <div className="mt-5 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
         {filteredContent.map((data, index) => (
-          <BlogCard key={index} blog={data} />
+          <BlogCard key={index} blog={data} onImageClick={handleImageCLick} />
         ))}
       </div>
     </div>

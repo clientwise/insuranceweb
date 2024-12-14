@@ -1,31 +1,48 @@
 import React from "react";
-import Image from "next/image"; // Importing the Image component
+import Image from "next/image";
 import { MarketingContent } from "../../../types";
 import { ArrowDownToLine, ExternalLink } from "lucide-react";
 
 interface Props {
   blog: MarketingContent;
+  onImageClick: (content_url: string) => void;
 }
 
-const BlogCard = ({ blog }: Props) => {
+const BlogCard = ({ blog, onImageClick }: Props) => {
+  const handleImageClick = () => {
+    if (blog.content_url) {
+      onImageClick(blog.content_url);
+    }
+  };
+
   return (
     <div className="flex justify-center">
       <div className="text-zinc-800 relative mb-4 px-4 rounded-md w-full max-w-[350px]">
         <div className="relative mb-4 rounded-md border overflow-hidden h-[200px]">
           <Image
             src={blog.content_url}
-            alt={blog.content_header}
+            alt={blog.content_header || "Blog image"}
             layout="fill"
             objectFit="cover"
             quality={75}
             priority
           />
-          <div className=" absolute bottom-0 left-0 w-full p-4">
+          <div className="absolute bottom-0 left-0 w-full p-1">
             <div className="flex flex-row justify-end gap-2">
-              <a className="text-sm font-light font-rubik text-black mr-2 ">
-                <ArrowDownToLine />
+              <a
+                onClick={handleImageClick}
+                className="text-sm font-light font-rubik text-white mr-2 bg-stone-900 p-2 rounded-lg flex items-center justify-center opacity-60 cursor-pointer"
+              >
+                <ArrowDownToLine size={20} className="text-white" />
               </a>
-              <ExternalLink />
+              <a
+                href={blog.content_url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-sm font-light font-rubik text-white mr-2 bg-stone-900 p-2 rounded-lg flex items-center justify-center opacity-60 cursor-pointer"
+              >
+                <ExternalLink size={20} className="text-white" />
+              </a>
             </div>
           </div>
         </div>
@@ -35,7 +52,7 @@ const BlogCard = ({ blog }: Props) => {
           </p>
           <div className="flex flex-row justify-start items-center mb-2">
             <p className="text-black font-light text-xs font-rubik">
-              Added on: 18 May 2024
+              Added on: 18 May 2024{" "}
             </p>
           </div>
         </div>
