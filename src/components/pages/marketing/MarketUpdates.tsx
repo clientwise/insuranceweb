@@ -35,14 +35,29 @@ const MarketUpdates = () => {
       })
       .finally(() => setLoading(false));
   }, [makeApiCall]);
-  const handleImageCLick = React.useCallback(
+  const handleImageClick = React.useCallback(
     (content_url: string) => {
-      makeApiCall(cobrandImageApi(content_url))
+      const trimmedUrl = content_url.trim();
+
+      console.log("----HAHAHHA---", trimmedUrl, "urlll");
+
+      makeApiCall(cobrandImageApi(trimmedUrl))
         .then((response) => {
           console.log("cobrand api image response", response);
+          if (response) {
+            const blob = new Blob([response]);
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement("a");
+            a.href = url;
+            a.download = "downloaded-image.png";
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            window.URL.revokeObjectURL(url);
+          }
         })
         .catch((error) => {
-          console.error(error);
+          console.error("Error during API call or file download:", error);
         })
         .finally(() => setLoading(false));
     },
@@ -127,7 +142,7 @@ const MarketUpdates = () => {
 
       <div className="mt-5 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
         {filteredContent.map((data, index) => (
-          <BlogCard key={index} blog={data} onImageClick={handleImageCLick} />
+          <BlogCard key={index} blog={data} onImageClick={handleImageClick} />
         ))}
       </div>
     </div>

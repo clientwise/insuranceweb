@@ -198,10 +198,12 @@ export const GetInsuranceList = () => {
 
 //add policy
 export const cobrandImageApi = (image_url: string) => {
+  const agent_id = localStorage.getItem("id");
   return onePiece.post(
     "/co-brand-image",
     {
       image_url,
+      agent_id,
     },
     {
       headers: {

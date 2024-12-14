@@ -10,7 +10,7 @@ interface Props {
 
 const BlogCard = ({ blog, onImageClick }: Props) => {
   const handleImageClick = () => {
-    if (blog.content_url) {
+    if (blog?.content_url) {
       onImageClick(blog.content_url);
     }
   };
