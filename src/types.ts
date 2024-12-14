@@ -188,3 +188,11 @@ export interface NewsItem {
   news_keyword: string;
   keyword_priority: number;
 }
+
+export type InsuranceListType = {
+  name: string;
+  type: string;
+  category: string;
+  product_id: string;
+  commission: number;
+};

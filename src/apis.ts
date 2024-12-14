@@ -184,3 +184,14 @@ export const GetDashboardNews = () => {
     },
   });
 };
+
+//all products api
+export const GetInsuranceList = () => {
+  return onePiece.get(`/get-insurance-list`, {
+    headers: {
+      "Content-Type": "text/plain",
+      Authorization: `Bearer ${localStorage.getItem("authToken")}`,
+      agent_id: localStorage.getItem("id"),
+    },
+  });
+};

@@ -8,7 +8,13 @@ import Sidebar, { SidebarItem } from "./SideBarNew";
 import { useRouter, usePathname } from "next/navigation";
 import Bottombar from "./pages/dashboard/Bottombar";
 import { useDisclosure } from "@nextui-org/react";
-import { Clients, Home, Marketing, Transaction } from "../assets/images/Images";
+import {
+  Clients,
+  Home,
+  Marketing,
+  ProductSVG,
+  Transaction,
+} from "../assets/images/Images";
 
 interface Props {
   children: React.ReactNode;
@@ -89,6 +95,17 @@ function SidebarNew({
         alert={pathname === "/dashboard/marketing"}
         active={pathname === "/dashboard/marketing"}
         href="/dashboard/marketing"
+      />
+      <SidebarItem
+        icon={
+          <ProductSVG
+            color={pathname === "/dashboard/products" ? "#fff" : "#683FDB"}
+          />
+        }
+        text={"Products"}
+        alert={pathname === "/dashboard/products"}
+        active={pathname === "/dashboard/products"}
+        href="/dashboard/products"
       />
       <SidebarItem
         icon={
