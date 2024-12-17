@@ -108,7 +108,7 @@ const Home: React.FC = () => {
               Active Leads
             </p>
             <a
-              href="/clients"
+              href="/dashboard/clients"
               style={{ color: Colors.textLink }}
               className="text-sm font-light font-rubik text-black mr-2 "
             >

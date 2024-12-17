@@ -43,8 +43,8 @@ export default function DashHeader({ onOpen }: DashHeaderProps) {
         <Input
           classNames={{
             base: "max-w-full sm:max-w-[32rem] h-8 rounded-2xl",
-            input: "text-small",
-            inputWrapper: " font-normal font-rubik text-default-500 ",
+            input: "text-small border-0	",
+            inputWrapper: "font-normal font-rubik text-default-500 ",
           }}
           placeholder="Search ..."
           size="sm"

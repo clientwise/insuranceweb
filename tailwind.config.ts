@@ -1,6 +1,7 @@
 import type { Config } from "tailwindcss";
 import { nextui } from "@nextui-org/react";
 import { Colors } from "./src/assets/colors";
+import flowbite from "flowbite-react/tailwind";
 
 const config: Config = {
   content: [
@@ -14,6 +15,7 @@ const config: Config = {
     "src/components/SideBarNew.jsx",
     "src/components/common/SelectSearchNew.js",
     "./node_modules/@nextui-org/theme/dist/**/*.{js,ts,jsx,tsx}",
+    flowbite.content(),
   ],
   theme: {
     extend: {
@@ -31,6 +33,6 @@ const config: Config = {
       colors: Colors,
     },
   },
-  plugins: [nextui()],
+  plugins: [nextui(), flowbite.plugin()],
 };
 export default config;

@@ -16,24 +16,31 @@ export default function DatePicker({ name, label }: Props) {
     field?.value ?? null
   );
 
+  const selectedDateObj = selectedDate ? new Date(selectedDate) : null;
+
   const onChange = React.useCallback(
-    (date: Date) => {
-      const formattedDate = convert(date.toString());
-      setSelectedDate(formattedDate);
-      helpers.setValue(formattedDate);
+    (date: Date | null) => {
+      if (date) {
+        const formattedDate = convert(date.toString());
+        setSelectedDate(formattedDate);
+        helpers.setValue(formattedDate);
+      } else {
+        setSelectedDate(null);
+        helpers.setValue(null);
+      }
     },
     [helpers]
   );
 
   const emptyProps = {
-    value: selectedDate || "",
+    value: selectedDateObj,
     placeholder: "Select date",
   };
 
   return (
     <div>
       {label !== undefined && <Label>{label}</Label>}
-      <RNDatePicker {...emptyProps} onSelectedDateChanged={onChange} />
+      <RNDatePicker {...emptyProps} onChange={onChange} />
     </div>
   );
 }

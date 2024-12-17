@@ -111,6 +111,7 @@ export default function AddClient({}: Props) {
               label="Age"
               placeholder="Enter age "
               type="number"
+              className="border-0 outline-none"
             />
             <Spacer size="xs" />
             <Input
