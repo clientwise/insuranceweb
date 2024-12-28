@@ -10,18 +10,19 @@ import {
   Pagination,
   Input,
   SortDescriptor,
+  Chip,
 } from "@nextui-org/react";
 import Action from "./Action.tsx";
-import { CiSearch } from "react-icons/ci";
+import { CiFilter, CiSearch } from "react-icons/ci";
 import Row from "../../Row.tsx";
 import Button from "../../Button.tsx";
 import Spacer from "../../Spacer.tsx";
-import { DropdownType, InsuranceListType } from "@/src/types.ts";
+import { AgentType, DropdownType } from "@/src/types.ts";
+import { Colors } from "@/src/assets/colors.js";
 import DropdownComponent from "../../common/Dropdown.tsx";
-import { CsvSVG, DownloadSVG } from "@/src/assets/images/Images.js";
 
 interface Props {
-  insurance: InsuranceListType[];
+  agents: AgentType[];
   loading: boolean;
   onOpen: () => void;
   onRowAction: (clientId: React.Key) => void;
@@ -34,40 +35,32 @@ const COLUMNS = [
     sortable: true,
   },
   {
-    name: "Product ID",
-    key: "product_id",
-  },
-  {
-    name: "Product Name",
+    name: "Agent Name",
     key: "name",
     sortable: true,
   },
   {
-    name: "Type",
-    key: "type",
-    sortable: true,
-
-  },
- 
-  {
-    name: "Description",
-    key: "description",
+    name: "Pan Number",
+    key: "panNumber",
   },
   {
-    name: "Commission %",
-    key: "commission",
-    sortable: true,
-
+    name: "DOJ",
+    key: "dateOfJoining",
   },
   {
-    name: "View Details",
+    name: "Status",
+    key: "status",
+  },
+  {
+    name: "Action",
     key: "action",
   },
 ];
 
-export default function ProductList({
-  insurance,
+export default function AgentNumbersList({
+  agents,
   loading,
+  onOpen,
   onRowAction,
 }: Props) {
   const [filterValue, setFilterValue] = React.useState("");
@@ -92,10 +85,10 @@ export default function ProductList({
   );
 
   React.useEffect(() => {
-    const dropdownOptionsData: DropdownType[] = insurance
-      .map((item: InsuranceListType) => ({
-        key: item.category,
-        value: item.category,
+    const dropdownOptionsData: DropdownType[] = agents
+      .map((item: AgentType) => ({
+        key: item.status,
+        value: item.status,
       }))
       .filter(
         (option, index, self) =>
@@ -104,26 +97,26 @@ export default function ProductList({
     console.log(dropdownOptionsData, "Created dropfown data");
     dropdownOptionsData.unshift({ value: "all", key: "All" });
     setDropdownFilters(dropdownOptionsData);
-  }, [insurance]);
+  }, [agents]);
 
   const pages = React.useMemo(() => {
-    if (!insurance) {
+    if (agents?.length === 0) {
       return 1;
     }
-    return Math.ceil((insurance?.length ?? 1) / rowsPerPage);
-  }, [insurance, rowsPerPage]);
+    return Math.ceil((agents?.length ?? 1) / rowsPerPage);
+  }, [agents, rowsPerPage]);
 
   const hasSearchFilter = Boolean(filterValue);
   const [page, setPage] = React.useState(1);
 
   const filteredItems = React.useMemo(() => {
-    let filteredUsers = [...insurance];
+    let filteredUsers = [...agents];
 
     if (hasSearchFilter) {
       filteredUsers = filteredUsers.filter(
         (user) =>
           user.name.toLowerCase().includes(filterValue.toLowerCase()) ||
-          user.type.toLowerCase().includes(filterValue.toLowerCase())
+          user.email.toLowerCase().includes(filterValue.toLowerCase())
       );
     }
 
@@ -134,7 +127,7 @@ export default function ProductList({
     }
 
     return filteredUsers;
-  }, [insurance, hasSearchFilter, selectedState, filterValue]);
+  }, [agents, hasSearchFilter, selectedState, filterValue]);
 
   const items = React.useMemo(() => {
     const start = (page - 1) * rowsPerPage;
@@ -162,11 +155,40 @@ export default function ProductList({
     setTempSelectedState(selectedKey.toString());
   };
 
+  const renderStatus = React.useCallback((item: AgentType) => {
+    switch (item?.status) {
+      case "active":
+        return (
+          <Chip variant="flat" color="success" size="sm">
+            Active
+          </Chip>
+        );
+      case "in_progress":
+        return (
+          <Chip color="danger" variant="flat" size="sm">
+            In Progress
+          </Chip>
+        );
+      case "cold_lead":
+        return (
+          <Chip color="danger" variant="flat" size="sm">
+            Cold Lead
+          </Chip>
+        );
+      default:
+        return (
+          <Chip variant="flat" color="success" size="sm">
+            New Lead
+          </Chip>
+        );
+    }
+  }, []);
+
   const renderCell = React.useCallback(
-    (product: InsuranceListType, columnKey: React.Key) => {
-      const index = insurance
-        .map((object) => object.product_id)
-        .indexOf(product.product_id);
+    (agent: AgentType, columnKey: React.Key) => {
+      const index = agents
+        .map((object) => object.agentId)
+        .indexOf(agent.agentId);
       switch (columnKey) {
         case "sr_no":
           return (
@@ -177,53 +199,37 @@ export default function ProductList({
         case "name":
           return (
             <div className="flex flex-col">
-              <p className="text-bold text-sm capitalize">{product.name}</p>
+              <p className="text-bold text-sm capitalize">{agent.name}</p>
             </div>
           );
-        case "type":
+        case "dateOfJoining":
           return (
             <div className="flex flex-col">
-              <p className="text-bold text-sm capitalize">{product.category}</p>
-            </div>
-          );
-        case "category":
-          return (
-            <div className="flex flex-col">
-              <p className="text-bold text-sm capitalize">{product.category}</p>
-            </div>
-          );
-          case "product_id":
-            return (
-              <div className="flex flex-col">
-                <p className="text-bold text-sm capitalize">{product.product_id}</p>
-              </div>
-            );
-            case "description":
-              return (
-                <div className="flex flex-col">
-                  <p className="text-bold text-sm capitalize">{product.description}</p>
-                </div>
-              );
-        case "commission":
-          return (
-            <div className="flex flex-col">
-              <p className="text-bold text-sm capitalize text-center">
-                {product.agent_commission_percentage}%{" "}
+              <p className="text-bold text-sm capitalize">
+                {agent.dateOfJoining}
               </p>
             </div>
           );
+        case "panNumber":
+          return (
+            <div className="flex flex-col">
+              <p className="text-bold text-sm capitalize">{agent.panNumber}</p>
+            </div>
+          );
 
+        case "status":
+          return renderStatus(agent);
         case "action":
           return (
             <div className="flex">
-              <Action item={product} onRowAction={onRowAction} />
+              <Action item={agent} onRowAction={onRowAction} />
             </div>
           );
         default:
           return null;
       }
     },
-    [insurance, onRowAction]
+    [agents, onRowAction, renderStatus]
   );
 
   const bottomContent = React.useMemo(() => {
@@ -289,13 +295,9 @@ export default function ProductList({
   );
 
   const sortedItems = React.useMemo(() => {
-    return [...items].sort((a: InsuranceListType, b: InsuranceListType) => {
-      const first = a[
-        sortDescriptor.column as keyof InsuranceListType
-      ] as number;
-      const second = b[
-        sortDescriptor.column as keyof InsuranceListType
-      ] as number;
+    return [...items].sort((a: AgentType, b: AgentType) => {
+      const first = a[sortDescriptor.column as keyof AgentType] as number;
+      const second = b[sortDescriptor.column as keyof AgentType] as number;
       const cmp = first < second ? -1 : first > second ? 1 : 0;
 
       return sortDescriptor.direction === "descending" ? -cmp : cmp;
@@ -326,7 +328,7 @@ export default function ProductList({
             onValueChange={onSearchChange}
           />
 
-          {/* <div className="flex gap-3">
+          <div className="flex gap-3">
             <Row>
               <Button
                 color="default"
@@ -343,7 +345,7 @@ export default function ProductList({
                 Filter
               </Button>
             </Row>
-          </div> */}
+          </div>
         </div>
         {showFilter && (
           <div className="absolute top-full mt-2 right-0 w-[20%] px-6 py-4 rounded shadow-xl z-10 bg-white">
@@ -376,36 +378,34 @@ export default function ProductList({
         )}
       </div>
     );
-  }, [filterValue, onSearchChange, showFilter, data, tempselectedState]);
+  }, [
+    filterValue,
+    onSearchChange,
+    showFilter,
+    data,
+    selectedState,
+    tempselectedState,
+  ]);
 
   return (
     <div className="flex flex-col">
+      <Spacer size="sm" />
 
       <div className="flex flex-row justify-between">
+        <p className="text-3xl font-normal font-rubik text-black ">Agents</p>
 
-        <div className="flex flex-row justify-between">
-          {/* <button
-            onClick={() => {}}
-            className="text-textColorGrey cursor-pointer font-rubik mr-2"
-            <p className="text-textLink text-base font-light font-rubik">
-              Download
-            </p>
-          </button> */}
-          {/* <button
-            className="text-textColorGrey cursor-pointer font-rubik"
-            title="Text"
-          >
-            <CsvSVG />
-          </button> */}
-          {/* <button
-            className="text-textColorGrey cursor-pointer font-rubik"
-            title="Text"
-          >
-            <DownloadSVG />
-          </button> */}
-        </div>
+        <Button
+          style={{ color: Colors.textprimary }}
+          className="rounded-lg bg-yellow-500"
+          size="md"
+          onClick={onOpen}
+        >
+          <p className="text-base font-normal font-rubik text-white">
+            + Add New Agent
+          </p>
+        </Button>
       </div>
-      {/* <Spacer size="xs" /> */}
+      <Spacer size="xs" />
       <Table
         selectionMode="single"
         classNames={classNames}
@@ -414,7 +414,7 @@ export default function ProductList({
         bottomContentPlacement="inside"
         sortDescriptor={sortDescriptor}
         onSortChange={setSortDescriptor}
-        // onRowAction={onRowAction}
+        onRowAction={onRowAction}
         isStriped
       >
         <TableHeader columns={COLUMNS}>
@@ -422,7 +422,8 @@ export default function ProductList({
             <TableColumn
               allowsSorting={column.sortable}
               key={column.key}
-              align={"start"}
+              align={column.key === "action" ? "end" : "start"}
+              width={column.key === "action" ? 100 : undefined}
             >
               {column.name}
             </TableColumn>
@@ -435,10 +436,7 @@ export default function ProductList({
           loadingContent={<Spinner label="Loading..." />}
         >
           {(item) => (
-            <TableRow
-              key={`${item.product_id}`}
-              className="cursor-pointer h-12"
-            >
+            <TableRow key={`${item.agentId}`} className="cursor-pointer h-12">
               {(columnKey) => (
                 <TableCell>{renderCell(item, columnKey)}</TableCell>
               )}

@@ -47,7 +47,7 @@ export default function Select({
     >
       {item?.map(({ label, value }) => (
         <SelectItem
-          className="text-base text-black font-rubik"
+          className="text-black font-poppins"
           key={value}
           value={value}
         >
