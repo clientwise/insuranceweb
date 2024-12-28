@@ -7,12 +7,13 @@ import AgencyBasicProfile from "@/src/components/pages/agencyprofile/AgencyBasic
 import AgencyBankinginfo from "@/src/components/pages/agencyprofile/AgencyBanking";
 import AgencyAgreement from "@/src/components/pages/agencyprofile/AgencyAgreement";
 import InfoCard from "@/src/components/cards/InfoCard";
+import { nextLocalStorage } from "@/src/utils/nextLocalStorage";
 
 const AgencyProfile = () => {
   const [disabledTabs, setDisabledTabs] = useState<string[]>([]);
 
   useEffect(() => {
-    const savedStatus = localStorage.getItem("profile_status");
+    const savedStatus = nextLocalStorage()?.getItem("profile_status") ?? "";
 
     if (savedStatus) {
       const activeTab = parseInt(savedStatus, 10);

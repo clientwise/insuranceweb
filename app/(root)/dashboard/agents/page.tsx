@@ -8,6 +8,7 @@ import { GetsAgentsDetails } from "@/src/apis";
 import { useDisclosure } from "@nextui-org/react";
 import AgentNumbersList from "@/src/components/pages/agents/List";
 import AgentAddModal from "@/src/components/pages/agents/AgentAddModal";
+import { nextLocalStorage } from "@/src/utils/nextLocalStorage";
 
 const Agents = () => {
   const { isOpen, onOpen, onOpenChange, onClose } = useDisclosure();
@@ -27,7 +28,7 @@ const Agents = () => {
   );
 
   React.useEffect(() => {
-    const agency_id = localStorage.getItem("agency_id") ?? "";
+    const agency_id = nextLocalStorage()?.getItem("agency_id") ?? "";
 
     setLoading(true);
     makeApiCall(GetsAgentsDetails(parseInt(agency_id)))

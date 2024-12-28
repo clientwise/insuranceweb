@@ -351,14 +351,7 @@ export default function ProductList({
         )}
       </div>
     );
-  }, [
-    filterValue,
-    onSearchChange,
-    showFilter,
-    data,
-    selectedState,
-    tempselectedState,
-  ]);
+  }, [filterValue, onSearchChange, showFilter, data, tempselectedState]);
 
   return (
     <div className="flex flex-col">

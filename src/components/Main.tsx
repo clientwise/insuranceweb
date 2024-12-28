@@ -15,6 +15,7 @@ import {
   ProductSVG,
   Transaction,
 } from "../assets/images/Images";
+import { nextLocalStorage } from "../utils/nextLocalStorage";
 
 interface Props {
   children: React.ReactNode;
@@ -60,7 +61,7 @@ function SidebarNew({
   setExpandedMain: (expanded: boolean) => void;
 }) {
   const pathname = usePathname();
-  const is_admin = localStorage.getItem("is_admin");
+  const is_admin = nextLocalStorage()?.getItem("is_admin") ?? "";
 
   const isClientsPage = pathname === "/dashboard/clients";
   const isClientDetailPage = pathname.startsWith("/dashboard/clients/");
