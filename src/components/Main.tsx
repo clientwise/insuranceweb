@@ -5,7 +5,7 @@ import { ToastContainer } from "react-toastify";
 import { LocationProps } from "./Breadcrumb";
 import DashHeader from "./pages/dashboard/DashHeader";
 import Sidebar, { SidebarItem } from "./SideBarNew";
-import { useRouter, usePathname } from "next/navigation";
+import { usePathname } from "next/navigation";
 import Bottombar from "./pages/dashboard/Bottombar";
 import { useDisclosure } from "@nextui-org/react";
 import {
@@ -59,11 +59,38 @@ function SidebarNew({
 }: {
   setExpandedMain: (expanded: boolean) => void;
 }) {
-  const router = useRouter(); // eslint-disable-line
   const pathname = usePathname();
+  const is_admin = localStorage.getItem("is_admin");
 
   const isClientsPage = pathname === "/dashboard/clients";
   const isClientDetailPage = pathname.startsWith("/dashboard/clients/");
+
+  if (is_admin == "true") {
+    return (
+      <Sidebar setExpandedMain={setExpandedMain}>
+        <SidebarItem
+          icon={
+            <Home color={pathname === "/dashboard/home" ? "#fff" : "#683FDB"} />
+          }
+          text={"Home"}
+          alert={pathname === "/dashboard/home"}
+          active={pathname === "/dashboard/home"}
+          href="/dashboard/home"
+        />
+        <SidebarItem
+          icon={
+            <Home
+              color={pathname === "/dashboard/agents" ? "#fff" : "#683FDB"}
+            />
+          }
+          text={"Agents"}
+          alert={pathname === "/dashboard/agents"}
+          active={pathname === "/dashboard/agents"}
+          href="/dashboard/agents"
+        />
+      </Sidebar>
+    );
+  }
 
   return (
     <Sidebar setExpandedMain={setExpandedMain}>

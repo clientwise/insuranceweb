@@ -1,10 +1,10 @@
 "use client";
 import { onePiece } from "./utils/AxiosInterceptor";
 
-export const LoginApi = (email: string) => {
+export const LoginApi = (email: string, is_admin: boolean) => {
   return onePiece.post(
     "/login",
-    { email: email },
+    { email, is_admin },
     {
       headers: {
         "Content-Type": "text/plain",
@@ -213,4 +213,132 @@ export const cobrandImageApi = (image_url: string) => {
       },
     }
   );
+};
+
+export const AgencyBasicDetailsApi = (
+  agencyName: string,
+  agencyEmail: string,
+  brokerCode: string,
+  panNumber: string,
+  gstNumber: string,
+  registeredAddress: {
+    line1: string;
+    city: string;
+    state: string;
+    pincode: string;
+  },
+  billingAddress: {
+    line1: string;
+    city: string;
+    state: string;
+    pincode: string;
+  }
+) => {
+  return onePiece.post(
+    "/save-profile",
+    {
+      agencyName,
+      agencyEmail,
+      brokerCode,
+      panNumber,
+      gstNumber,
+      registeredAddress,
+      billingAddress,
+    },
+    {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("authToken")}`,
+        agent_id: localStorage.getItem("id"),
+      },
+    }
+  );
+};
+
+export const AgencyBankingDetailsApi = (
+  accountNumber: string,
+  ifscCode: string,
+  bankName: string
+) => {
+  return onePiece.post(
+    "/save-bank-details",
+    {
+      accountNumber,
+      ifscCode,
+      bankName,
+    },
+    {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("authToken")}`,
+        agent_id: localStorage.getItem("id"),
+      },
+    }
+  );
+};
+
+export const AgencyAgreementDetailsApi = (formData: FormData) => {
+  return onePiece.post(
+    "/save-bank-details", // Adjust the API endpoint as needed
+    formData, // Send the formData directly
+    {
+      headers: {
+        "Content-Type": "multipart/form-data", // Important for file uploads
+        Authorization: `Bearer ${localStorage.getItem("authToken")}`,
+        agent_id: localStorage.getItem("id"),
+      },
+    }
+  );
+};
+
+export const GetsAgentsDetails = (agencyId: number) => {
+  return onePiece.get(`/api/agents/${agencyId}`, {
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("authToken")}`,
+    },
+  });
+};
+
+export const AddAgentApi = (
+  name: string,
+  email: string,
+  bankDetails: {
+    accountNumber: string;
+    ifscCode: string;
+    bankName: string;
+  },
+  dateOfJoining: string,
+  panNumber: string,
+  userType: string,
+  userAccess: string[]
+) => {
+  const agencyId = localStorage.getItem("agency_id");
+  return onePiece.post(
+    `/api/agents/${agencyId}/add`,
+    {
+      name,
+      email,
+      bankDetails,
+      dateOfJoining,
+      panNumber,
+      userType,
+      userAccess,
+    },
+    {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("authToken")}`,
+      },
+    }
+  );
+};
+
+export const AgentMultipleAddApi = (formData: FormData) => {
+  return onePiece.post("/save-bank-details", formData, {
+    headers: {
+      "Content-Type": "multipart/form-data", // Important for file uploads
+      Authorization: `Bearer ${localStorage.getItem("authToken")}`,
+      agent_id: localStorage.getItem("id"),
+    },
+  });
 };

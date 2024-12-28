@@ -196,3 +196,30 @@ export type InsuranceListType = {
   product_id: string;
   commission: number;
 };
+
+export type AddressType = {
+  line1: string;
+  city: string;
+  state: string;
+  pincode: string;
+};
+
+export type BasicInfoType = {
+  agencyName: string;
+  agencyEmail: string;
+  brokerCode: string;
+  panNumber: string;
+  gstNumber: string;
+  registeredAddress: AddressType;
+};
+
+export type AgentType = {
+  agentId: number;
+  dateOfJoining: string;
+  email: string;
+  name: string;
+  panNumber: string;
+  status: string;
+  userAccess: string;
+  userType: string;
+};
