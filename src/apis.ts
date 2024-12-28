@@ -30,8 +30,8 @@ export const GetClientsDetails = () => {
   return onePiece.get(`/client`, {
     headers: {
       "Content-Type": "text/plain",
-      Authorization: `Bearer ${localStorage.getItem("authToken")}`,
-      agent_id: localStorage.getItem("id"),
+      Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhZ2VuY3lfaWQiOjIsImFnZW5jeV9uYW1lIjoiIiwiZW1haWwiOiJnZXRjbGllbnR3aXNlQGdtYWlsLmNvbSIsImV4cCI6MTczNzkwOTczMywiaWQiOjE0LCJtb2JpbGUiOiIiLCJuYW1lIjoiIn0.XeM84bJ63ljbASCOdEnvSquiO13Qojp4WrJa1sTQnh0`,//${localStorage.getItem("authToken")}
+      agent_id:"9" ,//localStorage.getItem("id")
     },
   });
 };
@@ -77,9 +77,9 @@ export const AddClientApi = (
 //client policys
 
 export const GetClientAllPolicy = (clientId: string) => {
-  return onePiece.get(`/policy/${clientId}`, {
+  return onePiece.get(`/policy/2`, {
     headers: {
-      Authorization: `Bearer ${localStorage.getItem("authToken")}`,
+      Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhZ2VuY3lfaWQiOjIsImFnZW5jeV9uYW1lIjoiIiwiZW1haWwiOiJnZXRjbGllbnR3aXNlQGdtYWlsLmNvbSIsImV4cCI6MTczNzkwOTczMywiaWQiOjE0LCJtb2JpbGUiOiIiLCJuYW1lIjoiIn0.XeM84bJ63ljbASCOdEnvSquiO13Qojp4WrJa1sTQnh0`,
     },
   });
 };
@@ -155,9 +155,9 @@ export const postEventApi = (
 
 //clients events
 export const GetClientDetails = (clientId: string) => {
-  return onePiece.get(`/client/${clientId}`, {
+  return onePiece.get(`/client/9`, {   //${clientId}
     headers: {
-      Authorization: `Bearer ${localStorage.getItem("authToken")}`,
+      Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhZ2VuY3lfaWQiOjIsImFnZW5jeV9uYW1lIjoiIiwiZW1haWwiOiJnZXRjbGllbnR3aXNlQGdtYWlsLmNvbSIsImV4cCI6MTczNzkwOTczMywiaWQiOjE0LCJtb2JpbGUiOiIiLCJuYW1lIjoiIn0.XeM84bJ63ljbASCOdEnvSquiO13Qojp4WrJa1sTQnh0`, // ${localStorage.getItem("authToken")}
       agent_id: localStorage.getItem("id"),
     },
   });
@@ -165,10 +165,10 @@ export const GetClientDetails = (clientId: string) => {
 
 //marketing
 export const GetMarketing = () => {
-  return onePiece.get(`/marketing-content`, {
+  return onePiece.get(`/api/communications/training-materials/2`, {
     headers: {
       "Content-Type": "text/plain",
-      Authorization: `Bearer ${localStorage.getItem("authToken")}`,
+      Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhZ2VuY3lfaWQiOjIsImFnZW5jeV9uYW1lIjoiIiwiZW1haWwiOiJnZXRjbGllbnR3aXNlQGdtYWlsLmNvbSIsImV4cCI6MTczNzkwOTczMywiaWQiOjE0LCJtb2JpbGUiOiIiLCJuYW1lIjoiIn0.XeM84bJ63ljbASCOdEnvSquiO13Qojp4WrJa1sTQnh0`, //${localStorage.getItem("authToken")}
     },
   });
 };
@@ -177,20 +177,20 @@ export const GetMarketing = () => {
 
 //client list
 export const GetDashboardNews = () => {
-  return onePiece.get(`/dashboard-news/1`, {
+  return onePiece.get(`/dashboard-news/3`, {
     headers: {
       "Content-Type": "text/plain",
-      Authorization: `Bearer ${localStorage.getItem("authToken")}`,
+      Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhZ2VuY3lfaWQiOjIsImFnZW5jeV9uYW1lIjoiIiwiZW1haWwiOiJnZXRjbGllbnR3aXNlQGdtYWlsLmNvbSIsImV4cCI6MTczNzkwOTczMywiaWQiOjE0LCJtb2JpbGUiOiIiLCJuYW1lIjoiIn0.XeM84bJ63ljbASCOdEnvSquiO13Qojp4WrJa1sTQnh0 `,//${localStorage.getItem("authToken")}
     },
   });
 };
 
 //all products api
 export const GetInsuranceList = () => {
-  return onePiece.get(`/get-insurance-list`, {
+  return onePiece.get(`/api/products/2`, {
     headers: {
       "Content-Type": "text/plain",
-      Authorization: `Bearer ${localStorage.getItem("authToken")}`,
+      Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhZ2VuY3lfaWQiOjIsImFnZW5jeV9uYW1lIjoiIiwiZW1haWwiOiJnZXRjbGllbnR3aXNlQGdtYWlsLmNvbSIsImV4cCI6MTczNzkwOTczMywiaWQiOjE0LCJtb2JpbGUiOiIiLCJuYW1lIjoiIn0.XeM84bJ63ljbASCOdEnvSquiO13Qojp4WrJa1sTQnh0`,//${localStorage.getItem("authToken")}
       agent_id: localStorage.getItem("id"),
     },
   });
@@ -198,18 +198,20 @@ export const GetInsuranceList = () => {
 
 //add policy
 export const cobrandImageApi = (image_url: string) => {
-  const agent_id = localStorage.getItem("id");
+  // const agent_id = localStorage.getItem("id");
+  console.log("image_url", image_url);
+  const agent_id = "2";
   return onePiece.post(
     "/co-brand-image",
     {
       image_url,
-      agent_id,
+      agent_id
     },
     {
       headers: {
-        "Content-Type": "text/plain",
-        Authorization: `Bearer ${localStorage.getItem("authToken")}`,
-        agent_id: localStorage.getItem("id"),
+        "Content-Type": "application/json",
+        Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhZ2VuY3lfaWQiOjIsImFnZW5jeV9uYW1lIjoiIiwiZW1haWwiOiJnZXRjbGllbnR3aXNlQGdtYWlsLmNvbSIsImV4cCI6MTczNzkwOTczMywiaWQiOjE0LCJtb2JpbGUiOiIiLCJuYW1lIjoiIn0.XeM84bJ63ljbASCOdEnvSquiO13Qojp4WrJa1sTQnh0`,//${localStorage.getItem("authToken")}
+        // agent_id: localStorage.getItem("id"),
       },
     }
   );

@@ -3,6 +3,8 @@ import useApi from "@/src/hooks/useApi";
 import { PolicyType } from "@/src/types";
 import React from "react";
 import PolicyList from "./policyList/List";
+import { Colors } from "@/src/assets/colors.js";
+import Button from "../../../Button.tsx";
 
 interface Props {
   clientId: string;
@@ -35,15 +37,16 @@ const PolicyDetails = ({ clientId, openPolicyAddModal }: Props) => {
   return (
     <div className=" mt-[8%]">
       <div className="flex flex-row justify-between items-center  mb-6">
-        <h1 className="text-black text-3xl font-light font-rubik">
-          Policy Details
+        <h1 className="text-black text-lg font-light font-rubik">
+          Policy Detail
         </h1>
-        <button
+        <Button
+          style={{ color: Colors.textprimary }}
+                  className=" bg-yellow-500"
           onClick={openPolicyAddModal}
-          className="text-textLink text-base font-light font-rubik"
         >
           Add Policy
-        </button>
+        </Button>
       </div>
       {loading ? (
         <p>Loading clients...</p>

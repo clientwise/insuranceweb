@@ -323,7 +323,7 @@ export default function EventsList({ eventsList = [], loading }: Props) {
           )}
         </TableHeader>
         <TableBody
-          emptyContent={!loading && "No rows to display."}
+          emptyContent={!loading && "Events will automatically appear here"}
           items={sortedItems}
           isLoading={loading}
           loadingContent={<Spinner label="Loading..." />}

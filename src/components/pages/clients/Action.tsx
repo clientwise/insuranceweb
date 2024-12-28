@@ -16,13 +16,13 @@ export default function Action({ onRowAction }: Props) {
           title="Calender"
           className="text-textColorGrey cursor-pointer font-rubik"
         >
-          <CalendarRange />
+          {/* <CalendarRange /> */}
         </button>
         <button
           title="Mail"
           className="text-textColorGrey cursor-pointer font-rubik"
         >
-          <Mail />
+          {/* <Mail /> */}
         </button>
         <button
           onClick={() => onRowAction}

@@ -1,21 +1,21 @@
 "use client";
 import React from "react";
 import Spacer from "@/src/components/Spacer";
-import MarketUpdates from "@/src/components/pages/marketing/MarketUpdates";
+import NoticeboardTable from "@/src/components/pages/noticeboard/noticetable";
 
-const Marketing = () => {
+const NoticeBoard = () => {
   return (
     <div>
       <div className="text-black bg-pageBackground px-2 min-h-screen ">
         <Spacer size="sm" />
-        <p className="text-2xl font-normal font-rubik text-black ">Marketing</p>
+        <p className="text-lg font-normal font-rubik text-black ">NoticeBoard</p>
         <Spacer size="xs" />
         <div>
-          <MarketUpdates />
+          <NoticeboardTable />
         </div>
       </div>
     </div>
   );
 };
 
-export default Marketing;
+export default NoticeBoard;

@@ -26,7 +26,7 @@ const Products = () => {
     makeApiCall(GetInsuranceList())
       .then((response) => {
         console.log("insurance list response", response);
-        setInsurance(response);
+        setInsurance(response.products);
       })
       .catch((error) => {
         console.error(error);
@@ -52,7 +52,7 @@ const Products = () => {
   return (
     <div>
       <div className="text-black bg-pageBackground px-1 min-h-screen ">
-        <p className="text-2xl font-normal font-rubik text-black ">Filters</p>
+        <p className="text-xl font-normal font-rubik text-black ">Products</p>
         <Spacer size="xs" />
         <Row className="flex flex-row gap-2">
           <DropdownComponent
@@ -88,6 +88,7 @@ const Products = () => {
           ) : null}
         </Row>
         <Spacer size="sm" />
+        
         <ProductList
           insurance={insurance}
           loading={loading}

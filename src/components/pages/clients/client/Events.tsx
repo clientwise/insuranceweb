@@ -3,7 +3,8 @@ import useApi from "@/src/hooks/useApi";
 import { EventType } from "@/src/types";
 import React from "react";
 import EventsList from "./eventsList/List";
-
+import { Colors } from "@/src/assets/colors.js";
+import Button from "../../../Button.tsx";
 interface Props {
   clientId: string;
   openEventAddModal: () => void;
@@ -34,17 +35,18 @@ const Events = ({ clientId, openEventAddModal }: Props) => {
   }, [clientId, makeApiCall]);
 
   return (
-    <div className=" mb-[8%]">
+    <div className=" mb-[8%] mt-5">
       <div className="flex flex-row justify-between items-center  mb-6">
-        <h1 className="text-black text-3xl font-light font-rubik">
+        <h1 className="text-black text-lg font-light mt-4 font-rubik">
           All Events
         </h1>
-        <button
+        <Button
+          style={{ color: Colors.primary }}
+                  className=" bg-yellow-500"
           onClick={openEventAddModal}
-          className="text-textLink text-base font-light font-rubik"
         >
           Add Event
-        </button>
+        </Button>
       </div>
       {loading ? (
         <p>Loading events...</p>
