@@ -342,3 +342,75 @@ export const AgentMultipleAddApi = (formData: FormData) => {
     },
   });
 };
+
+export const GetsAgencyProducts = (agencyId: number) => {
+  return onePiece.get(`/api/products/${agencyId}`, {
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("authToken")}`,
+    },
+  });
+};
+
+export const AddAgencyProductApi = (
+  product_id: number,
+  insurer_name: string,
+  product_name: string,
+  category: string,
+  type: string,
+  agent_commission_percentage: number,
+  agency_commission_percentage: number,
+  description: string,
+  status: string,
+  policy_state_date: string,
+  policy_expiry_date: string,
+  agency_id: string,
+  policy_document: File | FileList,
+  policy_sales_brochure: File | FileList
+) => {
+  const formData = new FormData();
+  formData.append("product_id", product_id.toString());
+  formData.append("insurer_name", insurer_name);
+  formData.append("product_name", product_name);
+  formData.append("category", category);
+  formData.append("type", type);
+  formData.append(
+    "agent_commission_percentage",
+    agent_commission_percentage.toString()
+  );
+  formData.append(
+    "agency_commission_percentage",
+    agency_commission_percentage.toString()
+  );
+  formData.append("description", description);
+  formData.append("status", status);
+  formData.append("policy_state_date", policy_state_date);
+  formData.append("policy_expiry_date", policy_expiry_date);
+  formData.append("agency_id", agency_id);
+
+  if (policy_document) {
+    if (policy_document instanceof FileList) {
+      Array.from(policy_document).forEach((file) =>
+        formData.append("policy_document", file)
+      );
+    } else {
+      formData.append("policy_document", policy_document);
+    }
+  }
+
+  if (policy_sales_brochure) {
+    if (policy_sales_brochure instanceof FileList) {
+      Array.from(policy_sales_brochure).forEach((file) =>
+        formData.append("policy_sales_brochure", file)
+      );
+    } else {
+      formData.append("policy_sales_brochure", policy_sales_brochure);
+    }
+  }
+
+  return onePiece.post("/api/products/add", formData, {
+    headers: {
+      "Content-Type": "multipart/form-data",
+      Authorization: `Bearer ${localStorage.getItem("authToken")}`,
+    },
+  });
+};

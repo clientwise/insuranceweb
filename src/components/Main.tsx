@@ -89,6 +89,19 @@ function SidebarNew({
           active={pathname === "/dashboard/agents"}
           href="/dashboard/agents"
         />
+        <SidebarItem
+          icon={
+            <ProductSVG
+              color={
+                pathname === "/dashboard/agencyproducts" ? "#fff" : "#683FDB"
+              }
+            />
+          }
+          text={"Products"}
+          alert={pathname === "/dashboard/agencyproducts"}
+          active={pathname === "/dashboard/agencyproducts"}
+          href="/dashboard/agencyproducts"
+        />
       </Sidebar>
     );
   }

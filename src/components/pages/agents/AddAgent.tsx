@@ -156,12 +156,11 @@ export default function AddAgent({ onClose }: Props) {
             />
             <Spacer size="xs" />
 
-            <Input
+            <DatePicker
               name="dateOfJoining"
               label="Date of Joining"
-              placeholder="Enter Date of Joining"
+              title="End Date"
             />
-            <DatePicker name="end_date" title="End Date" />
 
             <Spacer size="xs" />
             <Input

@@ -223,3 +223,13 @@ export type AgentType = {
   userAccess: string;
   userType: string;
 };
+
+export type ProductType = {
+  agencyCommission_percentage: number;
+  agent_commission_percentage: number;
+  category: string;
+  description: string;
+  name: string;
+  product_id: string;
+  status: string;
+};
