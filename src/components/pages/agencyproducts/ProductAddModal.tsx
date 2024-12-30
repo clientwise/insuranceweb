@@ -6,7 +6,7 @@ import {
   ModalBody,
   ModalFooter,
 } from "@nextui-org/react";
-import AddContact from "./AddAgent";
+import AddProduct from "./AddProduct";
 
 interface Props {
   isOpen: boolean;
@@ -16,7 +16,7 @@ interface Props {
   clientId: string;
 }
 
-export default function ClientAddModal({
+export default function ProductAddModal({
   isOpen,
   onOpenChange,
   onClose,
@@ -34,11 +34,12 @@ export default function ClientAddModal({
           {(onClose) => (
             <>
               <ModalHeader className="flex flex-col gap-1 text-base font-normal font-rubik text-black">
-                Add Client
+                Add Product
               </ModalHeader>
               <ModalBody>
-                <AddContact onClose={onClose} />
+                <AddProduct onClose={onClose} />
               </ModalBody>
+
               <ModalFooter></ModalFooter>
             </>
           )}

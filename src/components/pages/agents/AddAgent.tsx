@@ -32,7 +32,7 @@ interface FormValues {
   dateOfJoining: string;
   panNumber: string;
   userType: string;
-  userAccess: string[];
+  userAccess: string;
 }
 
 const dropdownData: SelectType[] = [
@@ -58,7 +58,7 @@ export default function AddAgent({ onClose }: Props) {
     dateOfJoining: "",
     panNumber: "",
     userType: "ind",
-    userAccess: [], // This is correctly typed as an array of strings
+    userAccess: "",
   });
 
   // Validation schema for form
@@ -89,6 +89,17 @@ export default function AddAgent({ onClose }: Props) {
         userType,
         userAccess,
       } = values;
+
+      const accessType = userAccess.split(",").map((item) => item.trim());
+      console.log(
+        name,
+        email,
+        bankDetails,
+        dateOfJoining,
+        userType,
+        accessType,
+        "Payload of add single agent"
+      );
       makeApiCall(
         AddAgentApi(
           name,
@@ -97,7 +108,7 @@ export default function AddAgent({ onClose }: Props) {
           dateOfJoining,
           panNumber,
           userType,
-          userAccess
+          accessType
         )
       )
         .then(() => {
@@ -118,7 +129,7 @@ export default function AddAgent({ onClose }: Props) {
     console.log(selectedData, "Selected data");
     setInitialValues((prevValues) => ({
       ...prevValues,
-      userAccess: selectedData,
+      userAccess: data,
     }));
   }, []);
 
@@ -156,12 +167,11 @@ export default function AddAgent({ onClose }: Props) {
             />
             <Spacer size="xs" />
 
-            <Input
+            <DatePicker
               name="dateOfJoining"
               label="Date of Joining"
-              placeholder="Enter Date of Joining"
+              title="End Date"
             />
-            <DatePicker name="end_date" title="End Date" />
 
             <Spacer size="xs" />
             <Input

@@ -173,7 +173,7 @@ export default function ClientsList({ clientList, loading }: Props) {
 
   const renderCell = React.useCallback(
     (client: ClientType, columnKey: React.Key) => {
-      const index = clientList.map((object) => object.id).indexOf(client.id);
+      const index = clientList?.map((object) => object.id).indexOf(client.id);
       switch (columnKey) {
         case "sr_no":
           return (

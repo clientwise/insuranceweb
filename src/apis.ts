@@ -344,3 +344,128 @@ export const AgentMultipleAddApi = (formData: FormData) => {
     },
   });
 };
+
+export const GetsAgencyProducts = (agencyId: number) => {
+  return onePiece.get(`/api/products/${agencyId}`, {
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("authToken")}`,
+    },
+  });
+};
+
+export const AddAgencyProductApi = (
+  product_id: number,
+  insurer_name: string,
+  product_name: string,
+  category: string,
+  type: string,
+  agent_commission_percentage: number,
+  agency_commission_percentage: number,
+  description: string,
+  status: string,
+  policy_state_date: string,
+  policy_expiry_date: string,
+  agency_id: string,
+  policy_document: File | FileList,
+  policy_sales_brochure: File | FileList
+) => {
+  const formData = new FormData();
+  formData.append("product_id", product_id.toString());
+  formData.append("insurer_name", insurer_name);
+  formData.append("product_name", product_name);
+  formData.append("category", category);
+  formData.append("type", type);
+  formData.append(
+    "agent_commission_percentage",
+    agent_commission_percentage.toString()
+  );
+  formData.append(
+    "agency_commission_percentage",
+    agency_commission_percentage.toString()
+  );
+  formData.append("description", description);
+  formData.append("status", status);
+  formData.append("policy_state_date", policy_state_date);
+  formData.append("policy_expiry_date", policy_expiry_date);
+  formData.append("agency_id", agency_id);
+
+  if (policy_document) {
+    if (policy_document instanceof FileList) {
+      Array.from(policy_document).forEach((file) =>
+        formData.append("policy_document", file)
+      );
+    } else {
+      formData.append("policy_document", policy_document);
+    }
+  }
+
+  if (policy_sales_brochure) {
+    if (policy_sales_brochure instanceof FileList) {
+      Array.from(policy_sales_brochure).forEach((file) =>
+        formData.append("policy_sales_brochure", file)
+      );
+    } else {
+      formData.append("policy_sales_brochure", policy_sales_brochure);
+    }
+  }
+
+  return onePiece.post("/api/products/add", formData, {
+    headers: {
+      "Content-Type": "multipart/form-data",
+      Authorization: `Bearer ${localStorage.getItem("authToken")}`,
+    },
+  });
+};
+
+export const GetsAgencyMarketingItems = (agencyId: number) => {
+  return onePiece.get(`/api/communications/training-materials/${agencyId}`, {
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("authToken")}`,
+    },
+  });
+};
+
+export const AddAgencyMarketingApi = (
+  agency_id: string,
+  content_category: string,
+  content_header: string,
+  content_subheader: string,
+  content_type: string,
+  language: string,
+  product_type: string,
+  status: string,
+  content_file: File | FileList,
+  content_url: string
+) => {
+  const formData = new FormData();
+  formData.append("agency_id", agency_id);
+  formData.append("content_category", content_category);
+  formData.append("content_header", content_header);
+  formData.append("content_subheader", content_subheader);
+  formData.append("content_type", content_type || "");
+  formData.append("language", language);
+  formData.append("product_type", product_type);
+  formData.append("status", status);
+  formData.append("content_url", content_url || "");
+
+  if (content_file) {
+    if (content_file instanceof FileList) {
+      Array.from(content_file).forEach((file) =>
+        formData.append("content_file", file)
+      );
+    } else {
+      formData.append("content_file", content_file);
+    }
+  }
+
+  return onePiece.post(
+    "/api/communications/upload-training-material",
+    formData,
+    {
+      headers: {
+        "Content-Type": "multipart/form-data",
+        Authorization: `Bearer ${localStorage.getItem("authToken")}`,
+      },
+    }
+  );
+};

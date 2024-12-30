@@ -9,6 +9,7 @@ import Image from "next/image";
 import FileIcon from "../assets/file.svg";
 import { isBrowser } from "../utils/nextLocalStorage";
 
+// Types for the file input
 interface Props {
   type?: "normal" | "dropzone";
   label?: string;
@@ -43,28 +44,30 @@ const FileInput: React.FC<Props> = ({
 
   const fileInputRef = React.useRef<HTMLInputElement | null>(null);
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  // Formik field
   const [field, meta, helpers] = useField(name);
 
+  // Handle file input change
   const handleFiles = React.useCallback(
     (event: React.ChangeEvent<HTMLInputElement>) => {
       event.preventDefault();
-      if (event.target.files && event.target.files.length === 1) {
-        // formik?.setFieldValue?.(name, event.target.files);
-        helpers.setValue(event.target.files[0]);
-        onChange?.(event.target.files[0]);
-        return true;
-      } else if (event.target.files && event.target.files.length > 1) {
-        // formik?.setFieldValue?.(name, event.target.files);
-        helpers.setValue(event.target.files);
-        onChange?.(event.target.files);
-        return true;
+      if (event.target.files) {
+        // Handle single file
+        if (event.target.files.length === 1) {
+          helpers.setValue(event.target.files[0]);
+          onChange?.(event.target.files[0]);
+        }
+        // Handle multiple files
+        else if (event.target.files.length > 1) {
+          helpers.setValue(event.target.files);
+          onChange?.(event.target.files);
+        }
       }
-      return false;
     },
-    [helpers, onChange],
+    [helpers, onChange]
   );
 
+  // Render the files that are selected
   const renderAddedFiles = React.useCallback(() => {
     if (isBrowser()) {
       if (field.value instanceof FileList) {
@@ -83,45 +86,48 @@ const FileInput: React.FC<Props> = ({
                 </Row>
               </div>
               <div>{bytesToSize(file.size)}</div>
-            </Row>,
+            </Row>
           );
           views.push(<Spacer y={4} />);
         });
 
         views.pop();
-
         return views;
-      } else if (field.value instanceof File) {
+      }
+      // Single file selected
+      else if (field.value instanceof File) {
         const file = field.value;
-        const views: React.ReactElement[] = [];
-        views.push(<Spacer y={4} />);
-        views.push(
-          <Row alignItems="flex-end" justifyContent="space-between">
-            <div>
-              <Row>
-                <Image src={FileIcon} alt="File" />
-                <Spacer x={4} />
-                <span className="text-black text-base font-rubik font-normal">
-                  {file.name}
-                </span>
-              </Row>
-            </div>
-            <div>{bytesToSize(file.size)}</div>
-          </Row>,
+        return (
+          <>
+            <Spacer y={4} />
+            <Row alignItems="flex-end" justifyContent="space-between">
+              <div>
+                <Row>
+                  <Image src={FileIcon} alt="File" />
+                  <Spacer x={4} />
+                  <span className="text-black text-base font-rubik font-normal">
+                    {file.name}
+                  </span>
+                </Row>
+              </div>
+              <div>{bytesToSize(file.size)}</div>
+            </Row>
+            <Spacer y={4} />
+          </>
         );
-        return views;
       }
       return null;
     }
     return null;
   }, [field.value]);
 
+  // Render normal or dropzone input
   if (type === "normal") {
     return (
       <>
-        {label !== undefined && (
+        {label && (
           <label
-            className="block mb-2 text-sm font-medium text-gray-900 "
+            className="block mb-2 text-sm font-medium text-gray-900"
             htmlFor="file_input"
           >
             {label}
@@ -136,7 +142,7 @@ const FileInput: React.FC<Props> = ({
           accept={accept}
           ref={fileInputRef}
         />
-        {helperText !== undefined && (
+        {helperText && (
           <p
             className="mt-1 text-sm text-gray-500 dark:text-gray-300"
             id="file_input_help"
@@ -147,11 +153,12 @@ const FileInput: React.FC<Props> = ({
       </>
     );
   }
+
   return (
     <>
-      {label !== undefined && (
+      {label && (
         <label
-          className="block mb-2 text-sm font-medium text-gray-900 "
+          className="block mb-2 text-sm font-medium text-gray-900"
           htmlFor="file_input"
         >
           {label}
@@ -172,7 +179,7 @@ const FileInput: React.FC<Props> = ({
                 </>
               )}
             </p>
-            {helperText !== undefined && (
+            {helperText && (
               <p className="text-xs text-gray-500 ">{helperText}</p>
             )}
           </div>

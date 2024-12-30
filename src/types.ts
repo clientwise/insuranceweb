@@ -226,3 +226,27 @@ export type AgentType = {
   userAccess: string;
   userType: string;
 };
+
+export type ProductType = {
+  agencyCommission_percentage: number;
+  agent_commission_percentage: number;
+  category: string;
+  description: string;
+  name: string;
+  product_id: string;
+  status: string;
+};
+
+export type AgencyMarketingItemType = {
+  agency_id: string;
+  content_category: string;
+  content_file_url: string;
+  content_header: string;
+  content_subheader: string;
+  content_type: string;
+  language: string;
+  content_url: string;
+  product_type: string;
+  sno: number;
+  status: string;
+};
