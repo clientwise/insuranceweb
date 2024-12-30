@@ -15,6 +15,7 @@ import Select from "../../common/Select";
 import { SelectType } from "@/src/types";
 import DatePicker from "../../DatePicker";
 import FileInput from "../../FileInput";
+import { nextLocalStorage } from "@/src/utils/nextLocalStorage";
 
 interface Props {
   onClose?: () => void;
@@ -32,7 +33,6 @@ interface FormValues {
   status: string;
   policy_state_date: string;
   policy_expiry_date: string;
-  agency_id: string;
   policy_document: File | null;
   policy_sales_brochure: File | null;
 }
@@ -60,10 +60,10 @@ export default function AddProduct({ onClose }: Props) {
     status: "active",
     policy_state_date: "",
     policy_expiry_date: "",
-    agency_id: "",
     policy_document: null,
     policy_sales_brochure: null,
   };
+
   const validationSchema = Yup.object().shape({
     product_id: Yup.number().required("Product ID is required"),
     insurer_name: Yup.string().required("Insurer name is required"),
@@ -86,7 +86,6 @@ export default function AddProduct({ onClose }: Props) {
     policy_expiry_date: Yup.string()
       .required("Policy expiry date is required")
       .matches(/^\d{4}-\d{2}-\d{2}$/, "Date must be in YYYY-MM-DD format"),
-    agency_id: Yup.string().required("Agency ID is required"),
     policy_document: Yup.mixed().required("Policy document is required"),
     policy_sales_brochure: Yup.mixed().required(
       "Policy sales brochure is required"
@@ -107,11 +106,20 @@ export default function AddProduct({ onClose }: Props) {
         status,
         policy_state_date,
         policy_expiry_date,
-        agency_id,
         policy_document,
         policy_sales_brochure,
       } = values;
 
+      // Retrieve the agency_id from localStorage using nextLocalStorage
+      const agency_id = nextLocalStorage()?.getItem("agency_id") ?? "";
+
+      // Check if agency_id exists
+      if (!agency_id) {
+        showToast("Agency ID not found", { type: "error" });
+        return;
+      }
+
+      // Make API call to add the agency product
       makeApiCall(
         AddAgencyProductApi(
           product_id,
@@ -223,12 +231,7 @@ export default function AddProduct({ onClose }: Props) {
               name="policy_expiry_date"
               title="Policy Expiry Date"
             />
-            <Spacer size="xs" />
-            <Input
-              name="agency_id"
-              label="Agency ID"
-              placeholder="Enter Agency ID"
-            />
+
             <Spacer size="xs" />
             <FileInput
               type="dropzone"
@@ -237,7 +240,6 @@ export default function AddProduct({ onClose }: Props) {
               label="Policy Document"
             />
             <Spacer size="xs" />
-
             <FileInput
               type="dropzone"
               size="small"

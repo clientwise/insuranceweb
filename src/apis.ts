@@ -440,13 +440,12 @@ export const AddAgencyMarketingApi = (
   formData.append("content_category", content_category);
   formData.append("content_header", content_header);
   formData.append("content_subheader", content_subheader);
-  formData.append("content_type", content_type || ""); // Use empty string if content_type is not provided
+  formData.append("content_type", content_type || "");
   formData.append("language", language);
   formData.append("product_type", product_type);
   formData.append("status", status);
-  formData.append("content_url", content_url || ""); // Default to empty string if no URL is provided
+  formData.append("content_url", content_url || "");
 
-  // Handle single or multiple content files
   if (content_file) {
     if (content_file instanceof FileList) {
       Array.from(content_file).forEach((file) =>
@@ -457,10 +456,14 @@ export const AddAgencyMarketingApi = (
     }
   }
 
-  return onePiece.post("/api/products/add", formData, {
-    headers: {
-      "Content-Type": "multipart/form-data",
-      Authorization: `Bearer ${localStorage.getItem("authToken")}`,
-    },
-  });
+  return onePiece.post(
+    "/api/communications/upload-training-material",
+    formData,
+    {
+      headers: {
+        "Content-Type": "multipart/form-data",
+        Authorization: `Bearer ${localStorage.getItem("authToken")}`,
+      },
+    }
+  );
 };
