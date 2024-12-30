@@ -79,7 +79,7 @@ export default function SignUp() {
           className={`w-14 sm:w-24 rounded-xl mb-4`}
         />
         <h2 className="mb-4 text-2xl font-rubik font-normal text-gray-900">
-          Sign Up
+          Login As Agent
         </h2>
         <Formik
           initialValues={INITIAL_VALUES}
@@ -88,41 +88,16 @@ export default function SignUp() {
           enableReinitialize
         >
           <Form>
-            <Input label="Name" placeholder="Name" name="name" />
-            <Spacer size="xs" />
-            <Input
-              label="Username"
-              placeholder="Enter Username"
-              name="username"
-            />
-            <Spacer size="xs" />
+            <Input label="Email" placeholder="Email" name="email" />
             <Input
               label="Password"
               placeholder="Enter Password"
               name="password"
             />
             <Spacer size="xs" />
-            <Input label="Phone Number" placeholder="Phone" name="phone" />
             <Spacer size="xs" />
-            <Input label="Email" placeholder="Email" name="email" />
-            <Spacer size="xs" />
-            <Select
-              name="gender"
-              label="Gender"
-              placeholder="Select your gender"
-              item={genderOptions}
-              className="bg-white text-black rounded-md"
-            />
-            <Spacer size="xs" />
-            <Input
-              label="Organisation"
-              placeholder="Organisation"
-              name="institution_name"
-            />
-            <Spacer size="xs" />
-            <Input label="Type" placeholder="Type" name="course_field" />
-            <Spacer size="xs" />
-            <Input label="Country" placeholder="Country" name="country" />
+          
+           
             <Spacer size="xs" />
             <div className="flex justify-center items-center">
               {loading ? (
