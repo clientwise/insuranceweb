@@ -85,7 +85,7 @@ const Home: React.FC = () => {
           <DataShowCard
             key={"Active Clients"}
             label={"Active Clients"}
-            number={clients.length.toString()}
+            number={clients?.length.toString()}
             logo={<People />}
           />
           {data?.map((item) => (

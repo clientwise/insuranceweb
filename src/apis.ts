@@ -414,3 +414,53 @@ export const AddAgencyProductApi = (
     },
   });
 };
+
+export const GetsAgencyMarketingItems = (agencyId: number) => {
+  return onePiece.get(`/api/communications/training-materials/${agencyId}`, {
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("authToken")}`,
+    },
+  });
+};
+
+export const AddAgencyMarketingApi = (
+  agency_id: string,
+  content_category: string,
+  content_header: string,
+  content_subheader: string,
+  content_type: string,
+  language: string,
+  product_type: string,
+  status: string,
+  content_file: File | FileList,
+  content_url: string
+) => {
+  const formData = new FormData();
+  formData.append("agency_id", agency_id);
+  formData.append("content_category", content_category);
+  formData.append("content_header", content_header);
+  formData.append("content_subheader", content_subheader);
+  formData.append("content_type", content_type || ""); // Use empty string if content_type is not provided
+  formData.append("language", language);
+  formData.append("product_type", product_type);
+  formData.append("status", status);
+  formData.append("content_url", content_url || ""); // Default to empty string if no URL is provided
+
+  // Handle single or multiple content files
+  if (content_file) {
+    if (content_file instanceof FileList) {
+      Array.from(content_file).forEach((file) =>
+        formData.append("content_file", file)
+      );
+    } else {
+      formData.append("content_file", content_file);
+    }
+  }
+
+  return onePiece.post("/api/products/add", formData, {
+    headers: {
+      "Content-Type": "multipart/form-data",
+      Authorization: `Bearer ${localStorage.getItem("authToken")}`,
+    },
+  });
+};
