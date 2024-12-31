@@ -18,7 +18,7 @@ const Products = () => {
 
   // eslint-disable-next-line
   const navigateToClientCode = React.useCallback((clientId: React.Key) => {
-    console.log(clientId, "Going to client code");
+    console.log(clientId, "Going to c code");
   }, []);
 
   React.useEffect(() => {

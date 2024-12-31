@@ -101,7 +101,6 @@ export default function ProductList({
         (option, index, self) =>
           index === self.findIndex((o) => o.key === option.key)
       );
-    console.log(dropdownOptionsData, "Created dropfown data");
     dropdownOptionsData.unshift({ value: "all", key: "All" });
     setDropdownFilters(dropdownOptionsData);
   }, [insurance]);

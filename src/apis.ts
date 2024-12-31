@@ -25,13 +25,26 @@ export const OtpSubmitApi = (email: string, otp: string) => {
   );
 };
 
+
+export const Agentlogin = (email: string, password: string) => {
+  return onePiece.post(
+    "/api/auth-agent/login",
+    { email: email, password: password },
+    {
+      headers: {
+        "Content-Type": "text/plain",
+      },
+    }
+  );
+};
+
 //client list
 export const GetClientsDetails = () => {
   return onePiece.get(`/client`, {
     headers: {
       "Content-Type": "text/plain",
-      Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhZ2VuY3lfaWQiOjIsImFnZW5jeV9uYW1lIjoiIiwiZW1haWwiOiJnZXRjbGllbnR3aXNlQGdtYWlsLmNvbSIsImV4cCI6MTczNzkwOTczMywiaWQiOjE0LCJtb2JpbGUiOiIiLCJuYW1lIjoiIn0.XeM84bJ63ljbASCOdEnvSquiO13Qojp4WrJa1sTQnh0`,//${localStorage.getItem("authToken")}
-      agent_id:"9" ,//localStorage.getItem("id")
+      Authorization: `Bearer ${localStorage.getItem("authToken")}`,
+      agent_id:localStorage.getItem("id")
     },
   });
 };

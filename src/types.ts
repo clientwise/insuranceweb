@@ -198,6 +198,7 @@ export type InsuranceListType = {
   commission: number;
   description: string;
   agent_commission_percentage: number;
+  agency_id:number;
 };
 
 export type AddressType = {
