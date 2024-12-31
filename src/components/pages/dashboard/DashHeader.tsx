@@ -40,17 +40,7 @@ export default function DashHeader({ onOpen }: DashHeaderProps) {
   return (
     <Navbar className="p-0 h-[7vh]  flex flex-row justify-between">
       <NavbarContent className="hidden sm:flex gap-3">
-        <Input
-          classNames={{
-            base: "max-w-full sm:max-w-[32rem] h-8 rounded-2xl",
-            input: "text-small border-0	",
-            inputWrapper: "font-normal font-rubik text-default-500 ",
-          }}
-          placeholder="Search ..."
-          size="sm"
-          startContent={<Search />}
-          type="search"
-        />
+        
       </NavbarContent>
 
       <NavbarContent

@@ -39,3 +39,7 @@ body {
   border-radius: 20px;
   background-color: #ffffff;
 }
+
+.your-empty-state-class{
+  display: contents;
+}

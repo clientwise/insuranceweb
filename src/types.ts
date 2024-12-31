@@ -172,6 +172,7 @@ export type MarketingContent = {
   language: string;
   product_type: string;
   sno: string;
+  content_file_url: string;
 };
 
 export interface NewsItem {
@@ -195,6 +196,9 @@ export type InsuranceListType = {
   category: string;
   product_id: string;
   commission: number;
+  description: string;
+  agent_commission_percentage: number;
+  agency_id:number;
 };
 
 export type AddressType = {

@@ -3,8 +3,8 @@ import Main from "@/src/components/Main";
 import "react-toastify/dist/ReactToastify.css";
 
 export const metadata: Metadata = {
-  title: "Clintwise",
-  description: "clintwise",
+  title: "ClientWise",
+  description: "ClientWise",
 };
 
 export default function RootLayout({

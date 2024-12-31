@@ -44,19 +44,29 @@ const COLUMNS = [
     key: "Date",
   },
   {
-    name: "Amount",
-    key: "Amount",
+    name: "Health",
+    key: "Profession",
   },
   {
-    name: "Profession",
+    name: "Life",
+    key: "Amount",
+  },
+ 
+  {
+    name: "Motor",
     key: "Profession",
+  },
+
+  {
+    name: "Total Premium",
+    key: "status",
   },
   {
     name: "Status",
     key: "status",
   },
   {
-    name: "Action",
+    name: "Last Contact Date",
     key: "action",
   },
 ];
@@ -104,7 +114,7 @@ export default function ClientNumbersList({
   }, [clients]);
 
   const pages = React.useMemo(() => {
-    if (clients.length === 0) {
+    if (!clients) {
       return 1;
     }
     return Math.ceil((clients?.length ?? 1) / rowsPerPage);
@@ -407,17 +417,17 @@ export default function ClientNumbersList({
       <Spacer size="sm" />
 
       <div className="flex flex-row justify-between">
-        <p className="text-3xl font-normal font-rubik text-black ">Clients</p>
+        <p className="text-lg font-normal font-rubik text-black ">Clients</p>
 
         <Button
           style={{ color: Colors.textprimary }}
-          className="rounded-lg bg-yellow-500"
-          size="md"
+          className=" bg-yellow-500"
+          size="sm"
           onClick={onOpen}
         >
-          <p className="text-base font-normal font-rubik text-white">
+          <span className="text-sm font-normal font-rubik text-white">
             + Add New Client
-          </p>
+          </span>
         </Button>
       </div>
       <Spacer size="xs" />
@@ -445,7 +455,7 @@ export default function ClientNumbersList({
           )}
         </TableHeader>
         <TableBody
-          emptyContent={!loading && "No rows to display."}
+          emptyContent={!loading && "Add Clients to View Here"}
           items={sortedItems}
           isLoading={loading}
           loadingContent={<Spinner label="Loading..." />}

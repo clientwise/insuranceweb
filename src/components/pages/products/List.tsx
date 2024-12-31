@@ -34,6 +34,10 @@ const COLUMNS = [
     sortable: true,
   },
   {
+    name: "Product ID",
+    key: "product_id",
+  },
+  {
     name: "Product Name",
     key: "name",
     sortable: true,
@@ -41,14 +45,23 @@ const COLUMNS = [
   {
     name: "Type",
     key: "type",
+    sortable: true,
+
+  },
+ 
+  {
+    name: "Description",
+    key: "description",
   },
   {
-    name: "Category",
-    key: "category",
-  },
-  {
-    name: "Commissions",
+    name: "Commission %",
     key: "commission",
+    sortable: true,
+
+  },
+  {
+    name: "View Details",
+    key: "action",
   },
 ];
 
@@ -88,13 +101,12 @@ export default function ProductList({
         (option, index, self) =>
           index === self.findIndex((o) => o.key === option.key)
       );
-    console.log(dropdownOptionsData, "Created dropfown data");
     dropdownOptionsData.unshift({ value: "all", key: "All" });
     setDropdownFilters(dropdownOptionsData);
   }, [insurance]);
 
   const pages = React.useMemo(() => {
-    if (insurance.length === 0) {
+    if (!insurance) {
       return 1;
     }
     return Math.ceil((insurance?.length ?? 1) / rowsPerPage);
@@ -170,7 +182,7 @@ export default function ProductList({
         case "type":
           return (
             <div className="flex flex-col">
-              <p className="text-bold text-sm capitalize">{product.type}</p>
+              <p className="text-bold text-sm capitalize">{product.category}</p>
             </div>
           );
         case "category":
@@ -179,11 +191,23 @@ export default function ProductList({
               <p className="text-bold text-sm capitalize">{product.category}</p>
             </div>
           );
+          case "product_id":
+            return (
+              <div className="flex flex-col">
+                <p className="text-bold text-sm capitalize">{product.product_id}</p>
+              </div>
+            );
+            case "description":
+              return (
+                <div className="flex flex-col">
+                  <p className="text-bold text-sm capitalize">{product.description}</p>
+                </div>
+              );
         case "commission":
           return (
             <div className="flex flex-col">
-              <p className="text-bold text-sm capitalize">
-                {product.commission}
+              <p className="text-bold text-sm capitalize text-center">
+                {product.agent_commission_percentage}%{" "}
               </p>
             </div>
           );
@@ -355,35 +379,32 @@ export default function ProductList({
 
   return (
     <div className="flex flex-col">
-      <Spacer size="sm" />
 
       <div className="flex flex-row justify-between">
-        <p className="text-3xl font-normal font-rubik text-black ">Products</p>
 
         <div className="flex flex-row justify-between">
-          <button
+          {/* <button
             onClick={() => {}}
             className="text-textColorGrey cursor-pointer font-rubik mr-2"
-          >
             <p className="text-textLink text-base font-light font-rubik">
               Download
             </p>
-          </button>
-          <button
+          </button> */}
+          {/* <button
             className="text-textColorGrey cursor-pointer font-rubik"
             title="Text"
           >
             <CsvSVG />
-          </button>
-          <button
+          </button> */}
+          {/* <button
             className="text-textColorGrey cursor-pointer font-rubik"
             title="Text"
           >
             <DownloadSVG />
-          </button>
+          </button> */}
         </div>
       </div>
-      <Spacer size="xs" />
+      {/* <Spacer size="xs" /> */}
       <Table
         selectionMode="single"
         classNames={classNames}

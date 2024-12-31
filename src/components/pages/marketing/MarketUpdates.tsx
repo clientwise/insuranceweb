@@ -27,19 +27,17 @@ const MarketUpdates = () => {
     setLoading(true);
     makeApiCall(GetMarketing())
       .then((response) => {
-        console.log("Marketing list response", response);
-        setContent(response.data);
+        setContent(response.products);
       })
       .catch((error) => {
         console.error(error);
       })
       .finally(() => setLoading(false));
   }, [makeApiCall]);
-  const handleImageClick = React.useCallback(
-    (content_url: string) => {
-      const trimmedUrl = content_url.trim();
 
-      console.log("----HAHAHHA---", trimmedUrl, "urlll");
+  const handleImageClick = React.useCallback(
+    (content_file_url: string) => {
+      const trimmedUrl = content_file_url.trim();
 
       makeApiCall(cobrandImageApi(trimmedUrl))
         .then((response) => {
@@ -94,7 +92,7 @@ const MarketUpdates = () => {
           data={[
             { key: "Marketing", value: "Marketing" },
             { key: "Finance", value: "Finance" },
-            { key: "Healthcare", value: "Healthcare" },
+            { key: "Sales", value: "Sales" },
           ]}
           initialSelectedKey={selectedCategory}
           onSelectionChange={setSelectedCategory}
@@ -104,9 +102,9 @@ const MarketUpdates = () => {
         <Spacer orientation="horizontal" size="xs" />
         <DropdownComponent
           data={[
-            { key: "Insurance", value: "Insurance" },
-            { key: "Banking", value: "Banking" },
-            { key: "Investment", value: "Investment" },
+            { key: "Insurance Products", value: "Insurance" },
+            { key: "Sales Tips", value: "sales" },
+            { key: "Marketing Tips", value: "marketing" },
           ]}
           initialSelectedKey={selectedProductType}
           onSelectionChange={setSelectedProductType}
@@ -119,7 +117,6 @@ const MarketUpdates = () => {
           data={[
             { key: "English", value: "English" },
             { key: "Hindi", value: "Hindi" },
-            { key: "Spanish", value: "Spanish" },
           ]}
           initialSelectedKey={selectedLanguage}
           onSelectionChange={setSelectedLanguage}
@@ -133,7 +130,7 @@ const MarketUpdates = () => {
         selectedLanguage != "" ? (
           <p
             onClick={resetFilters}
-            className="px-2 py-font-rubik text-textLink rounded-md mt-[1vh] cursor-pointer"
+            className="px-2  py-font-rubik text-textLink rounded-md mt-[1vh] cursor-pointer" style={{alignSelf: "center", fontSize: "14px", color: "#683fdb"}}
           >
             Reset Filters
           </p>

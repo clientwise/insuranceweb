@@ -25,7 +25,7 @@ const COLUMNS = [
   {
     name: "Sr No.",
     key: "sr_no",
-    sortable: true,
+    sortable: false,
   },
   {
     name: "Name",
@@ -60,6 +60,11 @@ export default function ClientsList({ clientList, loading }: Props) {
   });
 
   React.useEffect(() => {
+    if (!clientList) {
+      setDropdownFilters([{ value: "all", label: "All" }]); // Default to 'All' if clientList is null or undefined
+      return;
+    }
+  
     const dropdownOptionsData: SelectType[] = clientList
       .map((item: ClientType) => ({
         value: item.name,
@@ -69,14 +74,15 @@ export default function ClientsList({ clientList, loading }: Props) {
         (option, index, self) =>
           index === self.findIndex((o) => o.value === option.value)
       );
-
+  
     dropdownOptionsData.unshift({ value: "all", label: "All" });
-
+  
     setDropdownFilters(dropdownOptionsData);
   }, [clientList]);
-
+  
   const pages = React.useMemo(() => {
-    if (clientList.length === 0) {
+    if (!clientList ) {
+      clientList = [];
       return 1;
     }
     return Math.ceil((clientList?.length ?? 1) / rowsPerPage);
@@ -86,7 +92,7 @@ export default function ClientsList({ clientList, loading }: Props) {
   const [page, setPage] = React.useState(1);
 
   const filteredItems = React.useMemo(() => {
-    let filteredUsers = [...clientList];
+    let filteredUsers = clientList ? [...clientList] : [];
 
     if (hasSearchFilter) {
       filteredUsers = filteredUsers.filter(
@@ -286,10 +292,10 @@ export default function ClientsList({ clientList, loading }: Props) {
         onSortChange={setSortDescriptor}
         isStriped
       >
-        <TableHeader columns={COLUMNS}>
+        <TableHeader columns={COLUMNS} style={{position: "sticky"}}>
           {(column) => (
             <TableColumn
-              allowsSorting={column.sortable}
+              allowsSorting={column.sortable}  style={{position: "sticky",color:"#333333"}}
               key={column.key}
               align={column.key === "action" ? "end" : "start"}
               width={column.key === "action" ? 100 : undefined}
@@ -300,7 +306,7 @@ export default function ClientsList({ clientList, loading }: Props) {
           )}
         </TableHeader>
         <TableBody
-          emptyContent={!loading && "No rows to display."}
+          emptyContent={!loading && "Add Clients to View Here"}
           items={sortedItems}
           isLoading={loading}
           loadingContent={<Spinner label="Loading..." />}

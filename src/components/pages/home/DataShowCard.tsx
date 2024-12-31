@@ -9,7 +9,7 @@ interface Props {
 
 const DataShowCard = ({ label, number, logo }: Props) => {
   return (
-    <div className="p-4 rounded-2xl shadow-md">
+    <div className="p-2 rounded-2xl shadow-md">
       <div className="flex items-center ml-8 ">
         <div className="mr-4 ">
           {logo && <div className="logo">{logo}</div>}
@@ -18,8 +18,8 @@ const DataShowCard = ({ label, number, logo }: Props) => {
           style={{ color: Colors.textprimary }}
           className="flex-col  text-center"
         >
-          <p className="text-3xl font-semibold font-rubik">{number}</p>
-          <p className="text-xl font-normal font-rubik text-black opacity-50">
+          <p className="text-xl font-semibold font-rubik">{number}</p>
+          <p className="text-lg font-normal font-rubik text-black opacity-50">
             {label}
           </p>
         </div>

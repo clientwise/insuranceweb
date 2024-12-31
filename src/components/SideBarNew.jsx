@@ -38,7 +38,7 @@ export default function Sidebar({ children, setExpandedMain }) {
           expanded ? "w-[17%]  hidden sm:block" : "w-[5%] hidden sm:block"
         }`}
       >
-        <nav className="h-full flex flex-col bg-white border-r shadow-sm">
+        <nav className="h-full flex flex-col bg-white  shadow-lg">
           <div className="p-4 pb-4 flex justify-between items-center mb-8">
             <div className="flex flex-col">
               <Image
@@ -52,55 +52,16 @@ export default function Sidebar({ children, setExpandedMain }) {
                 style={{ color: Colors.textBase }}
                 className="text-xs font-normal font-rubik text-black mt-1 "
               >
-                Kuants Wealth Private Limited
               </p>
             </div>
 
-            <button
-              onClick={() => {
-                setExpandedMain((curr) => !curr);
-                setExpanded((curr) => !curr);
-              }}
-              className="p-1.5 rounded-lg bg-gray-50 hover:bg-gray-100"
-            >
-              {expanded ? (
-                <ChevronFirst color="#000" />
-              ) : (
-                <ChevronLast color="#000" />
-              )}
-            </button>
+            
           </div>
 
           <SidebarContext.Provider value={{ expanded }}>
             <ul className="flex-1 px-3">{children}</ul>
           </SidebarContext.Provider>
 
-          <div className="border-t flex p-3">
-            <img // eslint-disable-line
-              src="https://cdn1.vectorstock.com/i/1000x1000/77/10/men-faceless-profile-vector-13567710.jpg"
-              alt=""
-              className="w-6 h-6 rounded-md "
-            />
-            <div
-              className={`
-                flex justify-between items-center 
-                overflow-hidden transition-all ${expanded ? "w-52 ml-3" : "w-0"}
-              `}
-            >
-              <div className="leading-4 text-black">
-                <p className="text-black font-rubik font-light text-sm">
-                  {" "}
-                  {name != "" ? name : ""}
-                </p>
-                <span className="text-xs text-gray-600">
-                  <p className="text-black font-rubik font-light text-xs">
-                    {email != "" ? email : ""}
-                  </p>
-                </span>
-              </div>
-              <MoreVertical size={14} color="#000" />
-            </div>
-          </div>
         </nav>
       </aside>
     </div>
@@ -130,17 +91,17 @@ export function SidebarItem({ icon, text, active, alert, href }) {
             active
               ? "text-white" // Only the text color
               : "text-black"
-          }`}
+          }`} style={{fontSize: "14px"}}
         >
           {text}
         </span>
-        {alert && (
+        {/* {alert && (
           <div
             className={`absolute right-2 w-2 h-2 rounded bg-violet-300 ${
               expanded ? "" : "top-2"
             }`}
           />
-        )}
+        )} */}
 
         {!expanded && (
           <div

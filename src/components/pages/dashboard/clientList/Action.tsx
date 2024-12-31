@@ -18,14 +18,14 @@ export default function Action({ item }: Props) {
           className="text-textColorGrey cursor-pointer font-rubik"
           title="Text"
         >
-          <Message />
+          {/* <Message /> */}
         </button>
         <button
           onClick={handleDownloadRental}
           className="text-textColorGrey cursor-pointer font-rubik"
           title="Mail"
         >
-          <Mail />
+          {/* <Mail /> */}
         </button>
       </div>
     </Row>

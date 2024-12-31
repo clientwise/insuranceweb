@@ -214,7 +214,7 @@ const LoginPage = () => {
                       I am an agency
                     </Checkbox>
                   </div>
-
+                <h2> Login as Agent</h2>
                   {loading ? (
                     <button
                       disabled

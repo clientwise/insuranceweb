@@ -6,7 +6,8 @@ import Events from "@/src/components/pages/clients/client/Events";
 import PolicyDetails from "@/src/components/pages/clients/client/PolicyDetails";
 import * as React from "react";
 import { useDisclosure } from "@nextui-org/react";
-
+import Policysummary from "@/src/components/pages/clients/client/clientpolicysummary";
+import PolicyRecommendation from "@/src/components/pages/clients/client/PolicyRecommendation";
 interface Props {
   params: { clientId: string };
 }
@@ -43,8 +44,13 @@ export default function UploadInventory({ params }: Props) {
       />
       <div>
         <ClientDetails clientId={clientId} />
+        <PolicyRecommendation clientId={clientId} />
+      
       </div>
-
+    
+      <div>
+        <Policysummary clientId={clientId} />
+      </div>
       <div>
         <PolicyDetails
           clientId={clientId}

@@ -7,67 +7,65 @@ import Input from "@/src/components/common/Input";
 import Spacer from "@/src/components/common/Spacer";
 import { LoadingIcon } from "@/src/assets/images/Loading";
 import { useRouter } from "next/navigation";
-import Select from "@/src/components/common/Select";
-import { SelectType } from "@/src/types";
-import { nextLocalStorage } from "@/src/utils/nextLocalStorage";
 import Image from "next/image";
 import Worklist from "../../../src/assets/kuantslogo.svg";
-
-// Example options for the select
-const genderOptions: SelectType[] = [
-  { label: "Male", value: "male" },
-  { label: "Female", value: "female" },
-];
+import { nextLocalStorage } from "@/src/utils/nextLocalStorage";
 
 const INITIAL_VALUES = {
-  name: "",
   email: nextLocalStorage()?.getItem("email") ?? "",
   password: "",
-  gender: "",
-  phone: "",
-  institution_name: "",
-  course_field: "",
-  country: "",
-  username: "",
-  role: "normal",
 };
 
 export default function SignUp() {
   const [loading, setLoading] = React.useState(false);
+  const [errorMessage, setErrorMessage] = React.useState("");
   const router = useRouter();
   const emailLocal = nextLocalStorage()?.getItem("email");
 
   React.useEffect(() => {
-    if (emailLocal === "") {
+    if (emailLocal === null) {
       localStorage.clear();
       router.replace("/login");
     }
   }, [emailLocal, router]);
 
-  const navigateToHomePage = React.useCallback(() => {
-    router.replace("/");
-  }, [router]);
+  const handleSubmit = async ({ email, password }: typeof INITIAL_VALUES) => {
+    setLoading(true);
+    setErrorMessage("");
 
-  const handleSubmit = React.useCallback(
-    // eslint-disable-next-line
-    async (values: typeof INITIAL_VALUES) => {
-      setLoading(true);
-      navigateToHomePage();
-    },
-    [navigateToHomePage]
-  );
+    try {
+      const response = await fetch('https://staging.api.mypolicymate.in/api/auth-agent/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email, password }),
+      });
+
+      if (response.ok) {
+        // Successful login
+        console.log("Login successful",response.json());
+        router.replace("/dashboard");
+      } else {
+        // Handle error responses
+        const errorData = await response.json();
+        setErrorMessage(errorData.message || "Login failed");
+      }
+    } catch (error) {
+      console.error("Login Error:", error);
+      setErrorMessage("An error occurred. Please try again later.");
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const validationSchema = Yup.object().shape({
-    name: Yup.string().required("Name is required"),
-    phone: Yup.string().required("Phone is required"),
-    password: Yup.string().required("Password is required"),
     email: Yup.string()
       .email("Invalid email format")
       .required("Email is required"),
-    gender: Yup.string().required("Gender is required"),
-    institution_name: Yup.string().required("Company/School name is required"),
-    course_field: Yup.string().required("Course field is required"),
-    country: Yup.string().required("Country is required"),
+    password: Yup.string()
+      .required("Password is required")
+      .min(6, "Password must be at least 6 characters"),
   });
 
   return (
@@ -79,8 +77,13 @@ export default function SignUp() {
           className={`w-14 sm:w-24 rounded-xl mb-4`}
         />
         <h2 className="mb-4 text-2xl font-rubik font-normal text-gray-900">
-          Sign Up
+          Login As Agent
         </h2>
+
+        {errorMessage && (
+          <div className="text-red-500 mb-4">{errorMessage}</div>
+        )}
+
         <Formik
           initialValues={INITIAL_VALUES}
           onSubmit={handleSubmit}
@@ -88,42 +91,15 @@ export default function SignUp() {
           enableReinitialize
         >
           <Form>
-            <Input label="Name" placeholder="Name" name="name" />
-            <Spacer size="xs" />
-            <Input
-              label="Username"
-              placeholder="Enter Username"
-              name="username"
-            />
-            <Spacer size="xs" />
+            <Input label="Email" placeholder="Email" name="email" />
             <Input
               label="Password"
               placeholder="Enter Password"
               name="password"
+              type="password" 
             />
             <Spacer size="xs" />
-            <Input label="Phone Number" placeholder="Phone" name="phone" />
-            <Spacer size="xs" />
-            <Input label="Email" placeholder="Email" name="email" />
-            <Spacer size="xs" />
-            <Select
-              name="gender"
-              label="Gender"
-              placeholder="Select your gender"
-              item={genderOptions}
-              className="bg-white text-black rounded-md"
-            />
-            <Spacer size="xs" />
-            <Input
-              label="Organisation"
-              placeholder="Organisation"
-              name="institution_name"
-            />
-            <Spacer size="xs" />
-            <Input label="Type" placeholder="Type" name="course_field" />
-            <Spacer size="xs" />
-            <Input label="Country" placeholder="Country" name="country" />
-            <Spacer size="xs" />
+
             <div className="flex justify-center items-center">
               {loading ? (
                 <button

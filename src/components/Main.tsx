@@ -12,6 +12,7 @@ import {
   Clients,
   Home,
   Marketing,
+  NoticeBoard,
   ProductSVG,
   Transaction,
 } from "../assets/images/Images";
@@ -42,9 +43,10 @@ export default function Main({ children }: Props) {
       <Body sideView={<SidebarNew setExpandedMain={setExpandedMain} />}>
         <div className="p-4 bg-white">
           <div
-            className={`mt-14 transition-all ${
-              expandedMain ? "sm:ml-72" : "sm:ml-24"
-            }`}
+            className="mt-14 ml-4" style={{marginLeft: "16rem"}} 
+            // transition-all ${
+            //   expandedMain ? "sm:ml-72" : "sm:ml-24"
+            // }`}
           >
             {children}
           </div>
@@ -172,6 +174,18 @@ function SidebarNew({
         active={pathname === "/dashboard/saved"}
         href="/dashboard/saved"
       />
+       <SidebarItem
+        icon={
+          <NoticeBoard
+            color={pathname === "/dashboard/notice-board" ? "#fff" : "#683FDB"}
+          />
+        }
+        text={"Notice Board"}
+        alert={pathname === "/dashboard/noticeboard"}
+        active={pathname === "/dashboard/noticeboard"}
+        href="/dashboard/noticeboard"
+      />
     </Sidebar>
+    
   );
 }

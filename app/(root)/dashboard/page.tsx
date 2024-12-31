@@ -82,20 +82,42 @@ const Home: React.FC = () => {
       <div className="container mx-auto pb-5">
         {error && <div className="text-red-500">{error}</div>}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-          <DataShowCard
-            key={"Active Clients"}
-            label={"Active Clients"}
-            number={clients?.length.toString()}
-            logo={<People />}
-          />
-          {data?.map((item) => (
-            <DataShowCard
-              key={item.label}
-              label={item.label}
-              number={item.number}
-              logo={item.logo}
-            />
-          ))}
+          {!clients ?  (
+  <div className="your-empty-state-class"> 
+    {/* Content for empty clients case */}
+    <DataShowCard
+      key={"Active Clients"}
+      label={"Active Clients"}
+      number={"0"}
+      logo={<People />}
+    /> 
+       {data?.map((item) => (
+      <DataShowCard
+        key={item.label}
+        label={item.label}
+        number={item.number}
+        logo={item.logo}
+      />
+    ))}   {/* You can add a button or other elements here */}
+  </div>
+) : (
+  <>
+    <DataShowCard
+      key={"Active Clients"}
+      label={"Active Clients"}
+      number={clients.length.toString()}
+      logo={<People />}
+    />
+    {data?.map((item) => (
+      <DataShowCard
+        key={item.label}
+        label={item.label}
+        number={item.number}
+        logo={item.logo}
+      />
+    ))}
+  </>
+)}
         </div>
       </div>
       <div className="flex gap-2 justify-between ">
@@ -103,7 +125,7 @@ const Home: React.FC = () => {
           <div className="flex flex-row justify-between items-center">
             <p
               style={{ color: Colors.textBase }}
-              className="text-2xl font-normal font-rubik text-black "
+              className="text-lg font-normal font-rubik text-black "
             >
               Active Leads
             </p>
@@ -127,14 +149,14 @@ const Home: React.FC = () => {
         <div className="w-[32%]">
           <p
             style={{ color: Colors.textBase }}
-            className="text-2xl font-normal font-rubik text-black  "
+            className="text-lg font-normal font-rubik text-black  "
           >
             Upcoming Events
           </p>
 
           <div className="p-4 py-2 mt-3 h-[40vh] max-h-[40vh] overflow-y-auto rounded-2xl shadow-md">
             {todaysEvents?.length == 0 ? (
-              <p className="text-xl font-normal font-rubik text-black">
+              <p className="text-sm font-normal font-rubik text-black">
                 No events
               </p>
             ) : (
@@ -158,12 +180,10 @@ const Home: React.FC = () => {
         ></div>
         <div className="flex-1 p-4 rounded-lg shadow-md">
           <div>
-            <h1 className="text-black text-xl font-light font-rubik">
-              Latest News
-            </h1>
+          <h1>Latest Industry News</h1>
             <p
               style={{ color: Colors.textBase }}
-              className="text-base font-semibold font-rubik text-black"
+              className="text-xs font-normal font-rubik text-black"
               onClick={() => window.open(news[0]?.news_url, "_blank")}
             >
               {news[0]?.news_heading}
@@ -176,10 +196,11 @@ const Home: React.FC = () => {
             </p>
           </div>
         </div>
-        <div className="flex-1 p-4 bg-white rounded-lg shadow-md">
-          <div className="text-center"></div>
+        <div
+          className="flex-1 p-4  bg-white rounded-lg shadow-md "
+        ><h1>Notice Board</h1>
         </div>
-      </div>
+        </div>
     </div>
   );
 };
