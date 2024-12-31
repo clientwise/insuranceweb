@@ -14,7 +14,6 @@ import { useRouter } from "next/navigation";
 import Select from "../../common/Select";
 import { SelectType } from "@/src/types";
 import DatePicker from "../../DatePicker";
-import FileInput from "../../FileInput";
 import { nextLocalStorage } from "@/src/utils/nextLocalStorage";
 
 interface Props {
@@ -46,6 +45,13 @@ const dropdownData: SelectType[] = [
 export default function AddProduct({ onClose }: Props) {
   const { makeApiCall } = useApi();
   const { showToast } = useToast();
+  const [fileNamePolicyDocument, setFileNamePolicyDocument] = React.useState<
+    string | null
+  >(null);
+  const [fileNameSalesBrochure, setFileNameSalesBrochure] = React.useState<
+    string | null
+  >(null);
+
   const router = useRouter();
 
   const InitialValues = {
@@ -138,14 +144,24 @@ export default function AddProduct({ onClose }: Props) {
           policy_sales_brochure!
         )
       )
-        .then(() => {
-          showToast("Agency Product Added successfully", { type: "success" });
-          router.push("/dashboard/products");
+        .then((response) => {
+          if (response?.success == true) {
+            showToast(
+              response?.message
+                ? response?.message
+                : "Product Added successfully",
+              { type: "success" }
+            );
+            router.push("/dashboard/agencyproducts");
+          } else {
+            showToast("Some error occurred", { type: "error" });
+          }
+
           if (onClose) onClose();
         })
         .catch((error) => {
           console.error("Error adding agency product:", error);
-          showToast("Agency product addition failed", { type: "error" });
+          showToast("Product addition failed", { type: "error" });
         });
     },
     [makeApiCall, router, showToast, onClose]
@@ -159,104 +175,152 @@ export default function AddProduct({ onClose }: Props) {
           onSubmit={handleSubmit}
           validationSchema={validationSchema}
         >
-          <FormikForm>
-            <Input
-              name="product_id"
-              label="Product ID"
-              placeholder="Enter Product ID"
-            />
-            <Spacer size="xs" />
-            <Input
-              name="insurer_name"
-              label="Insurer Name"
-              placeholder="Enter Insurer Name"
-            />
-            <Spacer size="xs" />
-            <Input
-              name="product_name"
-              label="Product Name"
-              placeholder="Enter Product Name"
-            />
-            <Spacer size="xs" />
-            <Select
-              label="Category"
-              item={dropdownData}
-              name="category"
-              placeholder="Select Category"
-            />
-            <Spacer size="xs" />
-            <Select
-              label="Type"
-              item={dropdownData}
-              name="type"
-              placeholder="Select Type"
-            />
-            <Spacer size="xs" />
-            <Input
-              name="agent_commission_percentage"
-              label="Agent Commission Percentage"
-              placeholder="Enter Agent Commission Percentage"
-            />
-            <Spacer size="xs" />
-            <Input
-              name="agency_commission_percentage"
-              label="Agency Commission Percentage"
-              placeholder="Enter Agency Commission Percentage"
-            />
-            <Spacer size="xs" />
-            <Input
-              name="description"
-              label="Description"
-              placeholder="Enter Description"
-            />
-            <Spacer size="xs" />
-            <Select
-              label="Status"
-              item={[
-                { label: "Active", value: "active" },
-                { label: "Inactive", value: "inactive" },
-              ]}
-              name="status"
-              placeholder="Select Status"
-            />
-            <Spacer size="xs" />
-            <DatePicker
-              label="Policy Start Date"
-              name="policy_state_date"
-              title="Policy Start Date"
-            />
-            <Spacer size="xs" />
-            <DatePicker
-              label="Policy Expiry Date"
-              name="policy_expiry_date"
-              title="Policy Expiry Date"
-            />
+          {({ setFieldValue }) => (
+            <FormikForm>
+              <Input
+                name="product_id"
+                label="Product ID"
+                placeholder="Enter Product ID"
+              />
+              <Spacer size="xs" />
+              <Input
+                name="insurer_name"
+                label="Insurer Name"
+                placeholder="Enter Insurer Name"
+              />
+              <Spacer size="xs" />
+              <Input
+                name="product_name"
+                label="Product Name"
+                placeholder="Enter Product Name"
+              />
+              <Spacer size="xs" />
+              <Select
+                label="Category"
+                item={dropdownData}
+                name="category"
+                placeholder="Select Category"
+              />
+              <Spacer size="xs" />
+              <Select
+                label="Type"
+                item={dropdownData}
+                name="type"
+                placeholder="Select Type"
+              />
+              <Spacer size="xs" />
+              <Input
+                name="agent_commission_percentage"
+                label="Agent Commission Percentage"
+                placeholder="Enter Agent Commission Percentage"
+              />
+              <Spacer size="xs" />
+              <Input
+                name="agency_commission_percentage"
+                label="Agency Commission Percentage"
+                placeholder="Enter Agency Commission Percentage"
+              />
+              <Spacer size="xs" />
+              <Input
+                name="description"
+                label="Description"
+                placeholder="Enter Description"
+              />
+              <Spacer size="xs" />
+              <Select
+                label="Status"
+                item={[
+                  { label: "Active", value: "active" },
+                  { label: "Inactive", value: "inactive" },
+                ]}
+                name="status"
+                placeholder="Select Status"
+              />
+              <Spacer size="xs" />
+              <DatePicker
+                label="Policy Start Date"
+                name="policy_state_date"
+                title="Policy Start Date"
+              />
+              <Spacer size="xs" />
+              <DatePicker
+                label="Policy Expiry Date"
+                name="policy_expiry_date"
+                title="Policy Expiry Date"
+              />
 
-            <Spacer size="xs" />
-            <FileInput
-              type="dropzone"
-              size="small"
-              name="policy_document"
-              label="Policy Document"
-            />
-            <Spacer size="xs" />
-            <FileInput
-              type="dropzone"
-              size="small"
-              name="policy_sales_brochure"
-              label="Policy Sales Brochure"
-            />
+              {/* Policy Document File Input */}
+              <Spacer size="xs" />
+              <div>
+                <label
+                  className="text-base font-normal font-rubik text-textColorGrey mr-6"
+                  htmlFor="policy_document"
+                >
+                  Policy Document
+                </label>
+                <input
+                  type="file"
+                  name="policy_document"
+                  id="policy_document"
+                  onChange={(event) => {
+                    const file = event.target?.files?.[0];
+                    if (file) {
+                      setFieldValue("policy_document", file);
+                      setFileNamePolicyDocument(file.name);
+                    }
+                  }}
+                />
+              </div>
+              {fileNamePolicyDocument && (
+                <div>
+                  <p className="text-base font-normal font-rubik text-textColorGrey">
+                    {fileNamePolicyDocument}
+                  </p>
+                </div>
+              )}
 
-            <Row justifyContent="center">
-              <Button
-                color="warning"
-                className="text-base font-normal font-rubik text-white"
-                type="submit"
-              >
-                Submit
-              </Button>
-            </Row>
-          </FormikForm>
+              {/* Policy Sales Brochure File Input */}
+              <Spacer size="xs" />
+              <div>
+                <label
+                  className="text-base font-normal font-rubik text-textColorGrey mr-6"
+                  htmlFor="policy_sales_brochure"
+                >
+                  Policy Sales Brochure
+                </label>
+                <input
+                  type="file"
+                  name="policy_sales_brochure"
+                  id="policy_sales_brochure"
+                  onChange={(event) => {
+                    const file = event.target?.files?.[0];
+                    if (file) {
+                      setFieldValue("policy_sales_brochure", file);
+                      setFileNameSalesBrochure(file.name);
+                    }
+                  }}
+                />
+              </div>
+              {fileNameSalesBrochure && (
+                <div>
+                  <p className="text-base font-normal font-rubik text-textColorGrey">
+                    {fileNameSalesBrochure}
+                  </p>
+                </div>
+              )}
+
+              <Spacer size="xs" />
+              <Row justifyContent="center">
+                <Button
+                  color="warning"
+                  className="text-base font-normal font-rubik text-white"
+                  type="submit"
+                >
+                  Submit
+                </Button>
+              </Row>
+            </FormikForm>
+          )}
         </Formik>
       </div>
     </section>

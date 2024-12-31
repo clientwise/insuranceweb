@@ -20,12 +20,15 @@ import Spacer from "../../Spacer.tsx";
 import { DropdownType, ProductType } from "@/src/types.ts";
 import { Colors } from "@/src/assets/colors.js";
 import DropdownComponent from "../../common/Dropdown.tsx";
+import useApi from "@/src/hooks/useApi.tsx";
+import useToast from "@/src/hooks/useToast.tsx";
+import { RemoveAgencyProduct } from "@/src/apis.ts";
+import { nextLocalStorage } from "@/src/utils/nextLocalStorage.ts";
 
 interface Props {
   products: ProductType[];
   loading: boolean;
   onOpen: () => void;
-  onRowAction: (clientId: React.Key) => void;
 }
 
 const COLUMNS = [
@@ -69,8 +72,9 @@ export default function AgencyProductList({
   products,
   loading,
   onOpen,
-  onRowAction,
 }: Props) {
+  const { makeApiCall } = useApi();
+  const { showToast } = useToast();
   const [filterValue, setFilterValue] = React.useState("");
   const [rowsPerPage, setRowsPerPage] = React.useState(20);
   const [showFilter, setShowFilter] = React.useState(false);
@@ -163,6 +167,34 @@ export default function AgencyProductList({
     setTempSelectedState(selectedKey.toString());
   };
 
+  const removeProductItem = React.useCallback(
+    (item: ProductType) => {
+      console.log(item, "removingf product for item");
+      const agency_id = nextLocalStorage()?.getItem("agency_id") ?? "";
+
+      makeApiCall(
+        RemoveAgencyProduct(parseInt(agency_id), parseInt(item?.product_id))
+      )
+        .then((response) => {
+          console.log("delete product id", response);
+          if (response?.success == true) {
+            showToast(
+              response?.message
+                ? response?.message
+                : "Removed product, plese refresh",
+              { type: "success" }
+            );
+          } else {
+            showToast("Some error occurred!", { type: "error" });
+          }
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    },
+    [makeApiCall, showToast]
+  );
+
   const renderStatus = React.useCallback((item: ProductType) => {
     switch (item?.status) {
       case "active":
@@ -245,14 +277,14 @@ export default function AgencyProductList({
         case "action":
           return (
             <div className="flex">
-              <Action item={product} onRowAction={onRowAction} />
+              <Action item={product} removeProductItem={removeProductItem} />
             </div>
           );
         default:
           return null;
       }
     },
-    [products, onRowAction, renderStatus]
+    [products, renderStatus, removeProductItem]
   );
 
   const bottomContent = React.useMemo(() => {
@@ -437,7 +469,6 @@ export default function AgencyProductList({
         bottomContentPlacement="inside"
         sortDescriptor={sortDescriptor}
         onSortChange={setSortDescriptor}
-        onRowAction={onRowAction}
         isStriped
       >
         <TableHeader columns={COLUMNS}>

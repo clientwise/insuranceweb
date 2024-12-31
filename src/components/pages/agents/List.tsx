@@ -20,6 +20,9 @@ import Spacer from "../../Spacer.tsx";
 import { AgentType, DropdownType } from "@/src/types.ts";
 import { Colors } from "@/src/assets/colors.js";
 import DropdownComponent from "../../common/Dropdown.tsx";
+import useApi from "@/src/hooks/useApi.tsx";
+import { GenerateAgentPassword, RevokeAgentPassword } from "@/src/apis.ts";
+import useToast from "@/src/hooks/useToast.tsx";
 
 interface Props {
   agents: AgentType[];
@@ -63,6 +66,9 @@ export default function AgentNumbersList({
   onOpen,
   onRowAction,
 }: Props) {
+  const { makeApiCall } = useApi();
+  const { showToast } = useToast();
+
   const [filterValue, setFilterValue] = React.useState("");
   const [rowsPerPage, setRowsPerPage] = React.useState(20);
   const [showFilter, setShowFilter] = React.useState(false);
@@ -155,6 +161,49 @@ export default function AgentNumbersList({
     setTempSelectedState(selectedKey.toString());
   };
 
+  const generatePassword = React.useCallback(
+    (item: AgentType) => {
+      console.log(item, "generating passowrd for item");
+
+      makeApiCall(GenerateAgentPassword(item.agentId))
+        .then((response) => {
+          console.log("generate agent password response", response);
+          if (response?.success == true) {
+            showToast(
+              response?.message
+                ? response?.message
+                : "Password sent to registered email",
+              { type: "success" }
+            );
+          }
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    },
+    [makeApiCall, showToast]
+  );
+
+  const revokePassword = React.useCallback(
+    (item: AgentType) => {
+      console.log(item, "revoking password for item");
+      makeApiCall(RevokeAgentPassword(item.agentId))
+        .then((response) => {
+          console.log("generate agent password response", response);
+          if (response?.success == true) {
+            showToast(
+              response?.message ? response?.message : "Password revoked",
+              { type: "success" }
+            );
+          }
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    },
+    [makeApiCall, showToast]
+  );
+
   const renderStatus = React.useCallback((item: AgentType) => {
     switch (item?.status) {
       case "active":
@@ -222,14 +271,19 @@ export default function AgentNumbersList({
         case "action":
           return (
             <div className="flex">
-              <Action item={agent} onRowAction={onRowAction} />
+              <Action
+                item={agent}
+                onRowAction={onRowAction}
+                generatePassword={generatePassword}
+                revokePassword={revokePassword}
+              />
             </div>
           );
         default:
           return null;
       }
     },
-    [agents, onRowAction, renderStatus]
+    [agents, generatePassword, onRowAction, renderStatus, revokePassword]
   );
 
   const bottomContent = React.useMemo(() => {
@@ -414,7 +468,6 @@ export default function AgentNumbersList({
         bottomContentPlacement="inside"
         sortDescriptor={sortDescriptor}
         onSortChange={setSortDescriptor}
-        onRowAction={onRowAction}
         isStriped
       >
         <TableHeader columns={COLUMNS}>
