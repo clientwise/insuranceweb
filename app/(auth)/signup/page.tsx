@@ -10,6 +10,9 @@ import { useRouter } from "next/navigation";
 import Image from "next/image";
 import Worklist from "../../../src/assets/kuantslogo.svg";
 import { nextLocalStorage } from "@/src/utils/nextLocalStorage";
+import { jwtDecode, JwtPayload } from "jwt-decode";
+
+
 
 const INITIAL_VALUES = {
   email: nextLocalStorage()?.getItem("email") ?? "",
@@ -32,7 +35,7 @@ export default function SignUp() {
   const handleSubmit = async ({ email, password }: typeof INITIAL_VALUES) => {
     setLoading(true);
     setErrorMessage("");
-
+  
     try {
       const response = await fetch('https://staging.api.mypolicymate.in/api/auth-agent/login', {
         method: 'POST',
@@ -41,24 +44,46 @@ export default function SignUp() {
         },
         body: JSON.stringify({ email, password }),
       });
-
+  
       if (response.ok) {
         // Successful login
-        console.log("Login successful",response.json());
+        const data = await response.json();
+  
+        // Assuming the token is in a 'token' property in the response
+        const token = data.token;
+        const decodedToken: any = jwtDecode(token);
+        nextLocalStorage()?.setItem("authToken", token);
+        // Store the attributes in local storage
+        nextLocalStorage()?.setItem("agencyID", decodedToken.agency_id);
+
+        nextLocalStorage()?.setItem("date_of_joining", decodedToken.date_of_joining);
+        nextLocalStorage()?.setItem("email", decodedToken.email);
+        nextLocalStorage()?.setItem("exp", decodedToken.exp);
+        nextLocalStorage()?.setItem("id", decodedToken.id);
+        nextLocalStorage()?.setItem("is_agent", decodedToken.is_agent);
+        nextLocalStorage()?.setItem("is_deleted", decodedToken.is_deleted);
+        nextLocalStorage()?.setItem("name", decodedToken.name);
+        nextLocalStorage()?.setItem("pan_number", decodedToken.pan_number);
+        nextLocalStorage()?.setItem("status", decodedToken.status);
+        nextLocalStorage()?.setItem("user_access", decodedToken.user_access);
+        nextLocalStorage()?.setItem("user_type", decodedToken.user_type);
+      
+        // Redirect to the dashboard
         router.replace("/dashboard");
       } else {
-        // Handle error responses
-        const errorData = await response.json();
+        // Handle login failure (e.g., display an error message)
+        const errorData = await response.json(); // Get error data from response
         setErrorMessage(errorData.message || "Login failed");
-      }
+      } 
     } catch (error) {
-      console.error("Login Error:", error);
+      console.error("Login error:", error);
       setErrorMessage("An error occurred. Please try again later.");
     } finally {
       setLoading(false);
     }
   };
-
+  
+  
   const validationSchema = Yup.object().shape({
     email: Yup.string()
       .email("Invalid email format")

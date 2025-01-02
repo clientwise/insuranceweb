@@ -198,9 +198,11 @@ export default function ProductList({
               </div>
             );
             case "description":
+            const truncatedText = product.description.substring(0, 20) + (product.description.length > 20 ? '...' : '');
+
               return (
                 <div className="flex flex-col">
-                  <p className="text-bold text-sm capitalize">{product.description}</p>
+                  <p className="text-bold text-sm capitalize">{truncatedText}</p>
                 </div>
               );
         case "commission":
@@ -304,26 +306,8 @@ export default function ProductList({
   const topContent = React.useMemo(() => {
     return (
       <div className="relative flex flex-col gap-4">
-        <div className="flex justify-between gap-3 items-end">
-          <Input
-            isClearable
-            className="focus:outline-none focus:border-none"
-            classNames={{
-              base: "w-full sm:max-w-[44%] focus:outline-none focus:border-none",
-              inputWrapper:
-                "border-0 focus:border-0 focus:outline-none focus:border-none",
-              input: "border-0 focus:outline-none focus:border-none",
-            }}
-            placeholder="Search by Name..."
-            size="sm"
-            startContent={<CiSearch />}
-            value={filterValue}
-            onClear={() => {
-              setFilterValue("");
-              setSelectedState("all");
-            }}
-            onValueChange={onSearchChange}
-          />
+        <div className="flex justify-between  items-end">
+         
 
           {/* <div className="flex gap-3">
             <Row>

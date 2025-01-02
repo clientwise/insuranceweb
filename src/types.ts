@@ -118,6 +118,31 @@ export type TodaysEventsType = {
   id: number;
 };
 
+export type TodayNoticeType = {
+  ID: number;
+  CreatedAt: string;
+  UpdatedAt: string;
+  DeletedAt: string | null;
+  agency_id: string; 
+  title: string;
+  content: string;
+  content_file: string;
+  status: string;
+  content_type: string;
+};
+
+export type MeetingType { // Define the MeetingType interface here
+  ID: number;
+  CreatedAt: string;
+  UpdatedAt: string;
+  DeletedAt: null | string; 
+  client_id: string;
+  client_name: string;
+  date: string;
+  details: string;
+  agent_id: string;
+  send_to_client: boolean;
+}
 export type ClientType = {
   address: string;
   age: string;

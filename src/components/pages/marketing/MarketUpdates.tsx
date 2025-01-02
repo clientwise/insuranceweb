@@ -27,8 +27,8 @@ const MarketUpdates = () => {
     setLoading(true);
     makeApiCall(GetMarketing())
       .then((response) => {
-        setContent(response.products);
-      })
+        const activeProducts = response.products.filter(product => product.status === 'active');
+        setContent(activeProducts);      })
       .catch((error) => {
         console.error(error);
       })

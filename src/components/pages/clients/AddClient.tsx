@@ -16,7 +16,7 @@ import { useRouter } from "next/navigation";
 interface Props {
   onClose: () => void;
 }
-export default function AddClient({}: Props) {
+export default function AddClient({onClose}: Props) {
   // eslint-disable-next-line
   const { makeApiCall } = useApi();
   const { showToast } = useToast();
@@ -80,9 +80,12 @@ export default function AddClient({}: Props) {
         .then(() => {
           showToast("Client Added successfully", { type: "success" });
           router.push("/dashboard/clients");
+          onClose(); // Call onClose after successful submission
+          router.refresh(); // Refresh the page after closing the modal
+
         })
         .catch(() => {
-          showToast("Client addition failed", { type: "error" });
+          showToast("Please check mobile number and client email", { type: "error" });
         });
     },
     [makeApiCall, router, showToast]

@@ -89,7 +89,7 @@ const ClientDetails = ({ clientId }: Props) => {
           <InfoCard title="Mobile" description={client.phone} />
 
             <InfoCard
-              title="Segment"
+              title="Profession"
               description={client.profession || "Not Provided"}
             />
                <InfoCard

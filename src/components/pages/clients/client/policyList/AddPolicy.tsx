@@ -13,6 +13,8 @@ import Input from "@/src/components/Input";
 import DatePicker from "@/src/components/DatePicker";
 import { DropdownType } from "@/src/types";
 import { Dropdown } from "@/src/components/Dropdown";
+import Select from "@/src/components/common/Select";
+import { SelectType } from "@/src/types";
 
 interface Props {
   onClose: () => void;
@@ -22,65 +24,69 @@ interface Props {
 export default function AddPolicy({ onClose, clientId }: Props) {
   const { makeApiCall } = useApi();
   const { showToast } = useToast();
+  const agencyId =localStorage.getItem("agencyID");
+  const authToken = localStorage.getItem("authToken");
+  const [policyOptions, setPolicyOptions] = React.useState<SelectType[]>([]);
+  const [isLoading, setIsLoading] = React.useState(true);
+console.log(agencyId, "Agency ID");
+  React.useEffect(() => {
+    if (!agencyId) {
+      console.error("Agency ID is not available.");
+      setIsLoading(false);
+      return;
+    }
 
-  // Initial values for the form
-  const [initialValues] = React.useState({
+    const fetchPolicyOptions = async () => {
+      setIsLoading(true);
+      try {
+        const response = await fetch(`https://staging.api.mypolicymate.in/api/products/${agencyId}`, {
+          headers: {
+            Authorization: `Bearer ${authToken}`, // Add the Authorization header
+          },
+        });        if (!response.ok) throw new Error("Network response was not ok");
+
+        const data = await response.json();
+        console.log(data.products, "data.products", typeof data.products);
+        const options = Array.isArray(data.products) 
+
+          ? data.products.map((product) => ({
+              value: product.product_id,
+              key: product.name,
+            }))
+          : []; // Set options to an empty array if data.products is not an array
+            console.log(options, "options");
+        setPolicyOptions(options);
+      } catch (error) {
+        console.error(error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchPolicyOptions();
+  }, [agencyId, authToken]);
+
+  const initialValues = React.useMemo(() => ({
     name: "",
     amount: "",
     status: "active",
     inception_date: "",
-    frequency: "monthly",
+    frequency: "",
     next_due_date: "",
     maturity_date: "",
-  });
-  const StatusTypeData: DropdownType[] = React.useMemo(
-    () => [
-      { key: "active", value: "Active" },
-      { key: "inactive", value: "Inactive" },
-    ],
-    []
-  );
+  }), []);
 
-  const FrequencyTypeData: DropdownType[] = React.useMemo(
-    () => [
-      { key: "monthly", value: "Monthly" },
-      { key: "yearly", value: "Yearly" },
-    ],
-    []
-  );
-  // Validation schema
-  const validationSchema = Yup.object().shape({
-    name: Yup.string().required("Policy name is required"),
-    amount: Yup.string()
-      .matches(/^\d+(\.\d{1,2})?$/, "Invalid amount format")
-      .required("Amount is required"),
-    status: Yup.string().required("Status is required"),
-    inception_date: Yup.date().required("Inception date is required"),
-    frequency: Yup.string().required("Frequency is required"),
-    next_due_date: Yup.date().required("Next due date is required"),
-    maturity_date: Yup.date().required("Maturity date is required"),
-  });
-
-  // Submit handler
   const handleSubmit = React.useCallback(
-    ({
-      name,
-      amount,
-      status,
-      inception_date,
-      frequency,
-      next_due_date,
-      maturity_date,
-    }: typeof initialValues) => {
+    (values) => {
       return makeApiCall(
         postPolicyApi(
-          name,
-          amount,
-          status,
-          inception_date,
-          frequency,
-          next_due_date,
-          maturity_date,
+          values.name,
+          values.amount,
+          values.status,
+          values.inception_date,
+          values.frequency,
+          values.next_due_date,
+          values.maturity_date,
           parseInt(clientId)
         )
       )
@@ -93,56 +99,74 @@ export default function AddPolicy({ onClose, clientId }: Props) {
     [makeApiCall, clientId, onClose, showToast]
   );
 
+  if (isLoading) return <div>Loading policy options...</div>;
+
   return (
-    <section className="bg-white ">
-      <div className="py-8 px-4 mx-auto max-w-2xl ">
-        <Formik
-          initialValues={initialValues}
-          onSubmit={handleSubmit}
-          validateOnBlur
-          validateOnChange
-          validationSchema={validationSchema}
-          enableReinitialize
-        >
-          <FormikForm>
-            <Input
-              name="name"
-              label="Policy Name"
-              placeholder="Enter policy name"
-            />
-            <Spacer size="xs" />
-            <Input
-              name="amount"
-              label="Amount"
-              placeholder="Enter policy amount"
-            />
-            <Spacer size="xs" />
-            <Dropdown data={StatusTypeData} label="Status" name="status" />
-            <Spacer size="xs" />
-            <DatePicker label="Inception Date" name="inception_date" />
-            <Spacer size="xs" />
-            <Dropdown
-              data={FrequencyTypeData}
-              label="Frequency"
-              name="frequency"
-            />
-            <Spacer size="xs" />
-            <DatePicker
-              name="next_due_date"
-              label="Next Due Date"
-              placeholder="Select next due date"
-            />
-            <Spacer size="xs" />
-            <DatePicker
-              name="maturity_date"
-              label="Maturity Date"
-              placeholder="Select maturity date"
-            />
-            <Spacer size="xs" />
-            <Row justifyContent="center">
-              <Button color="primary">Submit</Button>
-            </Row>
-          </FormikForm>
+    <section className="bg-white">
+      <div className="py-8 px-4 mx-auto max-w-2xl">
+      <Formik
+  initialValues={initialValues}
+  onSubmit={handleSubmit}
+  validationSchema={Yup.object().shape({
+    name: Yup.string().required("Policy name is required"),
+    amount: Yup.string()
+      .matches(/^\d+(\.\d{1,2})?$/, "Invalid amount format")
+      .required("Amount is required"),
+    status: Yup.string().required("Status is required"),
+    inception_date: Yup.date().required("Inception date is required"),
+    frequency: Yup.string().required("Frequency is required"),
+    next_due_date: Yup.date().required("Next due date is required"),
+    maturity_date: Yup.date().required("Maturity date is required"),
+  })}
+>
+{() => (
+    <FormikForm>
+      <Select
+        name="productName" // Or whatever name you want to use
+        label="Product Name"
+        placeholder="Select a product"
+        options={policyOptions} // Use the correct variable
+      />
+      <Spacer size="xs" />
+      <Input name="amount" label="Amount" placeholder="Enter policy amount" />
+      <Spacer size="xs" />
+      <Dropdown
+        data={[
+          { key: "active", value: "Active" },
+          { key: "inactive", value: "Inactive" },
+        ]}
+        label="Status"
+        name="status"
+      />
+      <Spacer size="xs" />
+      <DatePicker label="Inception Date" name="inception_date" />
+      <Spacer size="xs" />
+      <Dropdown
+        data={[
+          { key: "monthly", value: "Monthly" },
+          { key: "yearly", value: "Yearly" },
+        ]}
+        label="Frequency"
+        name="frequency"
+      />
+      <Spacer size="xs" />
+      <DatePicker
+        name="next_due_date"
+        label="Next Due Date"
+        placeholder="Select next due date"
+      />
+      <Spacer size="xs" />
+      <DatePicker
+        name="maturity_date"
+        label="Maturity Date"
+        placeholder="Select maturity date"
+      />
+      <Spacer size="xs" />
+      <Row justifyContent="center">
+        <Button color="primary">Submit</Button>
+      </Row>
+    </FormikForm>
+  )}
         </Formik>
       </div>
     </section>

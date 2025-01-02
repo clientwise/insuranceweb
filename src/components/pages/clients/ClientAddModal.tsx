@@ -1,3 +1,4 @@
+// ClientAddModal.tsx
 import React from "react";
 import {
   Modal,
@@ -37,7 +38,7 @@ export default function ClientAddModal({
                 Add Client
               </ModalHeader>
               <ModalBody>
-                <AddContact onClose={onClose} />
+                <AddContact onClose={onClose} /> {/* Pass onClose to AddContact */}
               </ModalBody>
               <ModalFooter></ModalFooter>
             </>

@@ -90,13 +90,21 @@ export const AddClientApi = (
 //client policys
 
 export const GetClientAllPolicy = (clientId: string) => {
-  return onePiece.get(`/policy/2`, {
+  return onePiece.get(`/policy/${clientId}`, {
     headers: {
-      Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhZ2VuY3lfaWQiOjIsImFnZW5jeV9uYW1lIjoiIiwiZW1haWwiOiJnZXRjbGllbnR3aXNlQGdtYWlsLmNvbSIsImV4cCI6MTczNzkwOTczMywiaWQiOjE0LCJtb2JpbGUiOiIiLCJuYW1lIjoiIn0.XeM84bJ63ljbASCOdEnvSquiO13Qojp4WrJa1sTQnh0`,
+      Authorization: `Bearer ${localStorage.getItem("authToken")}`,
     },
   });
 };
 
+export const GetClientMeeting = (clientId: string, agent_id:string) => {
+  
+  return onePiece.get(`/api/meetings/${agent_id}/${clientId}`, {
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("authToken")}`,
+    },
+  });
+};
 //add policy
 export const postPolicyApi = (
   name: string,
@@ -170,7 +178,7 @@ export const postEventApi = (
 export const GetClientDetails = (clientId: string) => {
   return onePiece.get(`/client/9`, {   //${clientId}
     headers: {
-      Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhZ2VuY3lfaWQiOjIsImFnZW5jeV9uYW1lIjoiIiwiZW1haWwiOiJnZXRjbGllbnR3aXNlQGdtYWlsLmNvbSIsImV4cCI6MTczNzkwOTczMywiaWQiOjE0LCJtb2JpbGUiOiIiLCJuYW1lIjoiIn0.XeM84bJ63ljbASCOdEnvSquiO13Qojp4WrJa1sTQnh0`, // ${localStorage.getItem("authToken")}
+      Authorization: `Bearer ${localStorage.getItem("authToken")}`,
       agent_id: localStorage.getItem("id"),
     },
   });
@@ -181,7 +189,7 @@ export const GetMarketing = () => {
   return onePiece.get(`/api/communications/training-materials/2`, {
     headers: {
       "Content-Type": "text/plain",
-      Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhZ2VuY3lfaWQiOjIsImFnZW5jeV9uYW1lIjoiIiwiZW1haWwiOiJnZXRjbGllbnR3aXNlQGdtYWlsLmNvbSIsImV4cCI6MTczNzkwOTczMywiaWQiOjE0LCJtb2JpbGUiOiIiLCJuYW1lIjoiIn0.XeM84bJ63ljbASCOdEnvSquiO13Qojp4WrJa1sTQnh0`, //${localStorage.getItem("authToken")}
+      Authorization: `Bearer ${localStorage.getItem("authToken")}`,
     },
   });
 };
@@ -190,10 +198,22 @@ export const GetMarketing = () => {
 
 //client list
 export const GetDashboardNews = () => {
-  return onePiece.get(`/dashboard-news/3`, {
+  return onePiece.get(`/dashboard-news/1`, {
     headers: {
       "Content-Type": "text/plain",
-      Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhZ2VuY3lfaWQiOjIsImFnZW5jeV9uYW1lIjoiIiwiZW1haWwiOiJnZXRjbGllbnR3aXNlQGdtYWlsLmNvbSIsImV4cCI6MTczNzkwOTczMywiaWQiOjE0LCJtb2JpbGUiOiIiLCJuYW1lIjoiIn0.XeM84bJ63ljbASCOdEnvSquiO13Qojp4WrJa1sTQnh0 `,//${localStorage.getItem("authToken")}
+      Authorization: `Bearer ${localStorage.getItem("authToken")}`,
+    },
+  });
+};
+
+//client list
+export const GetDashboardNotice = () => {
+  const agencyId = localStorage.getItem("agencyID");
+console.log("agencyId in notice",agencyId);
+  return onePiece.get(`/api/notice-board/agency/${agencyId}`, {
+    headers: {
+      "Content-Type": "text/plain",
+      Authorization: `Bearer ${localStorage.getItem("authToken")}`,
     },
   });
 };
@@ -203,7 +223,7 @@ export const GetInsuranceList = () => {
   return onePiece.get(`/api/products/2`, {
     headers: {
       "Content-Type": "text/plain",
-      Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhZ2VuY3lfaWQiOjIsImFnZW5jeV9uYW1lIjoiIiwiZW1haWwiOiJnZXRjbGllbnR3aXNlQGdtYWlsLmNvbSIsImV4cCI6MTczNzkwOTczMywiaWQiOjE0LCJtb2JpbGUiOiIiLCJuYW1lIjoiIn0.XeM84bJ63ljbASCOdEnvSquiO13Qojp4WrJa1sTQnh0`,//${localStorage.getItem("authToken")}
+      Authorization: `Bearer ${localStorage.getItem("authToken")}`,
       agent_id: localStorage.getItem("id"),
     },
   });
@@ -223,7 +243,7 @@ export const cobrandImageApi = (image_url: string) => {
     {
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhZ2VuY3lfaWQiOjIsImFnZW5jeV9uYW1lIjoiIiwiZW1haWwiOiJnZXRjbGllbnR3aXNlQGdtYWlsLmNvbSIsImV4cCI6MTczNzkwOTczMywiaWQiOjE0LCJtb2JpbGUiOiIiLCJuYW1lIjoiIn0.XeM84bJ63ljbASCOdEnvSquiO13Qojp4WrJa1sTQnh0`,//${localStorage.getItem("authToken")}
+        Authorization: `Bearer ${localStorage.getItem("authToken")}`,
         // agent_id: localStorage.getItem("id"),
       },
     }

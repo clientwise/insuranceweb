@@ -32,15 +32,15 @@ const PolicyRecommendation = ({ clientId }: Props) => {
 
   return (
     <div style={{ display: 'flex', alignItems: 'center' }}>
-<Image 
+{/* <Image 
         src={aiLogo} // Path to your SVG in the 'public' directory
         alt="My Logo"
         width={25} 
         height={25} 
-      />    
-    <span>AI Insights Coming Soon.</span>
-      <p style={{font:"#33333"}}> Scan through all existing policies of the customer and recommend new policies</p>
-          </div>
+      />     */}
+    <p>AI Insights</p>
+      <div><p style={{font:"#33333"}}> Scan through all existing policies of the customer and recommend new policies</p>
+          </div></div>
    
   );
 };
