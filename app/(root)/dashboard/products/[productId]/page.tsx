@@ -2,8 +2,6 @@
 
 import { useState, useEffect } from 'react';
 import { useParams } from 'next/navigation';
-import { Colors } from '@/src/assets/colors';
-import { Button } from 'flowbite-react';
 
 export default function ProductPage() {
   const params = useParams();

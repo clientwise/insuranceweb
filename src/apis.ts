@@ -176,7 +176,7 @@ export const postEventApi = (
 
 //clients events
 export const GetClientDetails = (clientId: string) => {
-  return onePiece.get(`/client/9`, {   //${clientId}
+  return onePiece.get(`/client/${clientId}`, {   //
     headers: {
       Authorization: `Bearer ${localStorage.getItem("authToken")}`,
       agent_id: localStorage.getItem("id"),

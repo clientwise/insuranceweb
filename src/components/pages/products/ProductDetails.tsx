@@ -3,10 +3,7 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 
-interface ProductDetailsPageProps {
-    productId: string;
-    agencyId: string;
-  }
+
 export default function ProductDetailsPage() {
   const router = useRouter();
   const productId = router.query.productId; 

@@ -8,17 +8,13 @@ import {
   TableCell,
   Spinner,
   Pagination,
-  Input,
   SortDescriptor,
 } from "@nextui-org/react";
 import Action from "./Action.tsx";
-import { CiSearch } from "react-icons/ci";
 import Row from "../../Row.tsx";
 import Button from "../../Button.tsx";
-import Spacer from "../../Spacer.tsx";
 import { DropdownType, InsuranceListType } from "@/src/types.ts";
 import DropdownComponent from "../../common/Dropdown.tsx";
-import { CsvSVG, DownloadSVG } from "@/src/assets/images/Images.js";
 
 interface Props {
   insurance: InsuranceListType[];

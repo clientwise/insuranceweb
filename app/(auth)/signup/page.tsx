@@ -10,7 +10,7 @@ import { useRouter } from "next/navigation";
 import Image from "next/image";
 import Worklist from "../../../src/assets/kuantslogo.svg";
 import { nextLocalStorage } from "@/src/utils/nextLocalStorage";
-import { jwtDecode, JwtPayload } from "jwt-decode";
+import { jwtDecode } from "jwt-decode";
 
 
 
@@ -26,7 +26,7 @@ export default function SignUp() {
   const emailLocal = nextLocalStorage()?.getItem("email");
 
   React.useEffect(() => {
-    if (emailLocal === null) {
+    if (emailLocal === 'undefined' || emailLocal === null) {
       localStorage.clear();
       router.replace("/login");
     }
