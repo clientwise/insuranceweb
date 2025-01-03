@@ -143,6 +143,7 @@ export type MeetingType = {
   agent_id: string;
   send_to_client: boolean;
 };
+
 export type ClientType = {
   address: string;
   age: string;
@@ -152,10 +153,6 @@ export type ClientType = {
   phone: string;
   profession: string;
   status: string;
-  dependents: string;
-  estimated_annual_salary: string;
-  marital_status: string;
-  risk_profile: string;
 };
 
 export type PolicyType = {

@@ -8,20 +8,11 @@ import { Formik, Form as FormikForm } from "formik";
 import * as Yup from "yup";
 import Input from "@/src/components/Input";
 import { ClientType } from "@/src/types";
-import useApi from "@/src/hooks/useApi";
-import { AddClientApi } from "@/src/apis";
-import useToast from "@/src/hooks/useToast";
-import { useRouter } from "next/navigation";
 
 interface Props {
-  onClose?: () => void;
+  onClose: () => void;
 }
-
 export default function AddClient({}: Props) {
-  const { makeApiCall } = useApi();
-  const { showToast } = useToast();
-  const router = useRouter();
-
   const [initialValues] = React.useState<ClientType>({
     name: "",
     phone: "",
@@ -33,47 +24,37 @@ export default function AddClient({}: Props) {
     status: "",
   });
 
-  const validationSchema = Yup.object().shape({
-    name: Yup.string().required("Client name is required"),
-    phone: Yup.string().when("email", {
-      is: (email: string) => !email || email === "",
-      then: () =>
-        Yup.string()
-          .matches(/^\d{10}$/, "Phone number must be exactly 10 digits")
-          .required("Client phone is required"),
-      otherwise: () => Yup.string(),
-    }),
-    email: Yup.string().when("phone", {
-      is: (phone: string) => !phone || phone === "",
-      then: () =>
-        Yup.string()
-          .email("Invalid email format")
-          .required("Client email is required"),
-      otherwise: () => Yup.string(),
-    }),
-    age: Yup.number()
-      .required("Client age is required")
-      .positive("Age must be positive")
-      .integer("Age must be an integer"),
-    profession: Yup.string().required("Client profession is required"),
-    address: Yup.string().required("Client address is required"),
-    dependents: Yup.string().required("Client dependents are required"),
-    estimated_annual_salary: Yup.string().required(
-      "Estimated annual salary is required"
-    ),
-  });
+  const validationSchema = Yup.object().shape(
+    {
+      name: Yup.string().required("Client name is required"),
+      phone: Yup.string().when("email", {
+        is: (email: string) => !email,
+        then: () =>
+          Yup.string()
+            .matches(/^\d{10}$/, "Phone number must be exactly 10 digits")
+            .required("Client phone is required"),
+        otherwise: () => Yup.string(),
+      }),
+      email: Yup.string().when("phone", {
+        is: (phone: string) => !phone,
+        then: () =>
+          Yup.string()
+            .email("Invalid email format")
+            .required("Client email is required"),
+        otherwise: () => Yup.string(),
+      }),
+      age: Yup.string().required("Client age is required"),
+      profession: Yup.string().required("Client profession is required"),
+      address: Yup.string().required("Client address is required"),
+    },
+    [
+      ["name", "email"],
+      ["email", "phone"],
+    ]
+  );
 
   const handleSubmit = React.useCallback(
-    ({
-      name,
-      phone,
-      email,
-      age,
-      profession,
-      address,
-      dependents,
-      estimated_annual_salary,
-    }: ClientTypeAdd) => {
+    ({ name, phone, email, age, profession, address }: ClientType) => {
       console.log(
         name,
         phone,
@@ -81,32 +62,21 @@ export default function AddClient({}: Props) {
         age,
         profession,
         address,
+        typeof age,
         "Sending client details"
       );
-      return makeApiCall(
-        AddClientApi(
-          name,
-          phone,
-          email,
-          parseInt(age),
-          profession,
-          address,
-          "",
-          dependents,
-          estimated_annual_salary,
-          ""
-        )
-      )
-        .then(() => {
-          showToast("Client Added successfully", { type: "success" });
-          router.push("/dashboard/clients");
-          router.refresh();
-        })
-        .catch(() => {
-          showToast("Client addition failed", { type: "error" });
-        });
+      // return makeApiCall(
+      //   AddClientApi(name, phone, email, parseFloat(age), profession, address)
+      // )
+      //   .then(() => {
+      //     showToast("Client Added successfully", { type: "success" });
+      //     router.push("/dashboard/clients");
+      //   })
+      //   .catch(() => {
+      //     showToast("Client addition failed", { type: "error" });
+      //   });
     },
-    [makeApiCall, router, showToast]
+    []
   );
 
   return (
@@ -115,6 +85,8 @@ export default function AddClient({}: Props) {
         <Formik
           initialValues={initialValues}
           onSubmit={handleSubmit}
+          validateOnBlur
+          validateOnChange
           validationSchema={validationSchema}
           enableReinitialize
         >
@@ -137,19 +109,6 @@ export default function AddClient({}: Props) {
               name="profession"
               label="Profession"
               placeholder="Enter profession "
-            />
-            <Spacer size="xs" />
-            <Input
-              name="dependents"
-              label="Dependents"
-              placeholder="Enter dependents "
-            />
-            <Spacer size="xs" />
-            <Input
-              name="estimated_annual_salary"
-              label="Estimated Annual Salary"
-              placeholder="Enter estimated annual salary "
-              className="border-0 outline-none"
             />
             <Spacer size="xs" />
             <Input
