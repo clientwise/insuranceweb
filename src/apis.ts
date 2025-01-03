@@ -507,3 +507,38 @@ export const AddAgencyMarketingApi = (
     }
   );
 };
+
+//generate password agent
+export const GenerateAgentPassword = (agentId: number) => {
+  return onePiece.post(
+    `/api/agents/${agentId}/generate-password`,
+    {},
+    {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("authToken")}`,
+      },
+    }
+  );
+};
+
+//revoke password
+export const RevokeAgentPassword = (agentId: number) => {
+  return onePiece.post(
+    `/api/agents/${agentId}/revoke`,
+    {},
+    {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("authToken")}`,
+      },
+    }
+  );
+};
+
+//rmeove product
+export const RemoveAgencyProduct = (agency_id: number, product_id: number) => {
+  return onePiece.delete(`/api/products-detail/${agency_id}/${product_id}`, {
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("authToken")}`,
+    },
+  });
+};
