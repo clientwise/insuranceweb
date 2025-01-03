@@ -27,8 +27,12 @@ const MarketUpdates = () => {
     setLoading(true);
     makeApiCall(GetMarketing())
       .then((response) => {
-        const activeProducts = response.products.filter(product => product.status === 'active');
-        setContent(activeProducts);      })
+        const activeProducts = response?.products?.filter(
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          (product: any) => product?.status === "active"
+        );
+        setContent(activeProducts);
+      })
       .catch((error) => {
         console.error(error);
       })
@@ -130,7 +134,8 @@ const MarketUpdates = () => {
         selectedLanguage != "" ? (
           <p
             onClick={resetFilters}
-            className="px-2  py-font-rubik text-textLink rounded-md mt-[1vh] cursor-pointer" style={{alignSelf: "center", fontSize: "14px", color: "#683fdb"}}
+            className="px-2  py-font-rubik text-textLink rounded-md mt-[1vh] cursor-pointer"
+            style={{ alignSelf: "center", fontSize: "14px", color: "#683fdb" }}
           >
             Reset Filters
           </p>

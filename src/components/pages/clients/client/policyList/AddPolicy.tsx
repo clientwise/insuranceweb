@@ -51,7 +51,8 @@ export default function AddPolicy({ onClose, clientId }: Props) {
         const data = await response.json();
         console.log(data.products, "data.products", typeof data.products);
         const options = Array.isArray(data.products)
-          ? data.products.map((product) => ({
+          ? // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            data?.products?.map((product: any) => ({
               value: product.product_id,
               key: product.name,
             }))
@@ -82,7 +83,8 @@ export default function AddPolicy({ onClose, clientId }: Props) {
   );
 
   const handleSubmit = React.useCallback(
-    (values) => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    (values: any) => {
       return makeApiCall(
         postPolicyApi(
           values.name,
@@ -130,7 +132,7 @@ export default function AddPolicy({ onClose, clientId }: Props) {
                 name="productName" // Or whatever name you want to use
                 label="Product Name"
                 placeholder="Select a product"
-                options={policyOptions} // Use the correct variable
+                item={policyOptions}
               />
               <Spacer size="xs" />
               <Input
