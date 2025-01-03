@@ -47,14 +47,6 @@ export default function AgencyBasicProfile() {
         .matches(/^\d{6}$/, "Pincode must be exactly 6 digits")
         .required("Pincode is required"),
     }),
-    billingAddress: Yup.object().shape({
-      line1: Yup.string().required("Address Line 1 is required"),
-      city: Yup.string().required("City is required"),
-      state: Yup.string().required("State is required"),
-      pincode: Yup.string()
-        .matches(/^\d{6}$/, "Pincode must be exactly 6 digits")
-        .required("Pincode is required"),
-    }),
   });
 
   const handleSubmit = React.useCallback(
@@ -66,6 +58,7 @@ export default function AgencyBasicProfile() {
       gstNumber,
       registeredAddress,
     }: BasicInfoType) => {
+      console.log("Submitting details");
       return makeApiCall(
         AgencyBasicDetailsApi(
           agencyName,
@@ -79,13 +72,12 @@ export default function AgencyBasicProfile() {
       )
         .then((response) => {
           console.log(response, "Response of basic profile updation");
-
           showToast(response?.message, { type: "success" });
           localStorage.setItem("agency_id", response?.agency_id);
-          localStorage.setItem("profile_status", response?.status);
+          localStorage.setItem("profile_status", response?.user_status);
         })
         .catch(() => {
-          showToast("Agency addition failed", { type: "error" });
+          showToast("Agency profile updation failed", { type: "error" });
         });
     },
     [makeApiCall, showToast]
@@ -165,6 +157,7 @@ export default function AgencyBasicProfile() {
               <Button
                 color="warning"
                 className="text-base font-normal font-rubik text-white"
+                type="submit"
               >
                 Submit
               </Button>
