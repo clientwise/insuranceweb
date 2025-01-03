@@ -43,7 +43,8 @@ export default function Main({ children }: Props) {
       <Body sideView={<SidebarNew setExpandedMain={setExpandedMain} />}>
         <div className="p-4 bg-white">
           <div
-            className="mt-14 ml-4" style={{marginLeft: "16rem"}} 
+            className="mt-14 ml-4"
+            style={{ marginLeft: "16rem" }}
             // transition-all ${
             //   expandedMain ? "sm:ml-72" : "sm:ml-24"
             // }`}
@@ -57,11 +58,7 @@ export default function Main({ children }: Props) {
   );
 }
 
-function SidebarNew({
-  setExpandedMain,
-}: {
-  setExpandedMain: (expanded: boolean) => void;
-}) {
+function SidebarNew({}: { setExpandedMain: (expanded: boolean) => void }) {
   const pathname = usePathname();
   const is_admin = nextLocalStorage()?.getItem("is_admin") ?? "";
 
@@ -70,13 +67,12 @@ function SidebarNew({
 
   if (is_admin == "true") {
     return (
-      <Sidebar setExpandedMain={setExpandedMain}>
+      <Sidebar>
         <SidebarItem
           icon={
             <Home color={pathname === "/dashboard/home" ? "#fff" : "#683FDB"} />
           }
           text={"Home"}
-          alert={pathname === "/dashboard/home"}
           active={pathname === "/dashboard/home"}
           href="/dashboard/home"
         />
@@ -87,7 +83,6 @@ function SidebarNew({
             />
           }
           text={"Agents"}
-          alert={pathname === "/dashboard/agents"}
           active={pathname === "/dashboard/agents"}
           href="/dashboard/agents"
         />
@@ -100,7 +95,6 @@ function SidebarNew({
             />
           }
           text={"Products"}
-          alert={pathname === "/dashboard/agencyproducts"}
           active={pathname === "/dashboard/agencyproducts"}
           href="/dashboard/agencyproducts"
         />
@@ -113,7 +107,6 @@ function SidebarNew({
             />
           }
           text={"Marketing"}
-          alert={pathname === "/dashboard/agencymarketing"}
           active={pathname === "/dashboard/agencymarketing"}
           href="/dashboard/agencymarketing"
         />
@@ -122,11 +115,10 @@ function SidebarNew({
   }
 
   return (
-    <Sidebar setExpandedMain={setExpandedMain}>
+    <Sidebar>
       <SidebarItem
         icon={<Home color={pathname === "/dashboard" ? "#fff" : "#683FDB"} />}
         text={"Dashboard"}
-        alert={pathname === "/dashboard"}
         active={pathname === "/dashboard"}
         href="/dashboard"
       />
@@ -137,7 +129,6 @@ function SidebarNew({
           />
         }
         text={"Clients"}
-        alert={isClientsPage}
         active={isClientsPage || isClientDetailPage}
         href="/dashboard/clients"
       />
@@ -148,7 +139,6 @@ function SidebarNew({
           />
         }
         text={"Marketing"}
-        alert={pathname === "/dashboard/marketing"}
         active={pathname === "/dashboard/marketing"}
         href="/dashboard/marketing"
       />
@@ -159,7 +149,6 @@ function SidebarNew({
           />
         }
         text={"Products"}
-        alert={pathname === "/dashboard/products"}
         active={pathname === "/dashboard/products"}
         href="/dashboard/products"
       />
@@ -170,22 +159,19 @@ function SidebarNew({
           />
         }
         text={"Transactions"}
-        alert={pathname === "/dashboard/saved"}
         active={pathname === "/dashboard/saved"}
         href="/dashboard/saved"
       />
-       <SidebarItem
+      <SidebarItem
         icon={
           <NoticeBoard
             color={pathname === "/dashboard/notice-board" ? "#fff" : "#683FDB"}
           />
         }
         text={"Notice Board"}
-        alert={pathname === "/dashboard/noticeboard"}
         active={pathname === "/dashboard/noticeboard"}
         href="/dashboard/noticeboard"
       />
     </Sidebar>
-    
   );
 }

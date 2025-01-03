@@ -8,17 +8,13 @@ import {
   TableCell,
   Spinner,
   Pagination,
-  Input,
   SortDescriptor,
 } from "@nextui-org/react";
 import Action from "./Action.tsx";
-import { CiSearch } from "react-icons/ci";
 import Row from "../../Row.tsx";
 import Button from "../../Button.tsx";
-import Spacer from "../../Spacer.tsx";
 import { DropdownType, InsuranceListType } from "@/src/types.ts";
 import DropdownComponent from "../../common/Dropdown.tsx";
-import { CsvSVG, DownloadSVG } from "@/src/assets/images/Images.js";
 
 interface Props {
   insurance: InsuranceListType[];
@@ -46,9 +42,8 @@ const COLUMNS = [
     name: "Type",
     key: "type",
     sortable: true,
-
   },
- 
+
   {
     name: "Description",
     key: "description",
@@ -57,7 +52,6 @@ const COLUMNS = [
     name: "Commission %",
     key: "commission",
     sortable: true,
-
   },
   {
     name: "View Details",
@@ -191,18 +185,24 @@ export default function ProductList({
               <p className="text-bold text-sm capitalize">{product.category}</p>
             </div>
           );
-          case "product_id":
-            return (
-              <div className="flex flex-col">
-                <p className="text-bold text-sm capitalize">{product.product_id}</p>
-              </div>
-            );
-            case "description":
-              return (
-                <div className="flex flex-col">
-                  <p className="text-bold text-sm capitalize">{product.description}</p>
-                </div>
-              );
+        case "product_id":
+          return (
+            <div className="flex flex-col">
+              <p className="text-bold text-sm capitalize">
+                {product.product_id}
+              </p>
+            </div>
+          );
+        case "description":
+          const truncatedText =
+            product.description.substring(0, 20) +
+            (product.description.length > 20 ? "..." : "");
+
+          return (
+            <div className="flex flex-col">
+              <p className="text-bold text-sm capitalize">{truncatedText}</p>
+            </div>
+          );
         case "commission":
           return (
             <div className="flex flex-col">
@@ -304,27 +304,7 @@ export default function ProductList({
   const topContent = React.useMemo(() => {
     return (
       <div className="relative flex flex-col gap-4">
-        <div className="flex justify-between gap-3 items-end">
-          <Input
-            isClearable
-            className="focus:outline-none focus:border-none"
-            classNames={{
-              base: "w-full sm:max-w-[44%] focus:outline-none focus:border-none",
-              inputWrapper:
-                "border-0 focus:border-0 focus:outline-none focus:border-none",
-              input: "border-0 focus:outline-none focus:border-none",
-            }}
-            placeholder="Search by Name..."
-            size="sm"
-            startContent={<CiSearch />}
-            value={filterValue}
-            onClear={() => {
-              setFilterValue("");
-              setSelectedState("all");
-            }}
-            onValueChange={onSearchChange}
-          />
-
+        <div className="flex justify-between  items-end">
           {/* <div className="flex gap-3">
             <Row>
               <Button
@@ -375,13 +355,11 @@ export default function ProductList({
         )}
       </div>
     );
-  }, [filterValue, onSearchChange, showFilter, data, tempselectedState]);
+  }, [showFilter, data, tempselectedState]);
 
   return (
     <div className="flex flex-col">
-
       <div className="flex flex-row justify-between">
-
         <div className="flex flex-row justify-between">
           {/* <button
             onClick={() => {}}

@@ -1,6 +1,5 @@
 "use client";
 import React from "react";
-import { MoreVertical, ChevronLast, ChevronFirst } from "lucide-react";
 import { useContext, createContext, useState } from "react";
 import Link from "next/link";
 import { nextLocalStorage } from "@/src/utils/nextLocalStorage";
@@ -10,11 +9,9 @@ import { Colors, gradients } from "@/src/assets/colors";
 
 const SidebarContext = createContext();
 
-export default function Sidebar({ children, setExpandedMain }) {
-  const [expanded, setExpanded] = useState(true);
+export default function Sidebar({ children }) {
+  const [expanded] = useState(true);
   // const name = nextLocalStorage()?.getItem("name") ?? "name";
-  const email = nextLocalStorage()?.getItem("email") ?? "";
-  const name = nextLocalStorage()?.getItem("name") ?? "";
   // eslint-disable-next-line
   const [data, setData] = React.useState();
 
@@ -51,24 +48,20 @@ export default function Sidebar({ children, setExpandedMain }) {
               <p
                 style={{ color: Colors.textBase }}
                 className="text-xs font-normal font-rubik text-black mt-1 "
-              >
-              </p>
+              ></p>
             </div>
-
-            
           </div>
 
           <SidebarContext.Provider value={{ expanded }}>
             <ul className="flex-1 px-3">{children}</ul>
           </SidebarContext.Provider>
-
         </nav>
       </aside>
     </div>
   );
 }
 
-export function SidebarItem({ icon, text, active, alert, href }) {
+export function SidebarItem({ icon, text, active, href }) {
   const { expanded } = useContext(SidebarContext);
 
   return (
@@ -91,7 +84,8 @@ export function SidebarItem({ icon, text, active, alert, href }) {
             active
               ? "text-white" // Only the text color
               : "text-black"
-          }`} style={{fontSize: "14px"}}
+          }`}
+          style={{ fontSize: "14px" }}
         >
           {text}
         </span>

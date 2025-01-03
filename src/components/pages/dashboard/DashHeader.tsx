@@ -5,7 +5,6 @@ import React from "react";
 import {
   Navbar,
   NavbarContent,
-  Input,
   DropdownItem,
   DropdownTrigger,
   Dropdown,
@@ -16,7 +15,6 @@ import Image from "next/image";
 import BellIcon from "../../../assets/bell.svg";
 import { useRouter } from "next/navigation";
 import { nextLocalStorage } from "@/src/utils/nextLocalStorage";
-import { Search } from "lucide-react";
 
 interface DashHeaderProps {
   onOpen: () => void;
@@ -39,9 +37,7 @@ export default function DashHeader({ onOpen }: DashHeaderProps) {
 
   return (
     <Navbar className="p-0 h-[7vh]  flex flex-row justify-between">
-      <NavbarContent className="hidden sm:flex gap-3">
-        
-      </NavbarContent>
+      <NavbarContent className="hidden sm:flex gap-3"></NavbarContent>
 
       <NavbarContent
         as="div"

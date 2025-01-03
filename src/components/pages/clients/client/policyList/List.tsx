@@ -356,7 +356,7 @@ export default function PolicyList({ policyList = [], loading }: Props) {
           )}
         </TableHeader>
         <TableBody
-          emptyContent={!loading && "No rows to display."}
+          emptyContent={!loading && "No Policies Added/Proposed to Client"}
           items={sortedItems}
           isLoading={loading}
           loadingContent={<Spinner label="Loading..." />}

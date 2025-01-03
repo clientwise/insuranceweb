@@ -6,12 +6,13 @@ import { People, CoinBag, Money } from "@/src/assets/images/Images.js";
 import { Colors } from "@/src/assets/colors";
 import Spacer from "@/src/components/Spacer";
 import ClientsList from "@/src/components/pages/dashboard/clientList/List";
-import { ClientType, NewsItem, TodaysEventsType } from "@/src/types";
+import { ClientType, NewsItem, TodayNoticeType, TodaysEventsType } from "@/src/types";
 import useApi from "@/src/hooks/useApi";
 import WishCard from "@/src/components/pages/home/WishCard";
 import {
   GetClientsDetails,
   GetDashboardNews,
+  GetDashboardNotice,
   GetTodaysEventApi,
 } from "@/src/apis";
 import backgroundImage from "@/src/assets/Comingsoon.png";
@@ -21,16 +22,18 @@ const Home: React.FC = () => {
     []
   );
 
+
   const [clients, setClients] = React.useState<ClientType[]>([]);
   const [news, setNews] = React.useState<NewsItem[]>([]);
+  const [notice, setNotice] = React.useState<TodayNoticeType[]>([]);
 
   const { makeApiCall } = useApi();
   const [loading, setLoading] = React.useState(true);
   const [error, setError] = React.useState<string | null>(null);
 
   const data = [
-    { label: "Total AUM", number: "₹865.33", logo: <Money /> },
-    { label: "Total Income", number: "₹12.98L", logo: <CoinBag /> },
+    { label: "Total Policy Sold", number: "0", logo: <Money /> },
+    { label: "Total Commission", number: "0", logo: <CoinBag /> },
   ];
 
   //api call for client list
@@ -51,7 +54,6 @@ const Home: React.FC = () => {
   React.useEffect(() => {
     makeApiCall(GetTodaysEventApi())
       .then((response) => {
-        console.log("Today's events response", response);
         if (response.data != null) {
           setTodaysEvents(response.data);
         }
@@ -62,12 +64,32 @@ const Home: React.FC = () => {
       });
   }, [makeApiCall]);
 
+  React.useEffect(() => {
+    setLoading(true);
+    makeApiCall(GetDashboardNotice())
+      .then((response) => {
+        // Assuming response.data is an object with a 'notice' property that is an array
+        if (Array.isArray(response.notices)) { 
+          setNotice(response.notices);
+        } else {
+          console.error("Invalid notice data format:", response.data);
+          // Handle the case where response.data.notice is not an array
+        }
+      })
+      .catch((error) => {
+        console.error(error);
+        setError("Failed to fetch dashboard news.");
+      })
+      .finally(() => setLoading(false));
+  }, [makeApiCall]);
+
+
   //api call for dashbaord news
   React.useEffect(() => {
     setLoading(true);
     makeApiCall(GetDashboardNews())
       .then((response) => {
-        console.log("dashboard news response", response);
+
         setNews(response);
       })
       .catch((error) => {
@@ -178,6 +200,7 @@ const Home: React.FC = () => {
             backgroundPosition: "center",
           }}
         ></div>
+
         <div className="flex-1 p-4 rounded-lg shadow-md">
           <div>
           <h1>Latest Industry News</h1>
@@ -198,7 +221,19 @@ const Home: React.FC = () => {
         </div>
         <div
           className="flex-1 p-4  bg-white rounded-lg shadow-md "
-        ><h1>Notice Board</h1>
+        ><h1>             Notice
+</h1>
+<p
+              style={{ color: Colors.textBase }}
+              className="text-xs font-normal font-rubik text-black"
+            >
+ {notice[0]?.title}             </p>
+            <p
+              style={{ color: Colors.textBase }}
+              className="text-xs font-normal font-rubik text-black"
+            >
+   {notice[0]?.content}        
+              </p>
         </div>
         </div>
     </div>
