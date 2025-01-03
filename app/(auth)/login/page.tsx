@@ -99,7 +99,7 @@ const LoginPage = () => {
             localStorage.setItem("mobile", decoded.mobile);
 
             if (checkboxChecked) {
-              if (response?.status != 4) {
+              if (response?.status < 3) {
                 router.replace("/dashboard/agencyprofile");
               } else {
                 router.replace("/dashboard/home");
