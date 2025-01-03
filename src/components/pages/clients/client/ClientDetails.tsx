@@ -4,8 +4,7 @@ import useApi from "@/src/hooks/useApi";
 import { ClientData } from "@/src/types";
 import React from "react";
 import aiLogo from "@/src/assets/ai.svg";
-import Image from 'next/image'
-import { Colors } from "@/src/assets/colors.js";
+import Image from "next/image";
 import Button from "../../../Button.tsx";
 interface Props {
   clientId: string;
@@ -33,68 +32,72 @@ const ClientDetails = ({ clientId }: Props) => {
 
   return (
     <div>
-    <div className="mt-[8%] mb-[8%]">
-      <div  className="my-3"  style={{ display: 'flex', alignItems: 'center' }}>
-<Image 
-        src={aiLogo} // Path to your SVG in the 'public' directory
-        alt="My Logo"
-        width={25} 
-        height={25} 
-      />    
-    <span className="text-black text-lg font-light font-rubik my-1">  Client Basic Info  </span>
-    <Button
-          style={{ color: Colors.textprimary, marginLeft: "auto" }}
-                  className=" bg-yellow-500"
-          onClick={() => {}}
-        >
-          {client.status}
-        </Button>
-      </div>
+      <div className="mt-[8%] mb-[8%]">
+        <div className="my-3" style={{ display: "flex", alignItems: "center" }}>
+          <Image
+            src={aiLogo} // Path to your SVG in the 'public' directory
+            alt="My Logo"
+            width={25}
+            height={25}
+          />
+          <span className="text-black text-lg font-light font-rubik my-1">
+            {" "}
+            Client Basic Info{" "}
+          </span>
+          <Button
+            style={{ color: "white", marginLeft: "auto" }}
+            className=" bg-yellow-500"
+            onClick={() => {}}
+          >
+            {client.status}
+          </Button>
+        </div>
 
-        <div className="flex flex-row gap-[8%] shadow-lg p-4 rounded-lg" style={{backgroundColor:"#f9f9f9"}}>
+        <div
+          className="flex flex-row gap-[8%] shadow-lg p-4 rounded-lg"
+          style={{ backgroundColor: "#f9f9f9" }}
+        >
           {/* Left section with client name, mobile, and risk profile */}
           <div className="flex flex-col">
             <InfoCard title="Client Name" description={client.name} />
-            
+
             <InfoCard
               title="Risk Profile"
-              description={client.status || "Unknown"}
+              description={client.risk_profile || "Unknown"}
             />
-             <InfoCard
+            <InfoCard
               title="Marital Status"
-              description={client.status || "Unknown"}
+              description={client.marital_status || "Unknown"}
             />
-           
-          
           </div>
 
           {/* Middle section with status and email */}
           <div>
-          <InfoCard
+            <InfoCard
               title="Email"
               description={client.email || "Not Provided"}
             />
-           <InfoCard
+            <InfoCard
               title="Age"
               description={client.age?.toString() || "Not Provided"}
             />
-             <InfoCard
+            <InfoCard
               title="Estimated Salary"
-              description={client.status || "Unknown"}
+              description={client.estimated_annual_salary || "Unknown"}
             />
           </div>
 
           {/* Right section with segment and age */}
           <div>
-          <InfoCard title="Mobile" description={client.phone} />
+            <InfoCard title="Mobile" description={client.phone} />
 
             <InfoCard
-              title="Segment"
+              title="Profession"
               description={client.profession || "Not Provided"}
             />
-               <InfoCard
+            <InfoCard
               title="Dependents"
-              description={client.status || "Unknown"}
+              description={client.dependents || "Unknown"}
             />
           </div>
         </div>

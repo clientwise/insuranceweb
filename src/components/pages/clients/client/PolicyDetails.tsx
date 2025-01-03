@@ -3,7 +3,6 @@ import useApi from "@/src/hooks/useApi";
 import { PolicyType } from "@/src/types";
 import React from "react";
 import PolicyList from "./policyList/List";
-import { Colors } from "@/src/assets/colors.js";
 import Button from "../../../Button.tsx";
 
 interface Props {
@@ -41,8 +40,8 @@ const PolicyDetails = ({ clientId, openPolicyAddModal }: Props) => {
           Policy Detail
         </h1>
         <Button
-          style={{ color: Colors.textprimary }}
-                  className=" bg-yellow-500"
+          style={{ color: "white" }}
+          className=" bg-yellow-500"
           onClick={openPolicyAddModal}
         >
           Add Policy

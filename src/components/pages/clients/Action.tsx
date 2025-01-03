@@ -1,7 +1,6 @@
 import * as React from "react";
 import Row from "@/src/components/Row";
 import { ClientType } from "@/src/types";
-import { CalendarRange, Mail } from "lucide-react";
 
 interface Props {
   item: ClientType;

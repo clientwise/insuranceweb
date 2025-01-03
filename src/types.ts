@@ -118,6 +118,32 @@ export type TodaysEventsType = {
   id: number;
 };
 
+export type TodayNoticeType = {
+  ID: number;
+  CreatedAt: string;
+  UpdatedAt: string;
+  DeletedAt: string | null;
+  agency_id: string;
+  title: string;
+  content: string;
+  content_file: string;
+  status: string;
+  content_type: string;
+};
+
+export type MeetingType = {
+  ID: number;
+  CreatedAt: string;
+  UpdatedAt: string;
+  DeletedAt: null | string;
+  client_id: string;
+  client_name: string;
+  date: string;
+  details: string;
+  agent_id: string;
+  send_to_client: boolean;
+};
+
 export type ClientType = {
   address: string;
   age: string;
@@ -158,9 +184,13 @@ export type ClientData = {
   email: string;
   phone: string;
   address: string;
-  age: number;
+  age: string;
   profession: string;
   status: string;
+  dependents: string;
+  estimated_annual_salary: string;
+  marital_status: string;
+  risk_profile: string;
 };
 
 export type MarketingContent = {
@@ -198,7 +228,7 @@ export type InsuranceListType = {
   commission: number;
   description: string;
   agent_commission_percentage: number;
-  agency_id:number;
+  agency_id: number;
 };
 
 export type AddressType = {

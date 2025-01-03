@@ -1,13 +1,9 @@
 import { GetClientDetails } from "@/src/apis";
-import InfoCard from "@/src/components/cards/InfoCard";
 import useApi from "@/src/hooks/useApi";
 import { ClientData } from "@/src/types";
 import React from "react";
-import aiLogo from "@/src/assets/ai.svg";
-import Image from 'next/image'
 interface Props {
-  clientId: string
-  ;
+  clientId: string;
 }
 
 const PolicyRecommendation = ({ clientId }: Props) => {
@@ -31,17 +27,22 @@ const PolicyRecommendation = ({ clientId }: Props) => {
   }
 
   return (
-    <div style={{ display: 'flex', alignItems: 'center' }}>
-<Image 
+    <div style={{ display: "flex", alignItems: "center" }}>
+      {/* <Image 
         src={aiLogo} // Path to your SVG in the 'public' directory
         alt="My Logo"
         width={25} 
         height={25} 
-      />    
-    <span>AI Insights Coming Soon.</span>
-      <p style={{font:"#33333"}}> Scan through all existing policies of the customer and recommend new policies</p>
-          </div>
-   
+      />     */}
+      <p>AI Insights</p>
+      <div>
+        <p style={{ font: "#33333" }}>
+          {" "}
+          Scan through all existing policies of the customer and recommend new
+          policies
+        </p>
+      </div>
+    </div>
   );
 };
 
