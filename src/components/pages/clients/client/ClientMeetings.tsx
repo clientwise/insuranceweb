@@ -19,7 +19,6 @@ import {
   useDisclosure,
   Input,
 } from "@nextui-org/react";
-import { Colors } from "@/src/assets/colors";
 import useToast from "@/src/hooks/useToast";
 
 interface Props {
@@ -27,7 +26,7 @@ interface Props {
   openMeetingAddModal: () => void;
 }
 
-const ClientMeeting = ({ clientId, openMeetingAddModal }: Props) => {
+const ClientMeeting = ({ clientId }: Props) => {
   const { makeApiCall } = useApi();
   const agent_id = localStorage.getItem("id");
   const { showToast } = useToast();
@@ -35,10 +34,14 @@ const ClientMeeting = ({ clientId, openMeetingAddModal }: Props) => {
   const [meetings, setMeetings] = React.useState<MeetingType[]>([]);
   const [isLoading, setIsLoading] = React.useState(true);
   const { isOpen, onOpen, onClose } = useDisclosure(); // State for meeting modal visibility
-  const { isOpen: isOpenReminder, onOpen: onOpenReminder, onClose: onCloseReminder } = useDisclosure(); // State for reminder modal visibility
+  const {
+    isOpen: isOpenReminder,
+    onOpen: onOpenReminder,
+    onClose: onCloseReminder,
+  } = useDisclosure(); // State for reminder modal visibility
 
   const [meetingData, setMeetingData] = React.useState({
-    client_id:parseInt( clientId), // Initialize with clientId from props
+    client_id: parseInt(clientId), // Initialize with clientId from props
     client_name: "",
     date: "",
     details: "",
@@ -46,33 +49,37 @@ const ClientMeeting = ({ clientId, openMeetingAddModal }: Props) => {
     send_to_client: false,
   });
 
-  const [reminderData  , setReminderData] = React.useState({
-    meeting_id:"", // Initialize with clientId from props
+  const [reminderData, setReminderData] = React.useState({
+    meeting_id: "", // Initialize with clientId from props
     date: "",
     details: "",
   });
 
   const handleInputChange = (event) => {
-      const { name, value, type, checked } = event.target;
-      const newValue = type === "checkbox" ? checked : value;
-      setMeetingData({ ...meetingData, [name]: newValue });
-    };
-    
-    const handleInputChangeReminder = (event) => {
-      const { name, value } = event.target;
-      setReminderData({ ...reminderData, [name]: value });
-    };
+    const { name, value, type, checked } = event.target;
+    const newValue = type === "checkbox" ? checked : value;
+    setMeetingData({ ...meetingData, [name]: newValue });
+  };
+
+  const handleInputChangeReminder = (event) => {
+    const { name, value } = event.target;
+    setReminderData({ ...reminderData, [name]: value });
+  };
 
   const handleSubmit = async () => {
     try {
-      const response = await fetch("https://staging.api.mypolicymate.in/api/meetings", { // Replace with your API endpoint
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "Authorization": `Bearer ${localStorage.getItem("authToken")}`,
-        },
-        body: JSON.stringify(meetingData),
-      });
+      const response = await fetch(
+        "https://staging.api.mypolicymate.in/api/meetings",
+        {
+          // Replace with your API endpoint
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem("authToken")}`,
+          },
+          body: JSON.stringify(meetingData),
+        }
+      );
 
       if (response.ok) {
         // Handle successful meeting creation (e.g., close modal, refresh meetings list)
@@ -91,17 +98,20 @@ const ClientMeeting = ({ clientId, openMeetingAddModal }: Props) => {
 
   const handleReminderSubmit = async () => {
     try {
-      const response = await fetch("https://staging.api.mypolicymate.in/api/reminders", { // Replace with your API endpoint
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "Authorization": `Bearer ${localStorage.getItem("authToken")}`,
-        },
-        body: JSON.stringify(reminderData),
-      });
+      const response = await fetch(
+        "https://staging.api.mypolicymate.in/api/reminders",
+        {
+          // Replace with your API endpoint
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem("authToken")}`,
+          },
+          body: JSON.stringify(reminderData),
+        }
+      );
 
       if (response.status === 200) {
-
         // Handle successful meeting creation (e.g., close modal, refresh meetings list)
         onCloseReminder();
         showToast("Reminder Added Successfully", { type: "success" });
@@ -121,10 +131,13 @@ const ClientMeeting = ({ clientId, openMeetingAddModal }: Props) => {
     const fetchMeetings = async () => {
       setIsLoading(true);
       try {
-        const response = await makeApiCall(GetClientMeeting(clientId, agent_id));
+        const response = await makeApiCall(
+          GetClientMeeting(clientId, agent_id)
+        );
         console.log("Meeting list response", response);
 
-        if (response.meetings != null) { // Access meetings from the response
+        if (response.meetings != null) {
+          // Access meetings from the response
           setMeetings(response.meetings);
         }
       } catch (error) {
@@ -143,52 +156,57 @@ const ClientMeeting = ({ clientId, openMeetingAddModal }: Props) => {
     { name: "Client Name", key: "client_name" },
     { name: "Details", key: "details" },
     { name: "Reminder", key: "reminder" },
+  ];
 
-];
-
-  const renderCell = React.useCallback((meeting: MeetingType, columnKey: string) => {
-    switch (columnKey) {
-      case "ID":
-        return <span>
-  {meeting.ID}      
-      </span>;
-      case "date":
-        return <span>{meeting.date}</span>;
-      case "client_name":
-        return <span>{meeting.client_name}</span>;
-      case "details":
-        return <span>{meeting.details}</span>;
+  const renderCell = React.useCallback(
+    (meeting: MeetingType, columnKey: string) => {
+      switch (columnKey) {
+        case "ID":
+          return <span>{meeting.ID}</span>;
+        case "date":
+          return <span>{meeting.date}</span>;
+        case "client_name":
+          return <span>{meeting.client_name}</span>;
+        case "details":
+          return <span>{meeting.details}</span>;
         case "reminder":
-            return   <span
-            onClick={() => {
-              setReminderData({ ...reminderData, meeting_id: meeting.ID.toString() }); // Set meetingID when opening the modal
-              onOpenReminder();
-            }}
-            style={{
-                backgroundColor: '#eae2f0', 
-                borderRadius: '11px',
-                fontSize: '12px',
-                color: '#6d42db', 
-                padding: '6px 10px', // Add some padding for better visual appearance
-                cursor: 'pointer', // Add cursor style to indicate it's clickable
+          return (
+            <span
+              onClick={() => {
+                setReminderData({
+                  ...reminderData,
+                  meeting_id: meeting.ID.toString(),
+                }); // Set meetingID when opening the modal
+                onOpenReminder();
               }}
-          >
-            Set Reminders
-          </span>
-      default:
-        return null;
-    }
-  }, []);
+              style={{
+                backgroundColor: "#eae2f0",
+                borderRadius: "11px",
+                fontSize: "12px",
+                color: "#6d42db",
+                padding: "6px 10px", // Add some padding for better visual appearance
+                cursor: "pointer", // Add cursor style to indicate it's clickable
+              }}
+            >
+              Set Reminders
+            </span>
+          );
+        default:
+          return null;
+      }
+    },
+    [onOpenReminder, reminderData]
+  );
 
   return (
     <div className="mt-[8%]">
-         <div className="flex flex-row justify-between items-center  mb-6">
+      <div className="flex flex-row justify-between items-center  mb-6">
         <h1 className="text-black text-lg font-light font-rubik">
-            Add New Meeting      
+          Add New Meeting
         </h1>
         <Button
           style={{ color: "white" }}
-                  className=" bg-yellow-500"
+          className=" bg-yellow-500"
           onClick={onOpen}
         >
           Add Meeting
@@ -216,7 +234,7 @@ const ClientMeeting = ({ clientId, openMeetingAddModal }: Props) => {
           </TableBody>
         </Table>
       )}
-       <Modal isOpen={isOpen} onClose={onClose}>
+      <Modal isOpen={isOpen} onClose={onClose}>
         <ModalContent>
           {(onClose) => (
             <>
@@ -264,11 +282,10 @@ const ClientMeeting = ({ clientId, openMeetingAddModal }: Props) => {
       </Modal>
       <Modal isOpen={isOpenReminder} onClose={onCloseReminder}>
         <ModalContent>
-          {(onCloseReminder) => (
+          {() => (
             <>
               <ModalHeader>Add Reminder</ModalHeader>
               <ModalBody>
-            
                 <Input
                   label="Reminder Date (YYYY-MM-DD)"
                   name="date"
@@ -281,7 +298,6 @@ const ClientMeeting = ({ clientId, openMeetingAddModal }: Props) => {
                   value={reminderData.details}
                   onChange={handleInputChangeReminder}
                 />
-               
               </ModalBody>
               <ModalFooter>
                 <Button color="danger" variant="light" onPress={onClose}>
@@ -296,8 +312,7 @@ const ClientMeeting = ({ clientId, openMeetingAddModal }: Props) => {
         </ModalContent>
       </Modal>
     </div>
-    );
+  );
 };
 
 export default ClientMeeting;
-

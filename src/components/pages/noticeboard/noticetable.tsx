@@ -7,34 +7,10 @@ interface Notice {
   title: string;
   description: string;
   date: string;
-  [key: string]: any; // For additional fields
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  [key: string]: any;
 }
 
-
-const COLUMNS = [
-  {
-    name: "Notice Type",
-    key: "content_type",
-    sortable: true,
-  },
-  {
-    name: "Download",
-    key: "content_file",
-    sortable: true,
-  },
-  {
-    name: "Title",
-    key: "content_title",
-  },
-  {
-    name: "Description",
-    key: "content",
-  },
-  {
-    name: "Date",
-    key: "created_date",
-  },
-];
 export default function NoticeboardTable() {
   const [notices, setNotices] = React.useState<Notice[]>([]);
   const [isLoading, setIsLoading] = React.useState(true);
@@ -44,15 +20,22 @@ export default function NoticeboardTable() {
     const fetchNotices = async () => {
       setIsLoading(true);
       try {
-        const response = await fetch("https://staging.api.mypolicymate.in/api/notice-board/agency/" + agency_id, {
-          headers: {
-            Authorization: `Bearer ${authToken}`, // Replace with your actual auth token
-          },
-        });
-                if (!response.ok) throw new Error("Failed to fetch notices");
-        console.log( "response of notice");
+        const response = await fetch(
+          "https://staging.api.mypolicymate.in/api/notice-board/agency/" +
+            agency_id,
+          {
+            headers: {
+              Authorization: `Bearer ${authToken}`, // Replace with your actual auth token
+            },
+          }
+        );
+        if (!response.ok) throw new Error("Failed to fetch notices");
+        console.log("response of notice");
         const data = await response.json();
-        const activeNotices = data.notices.filter((notice) => notice.status === "active"); 
+        const activeNotices = data.notices.filter(
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          (notice: any) => notice.status === "active"
+        );
 
         setNotices(activeNotices || []); // Adjust based on the actual response structure
       } catch (error) {
@@ -63,7 +46,7 @@ export default function NoticeboardTable() {
     };
 
     fetchNotices();
-  }, []);
+  }, [agency_id, authToken]);
 
   if (isLoading) return <div>Loading...</div>;
 
@@ -79,21 +62,28 @@ export default function NoticeboardTable() {
             <th className="border border-gray-300 px-4 py-2">Title</th>
             <th className="border border-gray-300 px-4 py-2">Description</th>
             <th className="border border-gray-300 px-4 py-2">Download</th>
-
           </tr>
         </thead>
         <tbody>
           {notices.map((notice) => (
             <tr key={notice.id}>
-              <td className="border border-gray-300 px-4 py-2">  {notice.CreatedAt.split('T')[0]} 
+              <td className="border border-gray-300 px-4 py-2">
+                {notice.CreatedAt.split("T")[0]}
               </td>
 
-              <td className="border border-gray-300 px-4 py-2">{notice.content_type}</td>
+              <td className="border border-gray-300 px-4 py-2">
+                {notice.content_type}
+              </td>
 
-              <td className="border border-gray-300 px-4 py-2">{notice.title}</td>
-              <td className="border border-gray-300 px-4 py-2">{notice.content}</td>
-              <td className="border border-gray-300 px-4 py-2">{notice.content_url}</td>
-
+              <td className="border border-gray-300 px-4 py-2">
+                {notice.title}
+              </td>
+              <td className="border border-gray-300 px-4 py-2">
+                {notice.content}
+              </td>
+              <td className="border border-gray-300 px-4 py-2">
+                {notice.content_url}
+              </td>
             </tr>
           ))}
         </tbody>

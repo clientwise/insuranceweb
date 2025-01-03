@@ -1,7 +1,6 @@
 import * as React from "react";
 import Row from "@/src/components/Row";
 import { ClientType } from "@/src/types";
-import { Mail, Message } from "@/src/assets/images/Images";
 
 interface Props {
   item: ClientType;
