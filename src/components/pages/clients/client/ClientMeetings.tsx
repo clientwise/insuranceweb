@@ -1,7 +1,7 @@
 import { GetClientMeeting } from "@/src/apis";
 import useApi from "@/src/hooks/useApi";
 import { MeetingType } from "@/src/types"; // Assuming you have a MeetingType defined
-import React from "react";
+import React, { Key } from "react";
 import {
   Table,
   TableHeader,
@@ -28,7 +28,7 @@ interface Props {
 
 const ClientMeeting = ({ clientId }: Props) => {
   const { makeApiCall } = useApi();
-  const agent_id = localStorage.getItem("id");
+  const agent_id = localStorage.getItem("id") ?? "";
   const { showToast } = useToast();
 
   const [meetings, setMeetings] = React.useState<MeetingType[]>([]);
@@ -45,7 +45,7 @@ const ClientMeeting = ({ clientId }: Props) => {
     client_name: "",
     date: "",
     details: "",
-    agent_id: parseInt(agent_id), // Initialize with agent_id
+    agent_id: parseInt(agent_id),
     send_to_client: false,
   });
 
@@ -55,13 +55,15 @@ const ClientMeeting = ({ clientId }: Props) => {
     details: "",
   });
 
-  const handleInputChange = (event) => {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const handleInputChange = (event: any) => {
     const { name, value, type, checked } = event.target;
     const newValue = type === "checkbox" ? checked : value;
     setMeetingData({ ...meetingData, [name]: newValue });
   };
 
-  const handleInputChangeReminder = (event) => {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const handleInputChangeReminder = (event: any) => {
     const { name, value } = event.target;
     setReminderData({ ...reminderData, [name]: value });
   };
@@ -159,7 +161,7 @@ const ClientMeeting = ({ clientId }: Props) => {
   ];
 
   const renderCell = React.useCallback(
-    (meeting: MeetingType, columnKey: string) => {
+    (meeting: MeetingType, columnKey: Key) => {
       switch (columnKey) {
         case "ID":
           return <span>{meeting.ID}</span>;

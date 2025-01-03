@@ -1,5 +1,6 @@
 "use client";
 
+import { nextLocalStorage } from "@/src/utils/nextLocalStorage";
 import * as React from "react";
 
 interface Notice {
@@ -14,8 +15,9 @@ interface Notice {
 export default function NoticeboardTable() {
   const [notices, setNotices] = React.useState<Notice[]>([]);
   const [isLoading, setIsLoading] = React.useState(true);
-  const agency_id = localStorage.getItem("agencyID");
-  const authToken = localStorage.getItem("authToken");
+  const agency_id = nextLocalStorage()?.getItem("agency_id") ?? "";
+  const authToken = nextLocalStorage()?.getItem("authToken") ?? "";
+
   React.useEffect(() => {
     const fetchNotices = async () => {
       setIsLoading(true);
