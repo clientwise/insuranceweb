@@ -152,6 +152,10 @@ export type ClientType = {
   phone: string;
   profession: string;
   status: string;
+  dependents: string 
+  estimated_annual_salary: string,
+  marital_status: string,
+  risk_profile: string,
 };
 
 export type PolicyType = {
@@ -183,9 +187,13 @@ export type ClientData = {
   email: string;
   phone: string;
   address: string;
-  age: number;
+  age: string;
   profession: string;
   status: string;
+  dependents: string 
+            estimated_annual_salary: string,
+            marital_status: string,
+            risk_profile: string,
 };
 
 export type MarketingContent = {

@@ -43,7 +43,7 @@ const ClientDetails = ({ clientId }: Props) => {
       />    
     <span className="text-black text-lg font-light font-rubik my-1">  Client Basic Info  </span>
     <Button
-          style={{ color: Colors.textprimary, marginLeft: "auto" }}
+          style={{ color: "white", marginLeft: "auto" }}
                   className=" bg-yellow-500"
           onClick={() => {}}
         >
@@ -58,11 +58,11 @@ const ClientDetails = ({ clientId }: Props) => {
             
             <InfoCard
               title="Risk Profile"
-              description={client.status || "Unknown"}
+              description={client.risk_profile || "Unknown"}
             />
              <InfoCard
               title="Marital Status"
-              description={client.status || "Unknown"}
+              description={client.marital_status || "Unknown"}
             />
            
           
@@ -80,7 +80,7 @@ const ClientDetails = ({ clientId }: Props) => {
             />
              <InfoCard
               title="Estimated Salary"
-              description={client.status || "Unknown"}
+              description={client.estimated_annual_salary || "Unknown"}
             />
           </div>
 
@@ -94,7 +94,7 @@ const ClientDetails = ({ clientId }: Props) => {
             />
                <InfoCard
               title="Dependents"
-              description={client.status || "Unknown"}
+              description={client.dependents || "Unknown"}
             />
           </div>
         </div>

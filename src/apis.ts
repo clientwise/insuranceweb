@@ -65,7 +65,9 @@ export const AddClientApi = (
   email: string,
   age: number,
   profession: string,
-  address: string
+  address: string,
+   marital_status: string,
+    dependents: string, estimated_annual_salary: string, risk_profile: string
 ) => {
   return onePiece.post(
     "/client",
@@ -76,6 +78,9 @@ export const AddClientApi = (
       age,
       profession,
       address,
+      marital_status,
+      dependents,
+       estimated_annual_salary, risk_profile
     },
     {
       headers: {
@@ -176,7 +181,7 @@ export const postEventApi = (
 
 //clients events
 export const GetClientDetails = (clientId: string) => {
-  return onePiece.get(`/client/9`, {   //${clientId}
+  return onePiece.get(`/client/${clientId}`, {   //${clientId}
     headers: {
       Authorization: `Bearer ${localStorage.getItem("authToken")}`,
       agent_id: localStorage.getItem("id"),

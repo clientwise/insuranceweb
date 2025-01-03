@@ -20,6 +20,7 @@ import {
   Input,
 } from "@nextui-org/react";
 import { Colors } from "@/src/assets/colors";
+import useToast from "@/src/hooks/useToast";
 
 interface Props {
   clientId: string;
@@ -29,6 +30,7 @@ interface Props {
 const ClientMeeting = ({ clientId, openMeetingAddModal }: Props) => {
   const { makeApiCall } = useApi();
   const agent_id = localStorage.getItem("id");
+  const { showToast } = useToast();
 
   const [meetings, setMeetings] = React.useState<MeetingType[]>([]);
   const [isLoading, setIsLoading] = React.useState(true);
@@ -45,7 +47,7 @@ const ClientMeeting = ({ clientId, openMeetingAddModal }: Props) => {
   });
 
   const [reminderData  , setReminderData] = React.useState({
-    meetingID:"", // Initialize with clientId from props
+    meeting_id:"", // Initialize with clientId from props
     date: "",
     details: "",
   });
@@ -75,9 +77,9 @@ const ClientMeeting = ({ clientId, openMeetingAddModal }: Props) => {
       if (response.ok) {
         // Handle successful meeting creation (e.g., close modal, refresh meetings list)
         onClose();
-        // ... your success handling logic
       } else {
-        // Handle error (e.g., display error message)
+        // Handle error (e.g., display  message)
+
         console.error("Failed to add meeting");
         // ... your error handling logic
       }
@@ -98,9 +100,11 @@ const ClientMeeting = ({ clientId, openMeetingAddModal }: Props) => {
         body: JSON.stringify(reminderData),
       });
 
-      if (response.ok) {
+      if (response.status === 200) {
+
         // Handle successful meeting creation (e.g., close modal, refresh meetings list)
-        // onClose();
+        onCloseReminder();
+        showToast("Reminder Added Successfully", { type: "success" });
         // ... your success handling logic
       } else {
         // Handle error (e.g., display error message)
@@ -157,9 +161,17 @@ const ClientMeeting = ({ clientId, openMeetingAddModal }: Props) => {
         case "reminder":
             return   <span
             onClick={() => {
-              setReminderData({ ...reminderData, meetingID: meeting.ID.toString() }); // Set meetingID when opening the modal
+              setReminderData({ ...reminderData, meeting_id: meeting.ID.toString() }); // Set meetingID when opening the modal
               onOpenReminder();
             }}
+            style={{
+                backgroundColor: '#eae2f0', 
+                borderRadius: '11px',
+                fontSize: '12px',
+                color: '#6d42db', 
+                padding: '6px 10px', // Add some padding for better visual appearance
+                cursor: 'pointer', // Add cursor style to indicate it's clickable
+              }}
           >
             Set Reminders
           </span>
@@ -175,7 +187,7 @@ const ClientMeeting = ({ clientId, openMeetingAddModal }: Props) => {
             Add New Meeting      
         </h1>
         <Button
-          style={{ color: Colors.textprimary }}
+          style={{ color: "white" }}
                   className=" bg-yellow-500"
           onClick={onOpen}
         >
@@ -288,3 +300,4 @@ const ClientMeeting = ({ clientId, openMeetingAddModal }: Props) => {
 };
 
 export default ClientMeeting;
+

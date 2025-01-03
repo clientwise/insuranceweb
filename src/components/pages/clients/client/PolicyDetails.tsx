@@ -41,7 +41,7 @@ const PolicyDetails = ({ clientId, openPolicyAddModal }: Props) => {
           Policy Detail
         </h1>
         <Button
-          style={{ color: Colors.textprimary }}
+          style={{ color: "white" }}
                   className=" bg-yellow-500"
           onClick={openPolicyAddModal}
         >

@@ -12,11 +12,12 @@ import useApi from "@/src/hooks/useApi";
 import { AddClientApi } from "@/src/apis";
 import useToast from "@/src/hooks/useToast";
 import { useRouter } from "next/navigation";
+import { Select, SelectItem } from "@nextui-org/react";
 
 interface Props {
   onClose: () => void;
 }
-export default function AddClient({onClose}: Props) {
+export default function AddClient({}: Props) {
   // eslint-disable-next-line
   const { makeApiCall } = useApi();
   const { showToast } = useToast();
@@ -63,7 +64,7 @@ export default function AddClient({onClose}: Props) {
   );
 
   const handleSubmit = React.useCallback(
-    ({ name, phone, email, age, profession, address }: ClientType) => {
+    ({ name, phone, email, age, profession, address,dependents,estimated_annual_salary }: ClientType) => {
       console.log(
         name,
         phone,
@@ -75,17 +76,17 @@ export default function AddClient({onClose}: Props) {
         "Sending client details"
       );
       return makeApiCall(
-        AddClientApi(name, phone, email, parseFloat(age), profession, address)
+        AddClientApi(name, phone, email, parseFloat(age), profession, address, "", dependents, estimated_annual_salary, "")
       )
-        .then(() => {
+      .then((response) => {
           showToast("Client Added successfully", { type: "success" });
-          router.push("/dashboard/clients");
-          onClose(); // Call onClose after successful submission
-          router.refresh(); // Refresh the page after closing the modal
 
+        //  onClose(); // Close the modal after successful submission 
+    router.push("/dashboard/clients");
+    router.refresh();
         })
         .catch(() => {
-          showToast("Please check mobile number and client email", { type: "error" });
+          showToast("Client addition failed", { type: "error" });
         });
     },
     [makeApiCall, router, showToast]
@@ -122,7 +123,20 @@ export default function AddClient({onClose}: Props) {
               label="Profession"
               placeholder="Enter profession "
             />
+                 <Input
+              name="dependents"
+              label="dependents"
+              placeholder="Enter profession "
+            />
+
+          <Input
+              name="estimated_annual_salary"
+              label="estimated_annual_salary"
+              placeholder="estimated_annual_salary "
+              className="border-0 outline-none"
+            />
             <Spacer size="xs" />
+          
             <Input
               name="address"
               label="Address"
