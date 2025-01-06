@@ -206,22 +206,22 @@ export default function AgentNumbersList({ agents, loading, onOpen }: Props) {
             Active
           </Chip>
         );
-      case "in_progress":
+      case "revoked":
         return (
           <Chip color="danger" variant="flat" size="sm">
-            In Progress
+            Revoked
           </Chip>
         );
-      case "cold_lead":
+      case "inactive":
         return (
           <Chip color="danger" variant="flat" size="sm">
-            Cold Lead
+            Inactive
           </Chip>
         );
       default:
         return (
           <Chip variant="flat" color="success" size="sm">
-            New Lead
+            Inactive
           </Chip>
         );
     }
