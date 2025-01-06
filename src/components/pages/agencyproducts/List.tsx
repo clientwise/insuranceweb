@@ -203,22 +203,16 @@ export default function AgencyProductList({
             Active
           </Chip>
         );
-      case "in_progress":
-        return (
-          <Chip color="danger" variant="flat" size="sm">
-            In Progress
-          </Chip>
-        );
       case "inactive":
         return (
           <Chip color="danger" variant="flat" size="sm">
-            Inactive
+            In Active
           </Chip>
         );
       default:
         return (
           <Chip variant="flat" color="success" size="sm">
-            Inactive
+            In Active
           </Chip>
         );
     }
