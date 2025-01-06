@@ -6,7 +6,7 @@ import { useParams } from "next/navigation";
 export default function ProductPage() {
   const params = useParams();
   const productId = params.productId as string;
-  const agency_id = localStorage.getItem("agencyID");
+  const agency_id = localStorage.getItem("agency_id");
   const authToken = localStorage.getItem("authToken");
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [product, setProduct] = useState<any | null>(null);

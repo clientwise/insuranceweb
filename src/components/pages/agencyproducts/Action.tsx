@@ -6,12 +6,22 @@ import Button from "../../Button";
 interface Props {
   item: ProductType;
   removeProductItem: (item: ProductType) => void;
+  openProductModal: (type: string, item: ProductType) => void;
 }
 
-export default function Action({ item, removeProductItem }: Props) {
+export default function Action({
+  item,
+  removeProductItem,
+  openProductModal,
+}: Props) {
   const removeProduct = React.useCallback(() => {
     removeProductItem(item);
   }, [item, removeProductItem]);
+
+  const editProduct = React.useCallback(() => {
+    console.log(item, "Itemn calling the the edit");
+    openProductModal("edit_product", item);
+  }, [item, openProductModal]);
   return (
     <Row>
       <div className="flex flex-row items-center justify-center gap-3">
@@ -29,9 +39,15 @@ export default function Action({ item, removeProductItem }: Props) {
         <button className="text-textColorGrey cursor-pointer font-rubik">
           <p className="text-textLink text-base font-light font-rubik">Pause</p>
         </button>
-        <button className="text-textColorGrey cursor-pointer font-rubik">
+        <Button
+          size="sm"
+          type="button"
+          radius="full"
+          className="bg-transparent"
+          onClick={editProduct}
+        >
           <p className="text-textLink text-base font-light font-rubik">Edit</p>
-        </button>
+        </Button>
       </div>
     </Row>
   );

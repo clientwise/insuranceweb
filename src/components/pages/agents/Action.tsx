@@ -5,14 +5,12 @@ import Button from "../../Button";
 
 interface Props {
   item: AgentType;
-  onRowAction: (clientId: React.Key) => void;
   generatePassword: (item: AgentType) => void;
   revokePassword: (item: AgentType) => void;
 }
 
 export default function Action({
   item,
-  onRowAction,
   generatePassword,
   revokePassword,
 }: Props) {
@@ -26,12 +24,6 @@ export default function Action({
   return (
     <Row>
       <div className="flex flex-row items-center justify-center gap-3">
-        <button
-          onClick={() => onRowAction}
-          className="text-textColorGrey cursor-pointer font-rubik"
-        >
-          <p className="text-textLink text-base font-light font-rubik">View</p>
-        </button>
         <Button
           size="sm"
           type="button"

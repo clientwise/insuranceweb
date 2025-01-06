@@ -28,7 +28,7 @@ import { nextLocalStorage } from "@/src/utils/nextLocalStorage.ts";
 interface Props {
   products: ProductType[];
   loading: boolean;
-  onOpen: () => void;
+  openProductModal: (type: string, item?: ProductType) => void;
 }
 
 const COLUMNS = [
@@ -71,7 +71,7 @@ const COLUMNS = [
 export default function AgencyProductList({
   products,
   loading,
-  onOpen,
+  openProductModal,
 }: Props) {
   const { makeApiCall } = useApi();
   const { showToast } = useToast();
@@ -244,7 +244,7 @@ export default function AgencyProductList({
           );
         case "description":
           return (
-            <div className="flex flex-col">
+            <div className="flex flex-col max-h-[20vh] overflow-y-auto">
               <p className="text-bold text-sm capitalize">
                 {product.description}
               </p>
@@ -277,14 +277,18 @@ export default function AgencyProductList({
         case "action":
           return (
             <div className="flex">
-              <Action item={product} removeProductItem={removeProductItem} />
+              <Action
+                item={product}
+                removeProductItem={removeProductItem}
+                openProductModal={openProductModal}
+              />
             </div>
           );
         default:
           return null;
       }
     },
-    [products, renderStatus, removeProductItem]
+    [products, renderStatus, removeProductItem, openProductModal]
   );
 
   const bottomContent = React.useMemo(() => {
@@ -453,7 +457,7 @@ export default function AgencyProductList({
           style={{ color: Colors.textprimary }}
           className="rounded-lg bg-yellow-500"
           size="md"
-          onClick={onOpen}
+          onClick={() => openProductModal("add_product")}
         >
           <p className="text-base font-normal font-rubik text-white">
             + Add New Product

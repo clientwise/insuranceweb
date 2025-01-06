@@ -2,17 +2,32 @@ import React from "react";
 import Image from "next/image";
 import { AgencyMarketingItemType } from "../../../types";
 import { ArrowDownToLine, ExternalLink } from "lucide-react";
+import DropdownComponent from "../../common/Dropdown";
 
 interface Props {
   blog: AgencyMarketingItemType;
   onImageClick: (content_url: string) => void;
+  onStatusChange: (
+    status: string | number,
+    blog: AgencyMarketingItemType
+  ) => void;
 }
 
-const AgencyBlogCard = ({ blog, onImageClick }: Props) => {
+const AgencyBlogCard = ({ blog, onImageClick, onStatusChange }: Props) => {
+  const [selectedStatus, setSelectedStatus] = React.useState<string | number>(
+    blog.status ? blog.status : ""
+  );
+
   const handleImageClick = () => {
     if (blog?.content_url) {
       onImageClick(blog.content_url);
     }
+  };
+
+  const handleStatusChange = (selectedKey: string | number) => {
+    console.log(selectedKey, "Selected keyt in product dropdown");
+    onStatusChange(selectedKey, blog);
+    setSelectedStatus(selectedKey);
   };
 
   return (
@@ -47,13 +62,26 @@ const AgencyBlogCard = ({ blog, onImageClick }: Props) => {
           </div>
         </div>
         <div>
-          <p className="text-textBase text-base leading-5 font-normal text-justify font-rubik mb-2">
-            {blog.content_subheader}
-          </p>
-          <div className="flex flex-row justify-start items-center mb-2">
-            <p className="text-black font-light text-xs font-rubik">
-              Added on: 18 May 2024{" "}
+          <div>
+            <p className="text-textBase text-base leading-5 font-normal text-justify font-rubik mb-2">
+              {blog.content_subheader}
             </p>
+            <div className="flex flex-row justify-items-center justify-between">
+              <div className="flex flex-row justify-start items-center">
+                <p className="text-black font-light text-xs font-rubik">
+                  Added on: 18 May 2024
+                </p>
+              </div>
+              <DropdownComponent
+                data={[
+                  { key: "active", value: "Active" },
+                  { key: "inactive", value: "Inactive" },
+                ]}
+                initialSelectedKey={selectedStatus}
+                onSelectionChange={handleStatusChange}
+                placeholder="Status"
+              />
+            </div>
           </div>
         </div>
       </div>
