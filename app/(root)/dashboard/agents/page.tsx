@@ -2,7 +2,6 @@
 import React from "react";
 import Spacer from "@/src/components/Spacer";
 import { AgentType } from "@/src/types";
-import { useRouter } from "next/navigation";
 import useApi from "@/src/hooks/useApi";
 import { GetsAgentsDetails } from "@/src/apis";
 import { useDisclosure } from "@nextui-org/react";
@@ -16,16 +15,6 @@ const Agents = () => {
 
   const { makeApiCall } = useApi();
   const [loading, setLoading] = React.useState(true);
-  const router = useRouter();
-
-  // eslint-disable-next-line
-  const navigateToClientCode = React.useCallback(
-    (clientId: React.Key) => {
-      console.log(clientId, "Going to client code");
-      router.push(`/dashboard/clients/${clientId}`);
-    },
-    [router]
-  );
 
   React.useEffect(() => {
     const agency_id = nextLocalStorage()?.getItem("agency_id") ?? "";
@@ -61,12 +50,7 @@ const Agents = () => {
           clientId={"2"}
         />
         <Spacer size="sm" />
-        <AgentNumbersList
-          agents={agents}
-          loading={loading}
-          onOpen={onOpen}
-          onRowAction={navigateToClientCode}
-        />
+        <AgentNumbersList agents={agents} loading={loading} onOpen={onOpen} />
       </div>
     </div>
   );

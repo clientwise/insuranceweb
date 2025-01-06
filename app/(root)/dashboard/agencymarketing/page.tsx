@@ -3,7 +3,11 @@ import React from "react";
 import Spacer from "@/src/components/Spacer";
 import { AgencyMarketingItemType } from "@/src/types";
 import useApi from "@/src/hooks/useApi";
-import { cobrandImageApi, GetsAgencyMarketingItems } from "@/src/apis";
+import {
+  cobrandImageApi,
+  GetsAgencyMarketingItems,
+  UpdateStatusProduct,
+} from "@/src/apis";
 import { useDisclosure } from "@nextui-org/react";
 import { nextLocalStorage } from "@/src/utils/nextLocalStorage";
 import DropdownComponent from "@/src/components/common/Dropdown";
@@ -12,6 +16,7 @@ import AgencyBlogCard from "@/src/components/pages/agencymarketing/AgencyBlogCar
 import Button from "@/src/components/Button";
 import { Colors } from "@/src/assets/colors";
 import AgencyMarketingAddModal from "@/src/components/pages/agencymarketing/AgencyMarketingAddModal";
+import useToast from "@/src/hooks/useToast";
 
 const Agents = () => {
   const { isOpen, onOpen, onOpenChange, onClose } = useDisclosure();
@@ -20,6 +25,8 @@ const Agents = () => {
   >([]);
 
   const { makeApiCall } = useApi();
+  const { showToast } = useToast();
+
   const [loading, setLoading] = React.useState(true);
 
   const [selectedCategory, setSelectedCategory] = React.useState<
@@ -81,6 +88,23 @@ const Agents = () => {
     [makeApiCall]
   );
 
+  const handleStatusChange = React.useCallback(
+    (status: string | number, blog: AgencyMarketingItemType) => {
+      makeApiCall(UpdateStatusProduct(blog?.sno, status, blog?.agency_id))
+        .then((response) => {
+          console.log("upcdated the status of product", response);
+          if (response.success == true) {
+            showToast("Status updated successfully", { type: "success" });
+          }
+        })
+        .catch((error) => {
+          console.error("Error during API call or file download:", error);
+          showToast("Status  updation failed", { type: "error" });
+        });
+    },
+    [makeApiCall, showToast]
+  );
+
   const filteredContent = marketingItems.filter((item) => {
     const categoryMatch = selectedCategory
       ? item.content_category === selectedCategory
@@ -95,7 +119,6 @@ const Agents = () => {
     return categoryMatch && productTypeMatch && languageMatch;
   });
 
-  // Function to reset filters
   const resetFilters = () => {
     setSelectedCategory("");
     setSelectedProductType("");
@@ -187,6 +210,7 @@ const Agents = () => {
               key={index}
               blog={data}
               onImageClick={handleImageClick}
+              onStatusChange={handleStatusChange}
             />
           ))}
         </div>

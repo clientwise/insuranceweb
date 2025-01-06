@@ -28,7 +28,6 @@ interface Props {
   agents: AgentType[];
   loading: boolean;
   onOpen: () => void;
-  onRowAction: (clientId: React.Key) => void;
 }
 
 const COLUMNS = [
@@ -60,12 +59,7 @@ const COLUMNS = [
   },
 ];
 
-export default function AgentNumbersList({
-  agents,
-  loading,
-  onOpen,
-  onRowAction,
-}: Props) {
+export default function AgentNumbersList({ agents, loading, onOpen }: Props) {
   const { makeApiCall } = useApi();
   const { showToast } = useToast();
 
@@ -273,7 +267,6 @@ export default function AgentNumbersList({
             <div className="flex">
               <Action
                 item={agent}
-                onRowAction={onRowAction}
                 generatePassword={generatePassword}
                 revokePassword={revokePassword}
               />
@@ -283,7 +276,7 @@ export default function AgentNumbersList({
           return null;
       }
     },
-    [agents, generatePassword, onRowAction, renderStatus, revokePassword]
+    [agents, generatePassword, renderStatus, revokePassword]
   );
 
   const bottomContent = React.useMemo(() => {
@@ -475,7 +468,7 @@ export default function AgentNumbersList({
             <TableColumn
               allowsSorting={column.sortable}
               key={column.key}
-              align={column.key === "action" ? "end" : "start"}
+              align={column.key === "action" ? "center" : "start"}
               width={column.key === "action" ? 100 : undefined}
             >
               {column.name}

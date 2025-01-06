@@ -12,6 +12,8 @@ import ProductAddModal from "@/src/components/pages/agencyproducts/ProductAddMod
 const Agents = () => {
   const { isOpen, onOpen, onOpenChange, onClose } = useDisclosure();
   const [products, setProducts] = React.useState<ProductType[]>([]);
+  const [modaltype, setModaltype] = React.useState("add_product");
+  const [currentItem, setCurrentItem] = React.useState<ProductType>();
 
   const { makeApiCall } = useApi();
   const [loading, setLoading] = React.useState(true);
@@ -39,6 +41,18 @@ const Agents = () => {
     onClose();
   }, [onClose]);
 
+  const openProductModal = React.useCallback(
+    (type: string, item?: ProductType) => {
+      console.log(item, "editing the product");
+      if (item) {
+        setCurrentItem(item);
+      }
+      setModaltype(type);
+      onOpenChange();
+    },
+    [onOpenChange]
+  );
+
   return (
     <div>
       <div className="text-black bg-pageBackground px-1 min-h-screen ">
@@ -48,12 +62,14 @@ const Agents = () => {
           onOpenChange={onopentoggle}
           onClose={oncloseModal}
           clientId={"2"}
+          type={modaltype}
+          currentItem={currentItem}
         />
         <Spacer size="sm" />
         <AgencyProductList
           products={products}
           loading={loading}
-          onOpen={onOpen}
+          openProductModal={openProductModal}
         />
       </div>
     </div>

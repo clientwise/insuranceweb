@@ -45,18 +45,16 @@ export default function SignUp() {
           body: JSON.stringify({ email, password }),
         }
       );
+      console.log(response, "response of signup");
 
       if (response.ok) {
-        // Successful login
         const data = await response.json();
 
-        // Assuming the token is in a 'token' property in the response
-        const token = data.token;
+        const token = data?.token;
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const decodedToken: any = jwtDecode(token);
         nextLocalStorage()?.setItem("authToken", token);
-        // Store the attributes in local storage
-        nextLocalStorage()?.setItem("agencyID", decodedToken.agency_id);
+        nextLocalStorage()?.setItem("agency_id", decodedToken.agency_id);
 
         nextLocalStorage()?.setItem(
           "date_of_joining",
@@ -73,11 +71,9 @@ export default function SignUp() {
         nextLocalStorage()?.setItem("user_access", decodedToken.user_access);
         nextLocalStorage()?.setItem("user_type", decodedToken.user_type);
 
-        // Redirect to the dashboard
         router.replace("/dashboard");
       } else {
-        // Handle login failure (e.g., display an error message)
-        const errorData = await response.json(); // Get error data from response
+        const errorData = await response.json();
         setErrorMessage(errorData.message || "Login failed");
       }
     } catch (error) {

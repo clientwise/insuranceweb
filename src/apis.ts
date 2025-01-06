@@ -25,7 +25,6 @@ export const OtpSubmitApi = (email: string, otp: string) => {
   );
 };
 
-
 export const Agentlogin = (email: string, password: string) => {
   return onePiece.post(
     "/api/auth-agent/login",
@@ -44,7 +43,7 @@ export const GetClientsDetails = () => {
     headers: {
       "Content-Type": "text/plain",
       Authorization: `Bearer ${localStorage.getItem("authToken")}`,
-      agent_id:localStorage.getItem("id")
+      agent_id: localStorage.getItem("id"),
     },
   });
 };
@@ -66,8 +65,10 @@ export const AddClientApi = (
   age: number,
   profession: string,
   address: string,
-   marital_status: string,
-    dependents: string, estimated_annual_salary: string, risk_profile: string
+  marital_status: string,
+  dependents: string,
+  estimated_annual_salary: string,
+  risk_profile: string
 ) => {
   return onePiece.post(
     "/client",
@@ -80,7 +81,8 @@ export const AddClientApi = (
       address,
       marital_status,
       dependents,
-       estimated_annual_salary, risk_profile
+      estimated_annual_salary,
+      risk_profile,
     },
     {
       headers: {
@@ -102,8 +104,7 @@ export const GetClientAllPolicy = (clientId: string) => {
   });
 };
 
-export const GetClientMeeting = (clientId: string, agent_id:string) => {
-  
+export const GetClientMeeting = (clientId: string, agent_id: string) => {
   return onePiece.get(`/api/meetings/${agent_id}/${clientId}`, {
     headers: {
       Authorization: `Bearer ${localStorage.getItem("authToken")}`,
@@ -181,7 +182,8 @@ export const postEventApi = (
 
 //clients events
 export const GetClientDetails = (clientId: string) => {
-  return onePiece.get(`/client/${clientId}`, {   //${clientId}
+  return onePiece.get(`/client/${clientId}`, {
+    //${clientId}
     headers: {
       Authorization: `Bearer ${localStorage.getItem("authToken")}`,
       agent_id: localStorage.getItem("id"),
@@ -213,8 +215,8 @@ export const GetDashboardNews = () => {
 
 //client list
 export const GetDashboardNotice = () => {
-  const agencyId = localStorage.getItem("agencyID");
-console.log("agencyId in notice",agencyId);
+  const agencyId = localStorage.getItem("agency_id");
+  console.log("agencyId in notice", agencyId);
   return onePiece.get(`/api/notice-board/agency/${agencyId}`, {
     headers: {
       "Content-Type": "text/plain",
@@ -243,7 +245,7 @@ export const cobrandImageApi = (image_url: string) => {
     "/co-brand-image",
     {
       image_url,
-      agent_id
+      agent_id,
     },
     {
       headers: {
@@ -318,17 +320,13 @@ export const AgencyBankingDetailsApi = (
 };
 
 export const AgencyAgreementDetailsApi = (formData: FormData) => {
-  return onePiece.post(
-    "/save-bank-details", // Adjust the API endpoint as needed
-    formData, // Send the formData directly
-    {
-      headers: {
-        "Content-Type": "multipart/form-data", // Important for file uploads
-        Authorization: `Bearer ${localStorage.getItem("authToken")}`,
-        agent_id: localStorage.getItem("id"),
-      },
-    }
-  );
+  return onePiece.post("/save-bank-details", formData, {
+    headers: {
+      "Content-Type": "multipart/form-data",
+      Authorization: `Bearer ${localStorage.getItem("authToken")}`,
+      agent_id: localStorage.getItem("id"),
+    },
+  });
 };
 
 export const GetsAgentsDetails = (agencyId: number) => {
@@ -541,4 +539,38 @@ export const RemoveAgencyProduct = (agency_id: number, product_id: number) => {
       Authorization: `Bearer ${localStorage.getItem("authToken")}`,
     },
   });
+};
+
+//edit the product details
+export const UpdateAgencyProduct = (
+  product_id: number,
+  agent_commission_percentage: number,
+  agency_commission_percentage: number,
+  agency_id: string
+) => {
+  return onePiece.put(
+    `/api/products/${agency_id}/${product_id}`,
+    { agency_commission_percentage, agent_commission_percentage },
+    {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("authToken")}`,
+      },
+    }
+  );
+};
+
+export const UpdateStatusProduct = (
+  sno: number,
+  status: string | number,
+  agency_id: string
+) => {
+  return onePiece.put(
+    `/api/communications/training-materials/${agency_id}/${sno}`,
+    { status },
+    {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("authToken")}`,
+      },
+    }
+  );
 };

@@ -23,7 +23,7 @@ interface Props {
 export default function AddPolicy({ onClose, clientId }: Props) {
   const { makeApiCall } = useApi();
   const { showToast } = useToast();
-  const agencyId = localStorage.getItem("agencyID");
+  const agencyId = localStorage.getItem("agency_id");
   const authToken = localStorage.getItem("authToken");
   const [policyOptions, setPolicyOptions] = React.useState<SelectType[]>([]);
   const [isLoading, setIsLoading] = React.useState(true);
