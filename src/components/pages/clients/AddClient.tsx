@@ -22,6 +22,12 @@ export default function AddClient({}: Props) {
     address: "",
     id: 0,
     status: "",
+    motor_policy: "",
+    life_policy: "",
+    health_policy: "",
+    total_health_premium: "0",
+    total_life_premium: "0",
+    total_motor_premium: "0",
   });
 
   const validationSchema = Yup.object().shape(

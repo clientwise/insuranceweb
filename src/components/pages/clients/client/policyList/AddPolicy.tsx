@@ -28,6 +28,9 @@ export default function AddPolicy({ onClose, clientId }: Props) {
   const [policyOptions, setPolicyOptions] = React.useState<SelectType[]>([]);
   const [isLoading, setIsLoading] = React.useState(true);
   console.log(agencyId, "Agency ID");
+  const [policyType, setPolicyType] = React.useState("health_insurance"); // Default value for Policy Type
+  const [businessType, setBusinessType] = React.useState("Renewal"); // Default value for Business Type
+  const [status, setStatus] = React.useState("Active"); // Default value for Status
   React.useEffect(() => {
     if (!agencyId) {
       console.error("Agency ID is not available.");
@@ -49,7 +52,6 @@ export default function AddPolicy({ onClose, clientId }: Props) {
         if (!response.ok) throw new Error("Network response was not ok");
 
         const data = await response.json();
-        console.log(data.products, "data.products", typeof data.products);
         const options = Array.isArray(data.products)
           ? // eslint-disable-next-line @typescript-eslint/no-explicit-any
             data?.products?.map((product: any) => ({
@@ -73,11 +75,14 @@ export default function AddPolicy({ onClose, clientId }: Props) {
     () => ({
       name: "",
       amount: "",
-      status: "active",
+      status: "pending",
       inception_date: "",
-      frequency: "",
-      next_due_date: "",
-      maturity_date: "",
+      frequency: "Annual",
+      next_due_date: "2024-01-01",
+      maturity_date: "2024-01-01",
+      policy_type:"",
+      business_type:"",
+      policy_id:""
     }),
     []
   );
@@ -92,9 +97,14 @@ export default function AddPolicy({ onClose, clientId }: Props) {
           values.status,
           values.inception_date,
           values.frequency,
-          values.next_due_date,
-          values.maturity_date,
-          parseInt(clientId)
+          values.policy_type,
+          values.business_type,
+          values.policy_id,
+          values.policy_name,
+          values.client_name,
+          values.client_id
+
+           // Add the missing argument here
         )
       )
         .then(() => {
@@ -122,8 +132,11 @@ export default function AddPolicy({ onClose, clientId }: Props) {
             status: Yup.string().required("Status is required"),
             inception_date: Yup.date().required("Inception date is required"),
             frequency: Yup.string().required("Frequency is required"),
-            next_due_date: Yup.date().required("Next due date is required"),
             maturity_date: Yup.date().required("Maturity date is required"),
+            policy_type: Yup.string().required("Policy Type is required"),
+            business_type: Yup.string().required("Business Type is required"),
+            policy_id: Yup.string().required("Business Type is required"),
+
           })}
         >
           {() => (
@@ -134,44 +147,82 @@ export default function AddPolicy({ onClose, clientId }: Props) {
                 placeholder="Select a product"
                 item={policyOptions}
               />
-              <Spacer size="xs" />
+                   <Spacer size="xs" />
+
+            <div style={{ display: 'flex', gap: '2rem' }}> {/* Add gap for spacing */}
+     
+      <Dropdown
+        name="policy_type"
+        data={[
+          { key: "Health Insurance", value: "health_insurance" },
+          { key: "Motor Insurance", value: "motor_insurance" },
+          { key: "Life Insurance", value: "life_insurance" },
+        ]}
+        label="Policy Type"
+      
+      />
+
+      <Dropdown
+        name="business_type"
+        data={[
+          { key: "Renewal", value: "Renewal" },
+          { key: "New", value: "New" },
+        ]}
+        label="Business Type"
+
+      />
+
+      <Dropdown
+        name="status"
+        data={[
+          { key: "active", value: "Active" },
+          { key: "inactive", value: "Inactive" },
+        ]}
+        label="Status"
+      />
+       <Dropdown
+        name="frequency"
+        data={[
+          { key: "Monthly", value: "monthly" },
+          { key: "Annially", value: "annually" },
+        ]}
+        label="Premium Frequency"
+      />
+    </div>              <Spacer size="xs" />
+
+                <div style={{ display: 'flex', gap: '2rem' }}> 
+                <div style={{ display: 'contents' }}> 
               <Input
                 name="amount"
-                label="Amount"
-                placeholder="Enter policy amount"
+                label="Premium"
+                placeholder="Enter policy premium"
               />
-              <Spacer size="xs" />
-              <Dropdown
-                data={[
-                  { key: "active", value: "Active" },
-                  { key: "inactive", value: "Inactive" },
-                ]}
-                label="Status"
-                name="status"
+                   <Input
+                name="policy_id"
+                label="Policy Number"
+                placeholder="Enter client policy id"
               />
+                          <Spacer size="xs" />
+                          </div></div>
+           
               <Spacer size="xs" />
-              <DatePicker label="Inception Date" name="inception_date" />
+              <DatePicker label="Policy Start Date" name="inception_date" />
               <Spacer size="xs" />
-              <Dropdown
+              {/* <Dropdown
                 data={[
                   { key: "monthly", value: "Monthly" },
                   { key: "yearly", value: "Yearly" },
                 ]}
                 label="Frequency"
                 name="frequency"
-              />
+              /> */}
               <Spacer size="xs" />
-              <DatePicker
-                name="next_due_date"
-                label="Next Due Date"
-                placeholder="Select next due date"
-              />
-              <Spacer size="xs" />
-              <DatePicker
+              
+              {/* <DatePicker
                 name="maturity_date"
                 label="Maturity Date"
-                placeholder="Select maturity date"
-              />
+                placeholder="Select maturity date(if any)"
+              /> */}
               <Spacer size="xs" />
               <Row justifyContent="center">
                 <Button color="primary">Submit</Button>

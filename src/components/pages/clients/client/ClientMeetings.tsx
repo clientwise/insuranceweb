@@ -20,6 +20,7 @@ import {
   Input,
 } from "@nextui-org/react";
 import useToast from "@/src/hooks/useToast";
+import { nextLocalStorage } from "@/src/utils/nextLocalStorage";
 
 interface Props {
   clientId: string;
@@ -28,7 +29,7 @@ interface Props {
 
 const ClientMeeting = ({ clientId }: Props) => {
   const { makeApiCall } = useApi();
-  const agent_id = localStorage.getItem("id") ?? "";
+    const agent_id = nextLocalStorage()?.getItem("id")  ?? ""; 
   const { showToast } = useToast();
 
   const [meetings, setMeetings] = React.useState<MeetingType[]>([]);

@@ -113,26 +113,21 @@ export const GetClientMeeting = (clientId: string, agent_id: string) => {
 };
 //add policy
 export const postPolicyApi = (
-  name: string,
-  amount: string,
-  status: string,
-  inception_date: string,
-  frequency: string,
-  next_due_date: string,
-  maturity_date: string,
-  client_id: number
-) => {
+name: string, amount: string, client_id: number, client_name: string, policy_id: string, policy_type: string, business_type: string, status:string, policy_name: number, inception_date: string, frequency:string) => {
   return onePiece.post(
     "/policy",
     {
       name,
       amount,
+      client_id,
+      client_name,
+      policy_id,
+      policy_type,
+      business_type,
       status,
+      policy_name,
       inception_date,
       frequency,
-      next_due_date,
-      maturity_date,
-      client_id,
     },
     {
       headers: {
@@ -147,6 +142,14 @@ export const postPolicyApi = (
 //clients events
 export const GetClientAllEvents = (clientId: string) => {
   return onePiece.get(`/event/${clientId}`, {
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("authToken")}`,
+    },
+  });
+};
+
+export const GetAgentCommmisions = (agentID: string, agency_id:string) => {
+  return onePiece.get(`/fetch-agent-commission/${agency_id}/${agentID}`, {
     headers: {
       Authorization: `Bearer ${localStorage.getItem("authToken")}`,
     },
