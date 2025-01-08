@@ -1,6 +1,7 @@
 import { Colors } from "@/src/assets/colors";
 import React from "react";
 import { TodaysEventsType } from "@/src/types";
+import { TodayEvents } from "@/src/assets/images/Images.js";
 
 interface Props {
   event?: TodaysEventsType;
@@ -9,27 +10,22 @@ interface Props {
 const WishCard = ({ event }: Props) => {
   return (
     <div className="p-2">
-      <div className="flex items-center"> 
-      <div className="mr-4">
-        
-          <div style={{ color: Colors.textprimary }} className="flex-col ">
-            <p className="text-base font-normal font-rubik text-black">
-              {event?.client_name}
-            </p>  </div>
+  <div className="flex items-center space-x-4">
+  <div style={{ color: Colors.textprimary }} className="flex"> {/* Removed flex-col */}
+    <p className="text-xs font-normal font-rubik text-black">
+      <TodayEvents />
+    </p>
+    <p className="text-xs font-normal font-rubik text-black ml-3 mr-2"> 
+    Reminder for: {event?.client_name} 
+    </p>
+  </div>
+  <div>
+    <p className="text-xs font-normal font-rubik">
+      {event?.description}
+    </p>
+  </div>
+</div>
 
-            <div className="flex"> {/* Wrap the p tags in a flex container */}
-
-            <p className="text-xs font-semibold font-rubik">
-              {event?.date_of_event}
-            </p>
-            <p className="text-xs font-semibold font-rubik">
-              {event?.description}
-            </p>
-          </div>
-        </div>
-
-      
-      </div>
     </div>
   );
 };

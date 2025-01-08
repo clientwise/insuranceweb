@@ -38,8 +38,8 @@ const Home: React.FC = () => {
   const [error, setError] = React.useState<string | null>(null);
 
   const data = [
-    { status: "completed", premiumAmount: 0, label: "Total Policy Sold", number: "0", logo: <Money /> },
-    { status: "completed", premiumAmount: 0, label: "Total Commission", number: "0", logo: <CoinBag /> },
+    { status: "completed", premiumAmount: 0, label: "Policy 1", number: "0", logo: <People /> },
+    { status: "completed", premiumAmount: 0, label: "Policy 2", number: "0", logo: <People /> },
   ];
 
   //api call for client list
@@ -68,6 +68,7 @@ const Home: React.FC = () => {
       .then((response) => {
         console.log("commisson", response.data)
         setCommission(response.data);
+        console.log(commission)
         const totals = calculateTotals(data);
         setTotalPremium(totals.totalPremium);
         setCompletedPolicies(totals.completedPolicies);

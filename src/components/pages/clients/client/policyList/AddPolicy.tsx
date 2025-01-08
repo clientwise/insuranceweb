@@ -27,10 +27,7 @@ export default function AddPolicy({ onClose, clientId }: Props) {
   const authToken = localStorage.getItem("authToken");
   const [policyOptions, setPolicyOptions] = React.useState<SelectType[]>([]);
   const [isLoading, setIsLoading] = React.useState(true);
-  console.log(agencyId, "Agency ID");
-  const [policyType, setPolicyType] = React.useState("health_insurance"); // Default value for Policy Type
-  const [businessType, setBusinessType] = React.useState("Renewal"); // Default value for Business Type
-  const [status, setStatus] = React.useState("Active"); // Default value for Status
+  
   React.useEffect(() => {
     if (!agencyId) {
       console.error("Agency ID is not available.");
@@ -87,23 +84,26 @@ export default function AddPolicy({ onClose, clientId }: Props) {
     []
   );
 
+
   const handleSubmit = React.useCallback(
+  
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     (values: any) => {
       return makeApiCall(
         postPolicyApi(
           values.name,
-          values.amount,
-          values.status,
-          values.inception_date,
-          values.frequency,
-          values.policy_type,
-          values.business_type,
-          values.policy_id,
-          values.policy_name,
-          values.client_name,
-          values.client_id
-
+          "ICIC PRu",
+         1000,
+          "19",
+          "Ayush",
+          "44",
+          "Motor",
+          "New",
+          "pending",
+          "policy_name",
+          "2024-12-12",
+      
+          
            // Add the missing argument here
         )
       )
@@ -113,7 +113,7 @@ export default function AddPolicy({ onClose, clientId }: Props) {
         })
         .catch(() => showToast("Failed to add policy", { type: "error" }));
     },
-    [makeApiCall, clientId, onClose, showToast]
+    [makeApiCall, clientId, showToast]
   );
 
   if (isLoading) return <div>Loading policy options...</div>;
@@ -140,7 +140,7 @@ export default function AddPolicy({ onClose, clientId }: Props) {
           })}
         >
           {() => (
-            <FormikForm>
+            <FormikForm onSubmit={handleSubmit}>
               <Select
                 name="productName" // Or whatever name you want to use
                 label="Product Name"
@@ -159,9 +159,7 @@ export default function AddPolicy({ onClose, clientId }: Props) {
           { key: "Life Insurance", value: "life_insurance" },
         ]}
         label="Policy Type"
-      
       />
-
       <Dropdown
         name="business_type"
         data={[
@@ -169,9 +167,7 @@ export default function AddPolicy({ onClose, clientId }: Props) {
           { key: "New", value: "New" },
         ]}
         label="Business Type"
-
       />
-
       <Dropdown
         name="status"
         data={[
@@ -207,22 +203,6 @@ export default function AddPolicy({ onClose, clientId }: Props) {
            
               <Spacer size="xs" />
               <DatePicker label="Policy Start Date" name="inception_date" />
-              <Spacer size="xs" />
-              {/* <Dropdown
-                data={[
-                  { key: "monthly", value: "Monthly" },
-                  { key: "yearly", value: "Yearly" },
-                ]}
-                label="Frequency"
-                name="frequency"
-              /> */}
-              <Spacer size="xs" />
-              
-              {/* <DatePicker
-                name="maturity_date"
-                label="Maturity Date"
-                placeholder="Select maturity date(if any)"
-              /> */}
               <Spacer size="xs" />
               <Row justifyContent="center">
                 <Button color="primary">Submit</Button>

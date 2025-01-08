@@ -113,7 +113,7 @@ export const GetClientMeeting = (clientId: string, agent_id: string) => {
 };
 //add policy
 export const postPolicyApi = (
-name: string, amount: string, client_id: number, client_name: string, policy_id: string, policy_type: string, business_type: string, status:string, policy_name: number, inception_date: string, frequency:string) => {
+name: string, amount: string, client_id: number, client_name: string, policy_id: string, policy_type: string, business_type: string, status:string, policy_name: string, inception_date: string, frequency:string) => {
   return onePiece.post(
     "/policy",
     {
@@ -133,7 +133,7 @@ name: string, amount: string, client_id: number, client_name: string, policy_id:
       headers: {
         "Content-Type": "text/plain",
         Authorization: `Bearer ${localStorage.getItem("authToken")}`,
-        agent_id: localStorage.getItem("id"),
+        agent_id: 4,
       },
     }
   );

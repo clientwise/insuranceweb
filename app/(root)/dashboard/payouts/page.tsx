@@ -4,11 +4,7 @@ import Spacer from "@/src/components/Spacer";
 import PayoutTable from "@/src/components/pages/noticeboard/noticetable";
 
 const Payouts = () => {
-    interface PayoutsProps {
-
-        color?: string;
-      
-      }
+    
   return (
     <div>
       <div className="text-black bg-pageBackground px-2 min-h-screen ">

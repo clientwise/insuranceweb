@@ -1,7 +1,7 @@
 import { GetClientDetails } from "@/src/apis";
 import InfoCard from "@/src/components/cards/InfoCard";
 import useApi from "@/src/hooks/useApi";
-import { ClientData, ClientType } from "@/src/types";
+import {  ClientType } from "@/src/types";
 import React from "react";
 import aiLogo from "@/src/assets/ai.svg";
 import Image from 'next/image'

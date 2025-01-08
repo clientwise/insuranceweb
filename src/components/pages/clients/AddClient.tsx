@@ -8,11 +8,20 @@ import { Formik, Form as FormikForm } from "formik";
 import * as Yup from "yup";
 import Input from "@/src/components/Input";
 import { ClientType } from "@/src/types";
+import useApi from "@/src/hooks/useApi";
+import useToast from "@/src/hooks/useToast";
+import { AddClientApi } from "@/src/apis";
+import { useRouter } from "next/navigation";
+
+
 
 interface Props {
   onClose: () => void;
 }
 export default function AddClient({}: Props) {
+  const { makeApiCall } = useApi();
+const { showToast } = useToast();
+const router = useRouter();
   const [initialValues] = React.useState<ClientType>({
     name: "",
     phone: "",
@@ -68,19 +77,20 @@ export default function AddClient({}: Props) {
         age,
         profession,
         address,
+  
         typeof age,
         "Sending client details"
       );
-      // return makeApiCall(
-      //   AddClientApi(name, phone, email, parseFloat(age), profession, address)
-      // )
-      //   .then(() => {
-      //     showToast("Client Added successfully", { type: "success" });
-      //     router.push("/dashboard/clients");
-      //   })
-      //   .catch(() => {
-      //     showToast("Client addition failed", { type: "error" });
-      //   });
+      return makeApiCall(
+        AddClientApi(name, phone, email, parseFloat(age), profession, address, "", "", "", "")
+      )
+        .then(() => {
+          showToast("Client Added successfully", { type: "success" });
+          router.push("/dashboard/clients");
+        })
+        .catch(() => {
+          showToast("Client addition failed", { type: "error" });
+        });
     },
     []
   );

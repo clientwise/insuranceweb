@@ -13,7 +13,6 @@ import {
   Home,
   Marketing,
   NoticeBoard,
-  Payouts,
   ProductSVG,
   Transaction,
 } from "../assets/images/Images";
