@@ -58,7 +58,6 @@ export const GetTodaysEventApi = () => {
   });
 };
 
-
 export const AddClientApi = (
   name: string,
   phone: string,
@@ -114,19 +113,28 @@ export const GetClientMeeting = (clientId: string, agent_id: string) => {
 };
 //add policy
 export const postPolicyApi = (
-name: string, amount: string, client_id: number, client_name: string, policy_id: string, policy_type: string, business_type: string, status:string, policy_name: string, inception_date: string, frequency:string) => {
+  amount: number,
+  client_id: number,
+  policy_id: string,
+  policy_type: string,
+  business_type: string,
+  status: string,
+  policy_name: string,
+  product_id: string,
+  inception_date: string,
+  frequency: string
+) => {
   return onePiece.post(
     "/policy",
     {
-      name,
       amount,
       client_id,
-      client_name,
       policy_id,
       policy_type,
       business_type,
       status,
       policy_name,
+      product_id,
       inception_date,
       frequency,
     },
@@ -149,7 +157,7 @@ export const GetClientAllEvents = (clientId: string) => {
   });
 };
 
-export const GetAgentCommmisions = (agentID: string, agency_id:string) => {
+export const GetAgentCommmisions = (agentID: string, agency_id: string) => {
   return onePiece.get(`/fetch-agent-commission/${agency_id}/${agentID}`, {
     headers: {
       Authorization: `Bearer ${localStorage.getItem("authToken")}`,
@@ -241,8 +249,7 @@ export const GetInsuranceList = () => {
 };
 
 //add policy
-export const cobrandImageApi = (image_url: string, agent_id:string) => {
-
+export const cobrandImageApi = (image_url: string, agent_id: string) => {
   return onePiece.post(
     "/co-brand-image",
     {

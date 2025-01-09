@@ -42,7 +42,6 @@ const Agents = () => {
   const agentID = nextLocalStorage()?.getItem("id") ?? "4";
 
   React.useEffect(() => {
-
     setLoading(true);
     makeApiCall(GetsAgencyMarketingItems(parseInt(agency_id)))
       .then((response) => {
@@ -53,7 +52,7 @@ const Agents = () => {
         console.error(error);
       })
       .finally(() => setLoading(false));
-  }, [makeApiCall, setLoading]);
+  }, [agency_id, makeApiCall, setLoading]);
 
   const onopentoggle = React.useCallback(() => {
     onOpenChange();

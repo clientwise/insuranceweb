@@ -12,8 +12,7 @@ import * as Yup from "yup";
 import Input from "@/src/components/Input";
 import DatePicker from "@/src/components/DatePicker";
 import { Dropdown } from "@/src/components/Dropdown";
-import Select from "@/src/components/common/Select";
-import { SelectType } from "@/src/types";
+import { DropdownType, PolicyPostType } from "@/src/types";
 
 interface Props {
   onClose: () => void;
@@ -25,9 +24,9 @@ export default function AddPolicy({ onClose, clientId }: Props) {
   const { showToast } = useToast();
   const agencyId = localStorage.getItem("agency_id");
   const authToken = localStorage.getItem("authToken");
-  const [policyOptions, setPolicyOptions] = React.useState<SelectType[]>([]);
+  const [policyOptions, setPolicyOptions] = React.useState<DropdownType[]>([]);
   const [isLoading, setIsLoading] = React.useState(true);
-  
+
   React.useEffect(() => {
     if (!agencyId) {
       console.error("Agency ID is not available.");
@@ -51,9 +50,9 @@ export default function AddPolicy({ onClose, clientId }: Props) {
         const data = await response.json();
         const options = Array.isArray(data.products)
           ? // eslint-disable-next-line @typescript-eslint/no-explicit-any
-            data?.products?.map((product: any) => ({
-              value: product.product_id,
-              key: product.name,
+            data.products.map((product: any) => ({
+              value: product.name, // 'value' is the policy_name
+              key: product.product_id, // 'key' is the product_id
             }))
           : []; // Set options to an empty array if data.products is not an array
         console.log(options, "options");
@@ -68,43 +67,56 @@ export default function AddPolicy({ onClose, clientId }: Props) {
     fetchPolicyOptions();
   }, [agencyId, authToken]);
 
-  const initialValues = React.useMemo(
-    () => ({
-      name: "",
-      amount: "",
-      status: "pending",
-      inception_date: "",
-      frequency: "Annual",
-      next_due_date: "2024-01-01",
-      maturity_date: "2024-01-01",
-      policy_type:"",
-      business_type:"",
-      policy_id:""
-    }),
-    []
-  );
-
+  const [initialValues] = React.useState<PolicyPostType>({
+    amount: "",
+    client_id: clientId,
+    policy_id: "",
+    policy_name: "",
+    product_id: "",
+    policy_type: "",
+    business_type: "",
+    status: "pending",
+    inception_date: "",
+    frequency: "Annual",
+  });
 
   const handleSubmit = React.useCallback(
-  
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    (values: any) => {
+    ({
+      amount,
+      client_id,
+      policy_id,
+      policy_type,
+      business_type,
+      status,
+      policy_name,
+      product_id,
+      inception_date,
+      frequency,
+    }: PolicyPostType) => {
+      console.log(
+        client_id,
+        policy_id,
+        policy_type,
+        business_type,
+        status,
+        policy_name,
+        product_id,
+        inception_date,
+        frequency,
+        "Submitting details of policy"
+      );
       return makeApiCall(
         postPolicyApi(
-          values.name,
-          "ICIC PRu",
-         1000,
-          "19",
-          "Ayush",
-          "44",
-          "Motor",
-          "New",
-          "pending",
-          "policy_name",
-          "2024-12-12",
-      
-          
-           // Add the missing argument here
+          parseInt(amount),
+          parseInt(client_id),
+          policy_id,
+          policy_type,
+          business_type,
+          status,
+          policy_name,
+          product_id,
+          inception_date,
+          frequency
         )
       )
         .then(() => {
@@ -113,7 +125,7 @@ export default function AddPolicy({ onClose, clientId }: Props) {
         })
         .catch(() => showToast("Failed to add policy", { type: "error" }));
     },
-    [makeApiCall, clientId, showToast]
+    [makeApiCall, onClose, showToast]
   );
 
   if (isLoading) return <div>Loading policy options...</div>;
@@ -125,82 +137,86 @@ export default function AddPolicy({ onClose, clientId }: Props) {
           initialValues={initialValues}
           onSubmit={handleSubmit}
           validationSchema={Yup.object().shape({
-            name: Yup.string().required("Policy name is required"),
+            policy_name: Yup.string().required("Policy name is required"),
             amount: Yup.string()
               .matches(/^\d+(\.\d{1,2})?$/, "Invalid amount format")
               .required("Amount is required"),
-            status: Yup.string().required("Status is required"),
             inception_date: Yup.date().required("Inception date is required"),
             frequency: Yup.string().required("Frequency is required"),
-            maturity_date: Yup.date().required("Maturity date is required"),
             policy_type: Yup.string().required("Policy Type is required"),
             business_type: Yup.string().required("Business Type is required"),
-            policy_id: Yup.string().required("Business Type is required"),
-
+            policy_id: Yup.string().required("Policy ID is required"),
           })}
         >
-          {() => (
-            <FormikForm onSubmit={handleSubmit}>
-              <Select
-                name="productName" // Or whatever name you want to use
+          {({ setFieldValue }) => (
+            <FormikForm>
+              <Dropdown
+                data={policyOptions}
+                name="product_id"
                 label="Product Name"
-                placeholder="Select a product"
-                item={policyOptions}
-              />
-                   <Spacer size="xs" />
+                onSelect={(value) => {
+                  const values = Array.from(value);
+                  console.log(values, "selected product", typeof value);
 
-            <div style={{ display: 'flex', gap: '2rem' }}> {/* Add gap for spacing */}
-     
-      <Dropdown
-        name="policy_type"
-        data={[
-          { key: "Health Insurance", value: "health_insurance" },
-          { key: "Motor Insurance", value: "motor_insurance" },
-          { key: "Life Insurance", value: "life_insurance" },
-        ]}
-        label="Policy Type"
-      />
-      <Dropdown
-        name="business_type"
-        data={[
-          { key: "Renewal", value: "Renewal" },
-          { key: "New", value: "New" },
-        ]}
-        label="Business Type"
-      />
-      <Dropdown
-        name="status"
-        data={[
-          { key: "active", value: "Active" },
-          { key: "inactive", value: "Inactive" },
-        ]}
-        label="Status"
-      />
-       <Dropdown
-        name="frequency"
-        data={[
-          { key: "Monthly", value: "monthly" },
-          { key: "Annially", value: "annually" },
-        ]}
-        label="Premium Frequency"
-      />
-    </div>              <Spacer size="xs" />
+                  const selectedOption = policyOptions.find(
+                    (option) => option.key === values[0]
+                  );
 
-                <div style={{ display: 'flex', gap: '2rem' }}> 
-                <div style={{ display: 'contents' }}> 
-              <Input
-                name="amount"
-                label="Premium"
-                placeholder="Enter policy premium"
+                  if (selectedOption) {
+                    console.log(
+                      selectedOption,
+                      "selected option in policy product"
+                    );
+
+                    setFieldValue("product_id", selectedOption.key);
+                    setFieldValue("policy_name", selectedOption.value);
+                  }
+                }}
               />
-                   <Input
-                name="policy_id"
-                label="Policy Number"
-                placeholder="Enter client policy id"
-              />
-                          <Spacer size="xs" />
-                          </div></div>
-           
+              <Spacer size="xs" />
+              <div style={{ display: "flex", gap: "2rem" }}>
+                <Dropdown
+                  name="policy_type"
+                  data={[
+                    { key: "Health Insurance", value: "health_insurance" },
+                    { key: "Motor Insurance", value: "motor_insurance" },
+                    { key: "Life Insurance", value: "life_insurance" },
+                  ]}
+                  label="Policy Type"
+                />
+                <Dropdown
+                  name="business_type"
+                  data={[
+                    { key: "Renewal", value: "Renewal" },
+                    { key: "New", value: "New" },
+                  ]}
+                  label="Business Type"
+                />
+                <Dropdown
+                  name="frequency"
+                  data={[
+                    { key: "Monthly", value: "monthly" },
+                    { key: "Annually", value: "annually" }, // Corrected spelling
+                  ]}
+                  label="Premium Frequency"
+                />
+              </div>
+              <Spacer size="xs" />
+              <div style={{ display: "flex", gap: "2rem" }}>
+                <div style={{ display: "contents" }}>
+                  <Input
+                    name="amount"
+                    label="Premium Amount"
+                    placeholder="Enter policy premium"
+                  />
+                  <Input
+                    name="policy_id"
+                    label="Policy Number"
+                    placeholder="Enter client policy id"
+                  />
+                  <Spacer size="xs" />
+                </div>
+              </div>
               <Spacer size="xs" />
               <DatePicker label="Policy Start Date" name="inception_date" />
               <Spacer size="xs" />
