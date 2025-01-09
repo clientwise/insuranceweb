@@ -6,10 +6,13 @@ import { People, CoinBag, Money } from "@/src/assets/images/Images.js";
 import { Colors } from "@/src/assets/colors";
 import Spacer from "@/src/components/Spacer";
 import ClientsList from "@/src/components/pages/dashboard/clientList/List";
-import { ClientType, NewsItem, TodayNoticeType, TodaysEventsType } from "@/src/types";
+import { AgentCommissions, ClientType, NewsItem, TodayNoticeType, TodaysEventsType } from "@/src/types";
 import useApi from "@/src/hooks/useApi";
+import { nextLocalStorage } from "@/src/utils/nextLocalStorage";
+
 import WishCard from "@/src/components/pages/home/WishCard";
 import {
+  GetAgentCommmisions,
   GetClientsDetails,
   GetDashboardNews,
   GetDashboardNotice,
@@ -26,14 +29,17 @@ const Home: React.FC = () => {
   const [clients, setClients] = React.useState<ClientType[]>([]);
   const [news, setNews] = React.useState<NewsItem[]>([]);
   const [notice, setNotice] = React.useState<TodayNoticeType[]>([]);
+  const [commission, setCommission] = React.useState<AgentCommissions[]>([]);
+  const [totalPremium, setTotalPremium] = React.useState(0);
+  const [completedPolicies, setCompletedPolicies] = React.useState(0);
 
   const { makeApiCall } = useApi();
   const [loading, setLoading] = React.useState(true);
   const [error, setError] = React.useState<string | null>(null);
 
   const data = [
-    { label: "Total Policy Sold", number: "0", logo: <Money /> },
-    { label: "Total Commission", number: "0", logo: <CoinBag /> },
+    { status: "completed", premiumAmount: 0, label: "Policy 1", number: "0", logo: <People /> },
+    { status: "completed", premiumAmount: 0, label: "Policy 2", number: "0", logo: <People /> },
   ];
 
   //api call for client list
@@ -43,6 +49,29 @@ const Home: React.FC = () => {
       .then((response) => {
         console.log("Client list response", response);
         setClients(response.data);
+      })
+      .catch((error) => {
+        console.error(error);
+        setError("Failed to fetch client details.");
+      })
+      .finally(() => setLoading(false));
+  }, [makeApiCall]);
+
+
+  //api call for client list
+  React.useEffect(() => {
+    setLoading(true);
+    const agentID = nextLocalStorage()?.getItem("id")  ?? ""; 
+    const agency_id = nextLocalStorage()?.getItem("agency_id")  ?? "";
+
+    makeApiCall(GetAgentCommmisions(agentID, agency_id))
+      .then((response) => {
+        console.log("commisson", response.data)
+        setCommission(response.data);
+        console.log(commission)
+        const totals = calculateTotals(data);
+        setTotalPremium(totals.totalPremium);
+        setCompletedPolicies(totals.completedPolicies);
       })
       .catch((error) => {
         console.error(error);
@@ -98,7 +127,20 @@ const Home: React.FC = () => {
       })
       .finally(() => setLoading(false));
   }, [makeApiCall]);
+  
+  function calculateTotals(data: { status: string; premiumAmount: number }[]) {
+    let totalPremium = 0;
+    let completedPolicies = 0;
 
+    for (const item of data) {
+      if (item.status === "completed") {
+        totalPremium += item.premiumAmount;
+        completedPolicies++;
+      }
+    }
+
+    return { totalPremium, completedPolicies };
+  }
   return (
     <div>
       <div className="container mx-auto pb-5">
@@ -112,7 +154,8 @@ const Home: React.FC = () => {
       label={"Active Clients"}
       number={"0"}
       logo={<People />}
-    /> 
+    />
+     
        {data?.map((item) => (
       <DataShowCard
         key={item.label}
@@ -130,14 +173,18 @@ const Home: React.FC = () => {
       number={clients.length.toString()}
       logo={<People />}
     />
-    {data?.map((item) => (
-      <DataShowCard
-        key={item.label}
-        label={item.label}
-        number={item.number}
-        logo={item.logo}
-      />
-    ))}
+    <DataShowCard
+      key={"Policy Sold/In Process"}
+      label={"Policy Sold"}
+      number={completedPolicies.toString()}
+      logo={<Money />}
+    />
+    <DataShowCard
+      key={"Total Commission Till Date"}
+      label={"Total Commission"}
+      number={totalPremium.toString()}
+      logo={<CoinBag />}
+    />
   </>
 )}
         </div>

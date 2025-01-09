@@ -1,8 +1,7 @@
 import { Colors } from "@/src/assets/colors";
 import React from "react";
-import { Cake } from "lucide-react";
-import Button from "../../Button";
 import { TodaysEventsType } from "@/src/types";
+import { TodayEvents } from "@/src/assets/images/Images.js";
 
 interface Props {
   event?: TodaysEventsType;
@@ -11,31 +10,22 @@ interface Props {
 const WishCard = ({ event }: Props) => {
   return (
     <div className="p-2">
-      <div className="flex justify-between">
-        <div className="flex items-center ">
-          <div className="mr-4">
-            <Cake color="grey" />
-          </div>
-          <div style={{ color: Colors.textprimary }} className="flex-col ">
-            <p className="text-base font-normal font-rubik text-black">
-              {event?.client_name}
-            </p>
-            <p className="text-xs font-semibold font-rubik">
-              {event?.date_of_event}
-            </p>
-          </div>
-        </div>
+  <div className="flex items-center space-x-4">
+  <div style={{ color: Colors.textprimary }} className="flex"> {/* Removed flex-col */}
+    <p className="text-xs font-normal font-rubik text-black">
+      <TodayEvents />
+    </p>
+    <p className="text-xs font-normal font-rubik text-black ml-3 mr-2"> 
+    Reminder for: {event?.client_name} 
+    </p>
+  </div>
+  <div>
+    <p className="text-xs font-normal font-rubik">
+      {event?.description}
+    </p>
+  </div>
+</div>
 
-        <Button
-          style={{ color: Colors.textprimary }}
-          className=" bg-yellow-500"
-          size="sm"
-        >
-          <p className="text-xs font-normal font-rubik text-white">
-            Send Wishes
-          </p>
-        </Button>
-      </div>
     </div>
   );
 };

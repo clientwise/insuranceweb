@@ -32,7 +32,6 @@ export default function NoticeboardTable() {
           }
         );
         if (!response.ok) throw new Error("Failed to fetch notices");
-        console.log("response of notice");
         const data = await response.json();
         const activeNotices = data.notices.filter(
           // eslint-disable-next-line @typescript-eslint/no-explicit-any

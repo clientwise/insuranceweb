@@ -18,7 +18,7 @@ const ClientDetails = ({ clientId }: Props) => {
     makeApiCall(GetClientDetails(clientId))
       .then((response) => {
         console.log("Client details response", response);
-        setClient(response.data); // Assuming response.data is of type Client
+        setClient(response?.data); // Assuming response.data is of type Client
       })
       .catch((error) => {
         console.error("Failed to fetch client details:", error);

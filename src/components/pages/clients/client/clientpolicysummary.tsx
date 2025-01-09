@@ -1,7 +1,7 @@
 import { GetClientDetails } from "@/src/apis";
 import InfoCard from "@/src/components/cards/InfoCard";
 import useApi from "@/src/hooks/useApi";
-import { ClientData } from "@/src/types";
+import {  ClientType } from "@/src/types";
 import React from "react";
 import aiLogo from "@/src/assets/ai.svg";
 import Image from 'next/image'
@@ -11,7 +11,7 @@ interface Props {
 
 const Policysummary = ({ clientId }: Props) => {
   const { makeApiCall } = useApi();
-  const [client, setClient] = React.useState<ClientData | null>(null); // Ensure the initial state is null
+  const [client, setClient] = React.useState<ClientType | null>(null); // Ensure the initial state is null
 
   React.useEffect(() => {
     makeApiCall(GetClientDetails(clientId))
@@ -48,12 +48,12 @@ const Policysummary = ({ clientId }: Props) => {
             
             <InfoCard
               title="Health Policy"
-              description={client.status || "0"}
+              description={client.health_policy || "0"}
             />
             
             <InfoCard
               title="Total Health Premium"
-              description={client.status || "0"}
+              description={client.total_health_premium || "0"}
             />
           </div>
 
@@ -61,23 +61,23 @@ const Policysummary = ({ clientId }: Props) => {
           <div>
           <InfoCard
               title="Life Insurance Policies"
-              description={client.status || "0"}
+              description={client.life_policy || "0"}
             />
       
            
       <InfoCard
               title="Life Premium"
-              description={client.status || "0"}
+              description={client.total_life_premium || "0"}
             />
           </div>
 
           {/* Right section with segment and age */}
           <div>
-          <InfoCard title="Motor Insurance" description={"0"} />
+          <InfoCard title="Motor Insurance" description={client.motor_policy || "0"} />
 
           <InfoCard
               title="Motor Premium"
-              description={client.status || "0"}
+              description={client.total_motor_premium || "0"}
             />
            
           </div>

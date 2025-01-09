@@ -38,10 +38,10 @@ const Agents = () => {
   const [selectedLanguage, setSelectedLanguage] = React.useState<
     string | number
   >("");
+  const agency_id = nextLocalStorage()?.getItem("agency_id") ?? "";
+  const agentID = nextLocalStorage()?.getItem("id") ?? "4";
 
   React.useEffect(() => {
-    const agency_id = nextLocalStorage()?.getItem("agency_id") ?? "";
-
     setLoading(true);
     makeApiCall(GetsAgencyMarketingItems(parseInt(agency_id)))
       .then((response) => {
@@ -52,7 +52,7 @@ const Agents = () => {
         console.error(error);
       })
       .finally(() => setLoading(false));
-  }, [makeApiCall, setLoading]);
+  }, [agency_id, makeApiCall, setLoading]);
 
   const onopentoggle = React.useCallback(() => {
     onOpenChange();
@@ -65,7 +65,7 @@ const Agents = () => {
   const handleImageClick = React.useCallback(
     (content_url: string) => {
       const trimmedUrl = content_url.trim();
-      makeApiCall(cobrandImageApi(trimmedUrl))
+      makeApiCall(cobrandImageApi(trimmedUrl, agentID))
         .then((response) => {
           console.log("cobrand api image response", response);
           if (response) {

@@ -16,6 +16,7 @@ interface Props extends Pick<DropdownMenuProps, "selectionMode"> {
   data: DropdownType[];
   name: string;
   label?: string;
+  onSelect?: (keys: Selection) => void;
 }
 
 export function Dropdown({
@@ -23,6 +24,7 @@ export function Dropdown({
   name,
   label,
   selectionMode = "single",
+  onSelect,
 }: Props) {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [field, meta, helpers] = useField(name);
@@ -45,13 +47,16 @@ export function Dropdown({
       const values = Array.from(keys);
       helpers.setValue(selectionMode === "single" ? values[0] : values);
       setSelectedKeys(new Set(values));
+      if (onSelect != null) {
+        onSelect(keys);
+      }
     },
-    [helpers, selectionMode]
+    [helpers, onSelect, selectionMode]
   );
 
   return (
     <div>
-      {label !== undefined && <Label>{label}</Label>}
+      {label !== undefined ? <Label>{label}</Label> : "Select"}
       <NDropdown>
         <DropdownTrigger>
           <Button

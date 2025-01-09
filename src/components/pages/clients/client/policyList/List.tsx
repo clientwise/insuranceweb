@@ -27,31 +27,33 @@ const COLUMNS = [
     sortable: true,
   },
   {
-    name: "Name",
-    key: "name",
+    name: "Policy Name",
+    key: "Policy Name",
     sortable: true,
   },
 
   {
-    name: "Amount",
-    key: "amount",
+    name: "Policy Type",
+    key: "Policy Type",
   },
   {
-    name: "Frequency",
-    key: "frequency",
+    name: "Premium",
+    key: "Premium",
   },
+  {
+    name: "Policy Type",
+    key: "typeofbiz",
+  },
+  {
+    name: "Business Type",
+    key: "biztype",
+  },
+  
   {
     name: "Inception Date",
     key: "inception_date",
   },
-  {
-    name: "Maturity Date",
-    key: "maturity_date",
-  },
-  {
-    name: "Next Due Date",
-    key: "next_due_date",
-  },
+
   {
     name: "Status",
     key: "Status",
@@ -193,32 +195,38 @@ export default function PolicyList({ policyList = [], loading }: Props) {
               <p className="text-bold text-sm capitalize">{index + 1}</p>
             </div>
           );
-        case "name":
+        case "Policy Name":
           return (
             <div className="flex flex-col">
-              <p className="text-bold text-sm capitalize">{policy.name}</p>
+              <p className="text-bold text-sm capitalize">{policy.policy_name}</p>
             </div>
           );
-        case "Contact":
+        case "Policy Type":
           return (
             <div className="flex flex-col">
               <p className="text-bold text-sm capitalize">
-                {policy.client_name}
+                {policy.policy_type}
               </p>
             </div>
           );
-        case "amount":
+        case "Premium":
           return (
             <div className="flex flex-col">
               <p className="text-bold text-sm capitalize">{policy.amount}</p>
             </div>
           );
-        case "frequency":
+        case "typeofbiz":
           return (
             <div className="flex flex-col">
-              <p className="text-bold text-sm capitalize">{policy.frequency}</p>
+              <p className="text-bold text-sm capitalize">{policy.policy_type}</p>
             </div>
           );
+          case "biztype":
+            return (
+              <div className="flex flex-col">
+                <p className="text-bold text-sm capitalize">{policy.buisness_type}</p>
+              </div>
+            );
         case "inception_date":
           return (
             <div className="flex flex-col">
@@ -227,22 +235,8 @@ export default function PolicyList({ policyList = [], loading }: Props) {
               </p>
             </div>
           );
-        case "maturity_date":
-          return (
-            <div className="flex flex-col">
-              <p className="text-bold text-sm capitalize">
-                {policy.maturity_date}
-              </p>
-            </div>
-          );
-        case "next_due_date":
-          return (
-            <div className="flex flex-col">
-              <p className="text-bold text-sm capitalize">
-                {policy.next_due_date}
-              </p>
-            </div>
-          );
+      
+       
         case "Status":
           return renderStatus(policy);
         // case "action":

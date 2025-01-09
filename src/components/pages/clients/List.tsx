@@ -40,33 +40,39 @@ const COLUMNS = [
     sortable: true,
   },
   {
-    name: "Age",
-    key: "Date",
+    name: "Profession",
+    key: "profession",
   },
+ 
   {
-    name: "Health",
-    key: "Profession",
+    name: "Age",
+    key: "age",
   },
   {
     name: "Life",
-    key: "Amount",
+    key: "life_policy_count",
   },
  
   {
     name: "Motor",
-    key: "Profession",
+    key: "motor_policy_count",
   },
 
   {
+    name: "Health",
+    key: "health_policy_count",
+  },
+  {
     name: "Total Premium",
-    key: "status",
+    key: "total_premium",
   },
   {
     name: "Status",
     key: "status",
   },
+
   {
-    name: "Last Contact Date",
+    name: "Action",
     key: "action",
   },
 ];
@@ -214,21 +220,14 @@ export default function ClientNumbersList({
               <p className="text-bold text-sm capitalize">{client.name}</p>
             </div>
           );
-        case "Amount":
-          return (
-            <div className="flex flex-col">
-              <p className="text-bold text-sm capitalize">
-                {client.profession}
-              </p>
-            </div>
-          );
-        case "Date":
+     
+        case "age":
           return (
             <div className="flex flex-col">
               <p className="text-bold text-sm capitalize">{client.age}</p>
             </div>
           );
-        case "Profession":
+        case "profession":
           return (
             <div className="flex flex-col">
               <p className="text-bold text-sm capitalize">
@@ -236,12 +235,32 @@ export default function ClientNumbersList({
               </p>
             </div>
           );
-        case "PhoneNumber":
+        case "motor_policy_count":
           return (
             <div className="flex flex-col">
-              <p className="text-bold text-sm capitalize">{client.phone}</p>
+              <p className="text-bold text-sm capitalize">{client.motor_policy}</p>
             </div>
           );
+          case "health_policy_count":
+            return (
+              <div className="flex flex-col">
+                <p className="text-bold text-sm capitalize">{client.health_policy}</p>
+              </div>
+            );
+            case "life_policy_count":
+              return (
+                <div className="flex flex-col">
+                  <p className="text-bold text-sm capitalize">{client.life_policy}</p>
+                </div>
+              );
+              case "total_premium":
+                return (
+                  <div className="flex flex-col">
+                    <p className="text-bold text-sm capitalize">
+                      { parseFloat(client.total_life_premium) +parseFloat(client.total_health_premium)+parseFloat(client.total_motor_premium)}
+                    </p>
+                  </div>
+                );
         case "status":
           return renderStatus(client);
         case "action":

@@ -155,12 +155,12 @@ function SidebarNew({}: { setExpandedMain: (expanded: boolean) => void }) {
       <SidebarItem
         icon={
           <Transaction
-            color={pathname === "/dashboard/transaction" ? "#fff" : "#683FDB"}
+            color={pathname === "/dashboard/payouts" ? "#fff" : "#683FDB"}
           />
         }
-        text={"Transactions"}
-        active={pathname === "/dashboard/saved"}
-        href="/dashboard/saved"
+        text={"Payouts"}
+        active={pathname === "/dashboard/payouts"}
+        href="/dashboard/payouts"
       />
       <SidebarItem
         icon={

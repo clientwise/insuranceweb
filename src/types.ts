@@ -153,12 +153,28 @@ export type ClientType = {
   phone: string;
   profession: string;
   status: string;
+  motor_policy: string;
+  life_policy: string;
+  health_policy: string;
+  total_health_premium: string;
+  total_life_premium: string;
+  total_motor_premium: string;
+};
+
+export type AgentCommissions = {
+  transactionID: string;
+  transaction_type: string;
+  policyNumber: string;
+  productName: string;
+  premiumAmount: number;
+  commissionAmount: number;
+  soldDate: string;
+  status: string;
 };
 
 export type PolicyType = {
   policy_id: string;
   name: string;
-  amount: string;
   status: string;
   inception_date: string;
   frequency: string;
@@ -167,6 +183,13 @@ export type PolicyType = {
   client_id: number;
   agent_id: number;
   client_name: string;
+  amount: string;
+  PolicyId: string;
+  Status: string;
+  buisness_type: string;
+  policy_name: string;
+  policy_type: string;
+  product_id: string;
 };
 
 export type EventType = {
@@ -280,4 +303,17 @@ export type AgencyMarketingItemType = {
   product_type: string;
   sno: number;
   status: string;
+};
+
+export type PolicyPostType = {
+  amount: string;
+  client_id: string;
+  policy_id: string;
+  policy_type: string;
+  business_type: string;
+  status: string;
+  policy_name: string;
+  inception_date: string;
+  frequency: string;
+  product_id: string;
 };
