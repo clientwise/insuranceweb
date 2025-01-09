@@ -58,6 +58,7 @@ export const GetTodaysEventApi = () => {
   });
 };
 
+
 export const AddClientApi = (
   name: string,
   phone: string,
@@ -240,10 +241,8 @@ export const GetInsuranceList = () => {
 };
 
 //add policy
-export const cobrandImageApi = (image_url: string) => {
-  // const agent_id = localStorage.getItem("id");
-  console.log("image_url", image_url);
-  const agent_id = "2";
+export const cobrandImageApi = (image_url: string, agent_id:string) => {
+
   return onePiece.post(
     "/co-brand-image",
     {

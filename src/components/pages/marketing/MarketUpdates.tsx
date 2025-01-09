@@ -6,6 +6,7 @@ import BlogCard from "./BlogCard";
 import DropdownComponent from "../../common/Dropdown";
 import Row from "../../common/Row";
 import Spacer from "../../common/Spacer";
+import { nextLocalStorage } from "@/src/utils/nextLocalStorage";
 
 const MarketUpdates = () => {
   const { makeApiCall } = useApi();
@@ -22,6 +23,7 @@ const MarketUpdates = () => {
   const [selectedLanguage, setSelectedLanguage] = React.useState<
     string | number
   >("");
+  const agentID = nextLocalStorage()?.getItem("id") ?? "4";
 
   React.useEffect(() => {
     setLoading(true);
@@ -43,9 +45,8 @@ const MarketUpdates = () => {
     (content_file_url: string) => {
       const trimmedUrl = content_file_url.trim();
 
-      makeApiCall(cobrandImageApi(trimmedUrl))
+      makeApiCall(cobrandImageApi(trimmedUrl, agentID))
         .then((response) => {
-          console.log("cobrand api image response", response);
           if (response) {
             const blob = new Blob([response]);
             const url = window.URL.createObjectURL(blob);
