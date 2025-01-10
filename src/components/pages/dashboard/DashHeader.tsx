@@ -12,12 +12,11 @@ import {
   Avatar,
 } from "@nextui-org/react";
 import { useRouter } from "next/navigation";
-import { nextLocalStorage } from "@/src/utils/nextLocalStorage";
 
 interface DashHeaderProps {
   onOpen: () => void;
 }
-export default function DashHeader({ onOpen }: DashHeaderProps) {
+export default function DashHeader({}: DashHeaderProps) {
   const router = useRouter();
 
   // const userData = JSON.parse(nextLocalStorage()?.getItem("user_data") ?? "");
@@ -26,7 +25,6 @@ export default function DashHeader({ onOpen }: DashHeaderProps) {
     localStorage.clear();
     router.replace("/");
   }, [router]);
-
 
   return (
     <Navbar className="p-0 h-[7vh]  flex flex-row justify-between">
@@ -37,9 +35,6 @@ export default function DashHeader({ onOpen }: DashHeaderProps) {
         className=" flex flex-row justify-center items-center"
         justify="end"
       >
-    
-
-
         <Dropdown placement="bottom-end">
           <DropdownTrigger>
             <Avatar
@@ -50,7 +45,6 @@ export default function DashHeader({ onOpen }: DashHeaderProps) {
             />
           </DropdownTrigger>
           <DropdownMenu aria-label="Profile Actions" variant="flat">
-           
             <DropdownItem key="logout" color="danger" onClick={handleLogout}>
               <p className="font-semibold text-black font-rubik">Log Out</p>
             </DropdownItem>

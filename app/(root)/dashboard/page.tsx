@@ -6,7 +6,13 @@ import { People, CoinBag, Money } from "@/src/assets/images/Images.js";
 import { Colors } from "@/src/assets/colors";
 import Spacer from "@/src/components/Spacer";
 import ClientsList from "@/src/components/pages/dashboard/clientList/List";
-import { AgentCommissions, ClientType, NewsItem, TodayNoticeType, TodaysEventsType } from "@/src/types";
+import {
+  AgentCommissions,
+  ClientType,
+  NewsItem,
+  TodayNoticeType,
+  TodaysEventsType,
+} from "@/src/types";
 import useApi from "@/src/hooks/useApi";
 import { nextLocalStorage } from "@/src/utils/nextLocalStorage";
 
@@ -25,7 +31,6 @@ const Home: React.FC = () => {
     []
   );
 
-
   const [clients, setClients] = React.useState<ClientType[]>([]);
   const [news, setNews] = React.useState<NewsItem[]>([]);
   const [notice, setNotice] = React.useState<TodayNoticeType[]>([]);
@@ -37,11 +42,25 @@ const Home: React.FC = () => {
   const [loading, setLoading] = React.useState(true);
   const [error, setError] = React.useState<string | null>(null);
 
-  const data = [
-    { status: "completed", premiumAmount: 0, label: "Policy 1", number: "0", logo: <People /> },
-    { status: "completed", premiumAmount: 0, label: "Policy 2", number: "0", logo: <People /> },
-  ];
-
+  const data = React.useMemo(
+    () => [
+      {
+        status: "completed",
+        premiumAmount: 0,
+        label: "Policy 1",
+        number: "0",
+        logo: <People />,
+      },
+      {
+        status: "completed",
+        premiumAmount: 0,
+        label: "Policy 2",
+        number: "0",
+        logo: <People />,
+      },
+    ],
+    []
+  );
   //api call for client list
   React.useEffect(() => {
     setLoading(true);
@@ -57,18 +76,17 @@ const Home: React.FC = () => {
       .finally(() => setLoading(false));
   }, [makeApiCall]);
 
-
   //api call for client list
   React.useEffect(() => {
     setLoading(true);
-    const agentID = nextLocalStorage()?.getItem("id")  ?? ""; 
-    const agency_id = nextLocalStorage()?.getItem("agency_id")  ?? "";
+    const agentID = nextLocalStorage()?.getItem("id") ?? "";
+    const agency_id = nextLocalStorage()?.getItem("agency_id") ?? "";
 
     makeApiCall(GetAgentCommmisions(agentID, agency_id))
       .then((response) => {
-        console.log("commisson", response.data)
+        console.log("commisson", response.data);
         setCommission(response.data);
-        console.log(commission)
+        console.log(commission);
         const totals = calculateTotals(data);
         setTotalPremium(totals.totalPremium);
         setCompletedPolicies(totals.completedPolicies);
@@ -78,7 +96,7 @@ const Home: React.FC = () => {
         setError("Failed to fetch client details.");
       })
       .finally(() => setLoading(false));
-  }, [makeApiCall]);
+  }, [commission, data, makeApiCall]);
 
   React.useEffect(() => {
     makeApiCall(GetTodaysEventApi())
@@ -98,7 +116,7 @@ const Home: React.FC = () => {
     makeApiCall(GetDashboardNotice())
       .then((response) => {
         // Assuming response.data is an object with a 'notice' property that is an array
-        if (Array.isArray(response.notices)) { 
+        if (Array.isArray(response.notices)) {
           setNotice(response.notices);
         } else {
           console.error("Invalid notice data format:", response.data);
@@ -112,13 +130,11 @@ const Home: React.FC = () => {
       .finally(() => setLoading(false));
   }, [makeApiCall]);
 
-
   //api call for dashbaord news
   React.useEffect(() => {
     setLoading(true);
     makeApiCall(GetDashboardNews())
       .then((response) => {
-
         setNews(response);
       })
       .catch((error) => {
@@ -127,7 +143,7 @@ const Home: React.FC = () => {
       })
       .finally(() => setLoading(false));
   }, [makeApiCall]);
-  
+
   function calculateTotals(data: { status: string; premiumAmount: number }[]) {
     let totalPremium = 0;
     let completedPolicies = 0;
@@ -146,47 +162,47 @@ const Home: React.FC = () => {
       <div className="container mx-auto pb-5">
         {error && <div className="text-red-500">{error}</div>}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-          {!clients ?  (
-  <div className="your-empty-state-class"> 
-    {/* Content for empty clients case */}
-    <DataShowCard
-      key={"Active Clients"}
-      label={"Active Clients"}
-      number={"0"}
-      logo={<People />}
-    />
-     
-       {data?.map((item) => (
-      <DataShowCard
-        key={item.label}
-        label={item.label}
-        number={item.number}
-        logo={item.logo}
-      />
-    ))}   {/* You can add a button or other elements here */}
-  </div>
-) : (
-  <>
-    <DataShowCard
-      key={"Active Clients"}
-      label={"Active Clients"}
-      number={clients.length.toString()}
-      logo={<People />}
-    />
-    <DataShowCard
-      key={"Policy Sold/In Process"}
-      label={"Policy Sold"}
-      number={completedPolicies.toString()}
-      logo={<Money />}
-    />
-    <DataShowCard
-      key={"Total Commission Till Date"}
-      label={"Total Commission"}
-      number={totalPremium.toString()}
-      logo={<CoinBag />}
-    />
-  </>
-)}
+          {!clients ? (
+            <div className="your-empty-state-class">
+              {/* Content for empty clients case */}
+              <DataShowCard
+                key={"Active Clients"}
+                label={"Active Clients"}
+                number={"0"}
+                logo={<People />}
+              />
+              {data?.map((item) => (
+                <DataShowCard
+                  key={item.label}
+                  label={item.label}
+                  number={item.number}
+                  logo={item.logo}
+                />
+              ))}{" "}
+              {/* You can add a button or other elements here */}
+            </div>
+          ) : (
+            <>
+              <DataShowCard
+                key={"Active Clients"}
+                label={"Active Clients"}
+                number={clients.length.toString()}
+                logo={<People />}
+              />
+              <DataShowCard
+                key={"Policy Sold/In Process"}
+                label={"Policy Sold"}
+                number={completedPolicies.toString()}
+                logo={<Money />}
+              />
+              <DataShowCard
+                key={"Total Commission Till Date"}
+                label={"Total Commission"}
+                number={totalPremium.toString()}
+                logo={<CoinBag />}
+              />
+            </>
+          )}
         </div>
       </div>
       <div className="flex gap-2 justify-between ">
@@ -200,7 +216,7 @@ const Home: React.FC = () => {
             </p>
             <a
               href="/dashboard/clients"
-              style={{ color:"#9656D9" }}
+              style={{ color: "#9656D9" }}
               className="text-sm font-light font-rubik text-black mr-2 "
             >
               View all
@@ -238,7 +254,7 @@ const Home: React.FC = () => {
       </div>
 
       {/* 3-Column Layout Using Flex */}
-      <div className="flex w-full py-2 mt-6 gap-4">
+      <div className="flex w-full py-2 mt-8 gap-4">
         <div
           className="flex-1 p-4  bg-white rounded-lg shadow-md "
           style={{
@@ -250,7 +266,7 @@ const Home: React.FC = () => {
 
         <div className="flex-1 p-4 rounded-lg shadow-md">
           <div>
-          <h1>Latest Industry News</h1>
+            <h1>Latest Industry News</h1>
             <p
               style={{ color: Colors.textBase }}
               className="text-xs font-normal font-rubik text-black"
@@ -266,23 +282,22 @@ const Home: React.FC = () => {
             </p>
           </div>
         </div>
-        <div
-          className="flex-1 p-4  bg-white rounded-lg shadow-md "
-        ><h1>             Notice
-</h1>
-<p
-              style={{ color: Colors.textBase }}
-              className="text-xs font-normal font-rubik text-black"
-            >
- {notice[0]?.title}             </p>
-            <p
-              style={{ color: Colors.textBase }}
-              className="text-xs font-normal font-rubik text-black"
-            >
-   {notice[0]?.content}        
-              </p>
+        <div className="flex-1 p-4  bg-white rounded-lg shadow-md ">
+          <h1> Notice</h1>
+          <p
+            style={{ color: Colors.textBase }}
+            className="text-xs font-normal font-rubik text-black"
+          >
+            {notice[0]?.title}{" "}
+          </p>
+          <p
+            style={{ color: Colors.textBase }}
+            className="text-xs font-normal font-rubik text-black"
+          >
+            {notice[0]?.content}
+          </p>
         </div>
-        </div>
+      </div>
     </div>
   );
 };

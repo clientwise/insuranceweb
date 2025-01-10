@@ -13,15 +13,13 @@ import useToast from "@/src/hooks/useToast";
 import { AddClientApi } from "@/src/apis";
 import { useRouter } from "next/navigation";
 
-
-
 interface Props {
   onClose: () => void;
 }
 export default function AddClient({}: Props) {
   const { makeApiCall } = useApi();
-const { showToast } = useToast();
-const router = useRouter();
+  const { showToast } = useToast();
+  const router = useRouter();
   const [initialValues] = React.useState<ClientType>({
     name: "",
     phone: "",
@@ -77,12 +75,23 @@ const router = useRouter();
         age,
         profession,
         address,
-  
+
         typeof age,
         "Sending client details"
       );
       return makeApiCall(
-        AddClientApi(name, phone, email, parseFloat(age), profession, address, "", "", "", "")
+        AddClientApi(
+          name,
+          phone,
+          email,
+          parseFloat(age),
+          profession,
+          address,
+          "",
+          "",
+          "",
+          ""
+        )
       )
         .then(() => {
           showToast("Client Added successfully", { type: "success" });
@@ -92,7 +101,7 @@ const router = useRouter();
           showToast("Client addition failed", { type: "error" });
         });
     },
-    []
+    [makeApiCall, router, showToast]
   );
 
   return (

@@ -28,23 +28,19 @@ export default function Main({ children }: Props) {
   const [modaltype, setModaltype] = React.useState(""); // eslint-disable-line
   const [loading, setLoading] = React.useState(false); // eslint-disable-line
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [expandedMain, setExpandedMain] = React.useState(true);
 
   return (
     <>
       <ToastContainer />
-      <div
-        className={`fixed top-0 left-0 right-0 transition-all ${
-          expandedMain ? "sm:ml-72" : "sm:ml-24"
-        }`}
-      >
+      <div className={`fixed top-0 left-0 right-0 transition-all ml-[17%] `}>
         <DashHeader onOpen={onOpen} />
       </div>
       <Body sideView={<SidebarNew setExpandedMain={setExpandedMain} />}>
-        <div className="p-4 bg-white">
+        <div className="px-4 bg-white py-6">
           <div
-            className="mt-14 ml-4"
-            style={{ marginLeft: "16rem" }}
+            className=" mt-14 ml-[17%]"
             // transition-all ${
             //   expandedMain ? "sm:ml-72" : "sm:ml-24"
             // }`}

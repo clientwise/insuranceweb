@@ -85,7 +85,7 @@ const Agents = () => {
         })
         .finally(() => setLoading(false));
     },
-    [makeApiCall]
+    [agentID, makeApiCall]
   );
 
   const handleStatusChange = React.useCallback(

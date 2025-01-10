@@ -64,7 +64,7 @@ const MarketUpdates = () => {
         })
         .finally(() => setLoading(false));
     },
-    [makeApiCall]
+    [agentID, makeApiCall]
   );
 
   const filteredContent = content.filter((item) => {

@@ -5,7 +5,7 @@ import Link from "next/link";
 import { nextLocalStorage } from "@/src/utils/nextLocalStorage";
 import Logo2 from "../../src/assets/kuantslogo.svg";
 import Image from "next/image";
-import { Colors, gradients } from "@/src/assets/colors";
+import { gradients } from "@/src/assets/colors";
 
 const SidebarContext = createContext();
 
@@ -31,11 +31,11 @@ export default function Sidebar({ children }) {
       {/* Sidebar for large devices */}
       <aside
         id="logo-sidebar"
-        className={`fixed top-0  hidden sm:block left-0 z-40 w-64 pt-0 h-screen sm:translate-x-0 transition-all bg-orange-900 ${
-          expanded ? "w-[17%]  hidden sm:block" : "w-[5%] hidden sm:block"
+        className={`fixed top-0   hidden sm:block left-0 z-40 w-[17%] pt-0 h-screen sm:translate-x-0 transition-all ${
+          expanded ? "  hidden sm:block" : "w-[5%] hidden sm:block"
         }`}
       >
-        <nav className="h-full flex flex-col bg-white  shadow-lg">
+        <nav className="h-full flex flex-col   shadow-lg">
           <div className="p-4 pb-4 flex justify-between items-center mb-8">
             <div className="flex flex-col">
               <Image
@@ -45,10 +45,6 @@ export default function Sidebar({ children }) {
                   expanded ? "w-30" : "w-0"
                 }`}
               />
-              <p
-                style={{ color: Colors.textBase }}
-                className="text-xs font-normal font-rubik text-black mt-1 "
-              ></p>
             </div>
           </div>
 
