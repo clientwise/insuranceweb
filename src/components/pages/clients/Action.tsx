@@ -27,7 +27,7 @@ export default function Action({ onRowAction }: Props) {
           onClick={() => onRowAction}
           className="text-textColorGrey cursor-pointer font-rubik"
         >
-          <p className="text-textLink text-base font-light font-rubik">View</p>
+          <p className="text-textLink text-base font-light font-rubik" style={{color:"#9656D9"}}>View</p>
         </button>
       </div>
     </Row>

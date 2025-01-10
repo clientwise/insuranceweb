@@ -200,7 +200,7 @@ const Home: React.FC = () => {
             </p>
             <a
               href="/dashboard/clients"
-              style={{ color: Colors.textLink }}
+              style={{ color:"#9656D9" }}
               className="text-sm font-light font-rubik text-black mr-2 "
             >
               View all

@@ -144,16 +144,7 @@ const LoginPage = () => {
           alt="logo"
           className={`w-14 sm:w-24 rounded-xl mb-4`}
         />
-        <a
-          href="#"
-          className="flex items-center mb-6 text-2xl font-semibold text-gray-900 "
-        >
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          {/* <Logo /> */}
-          <h1 className="text-xl font-semibold font-rubik leading-tight tracking-tight text-gray-900 md:text-4xl">
-            Log In
-          </h1>
-        </a>
+      
         <div className="  rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0  dark:border-gray-700">
           {showOtp ? (
             <div className="flex justify-center items-center text-black">
@@ -190,9 +181,9 @@ const LoginPage = () => {
             </div>
           ) : (
             <div className=" p-6 space-y-4 md:space-y-6 sm:p-8">
-              <h1 className="text-xl font-light font-rubik leading-tight tracking-tight text-gray-900 md:text-2xl">
+              <p className="text-lg  font-light font-rubik leading-tight tracking-tight text-gray-900 ">
                 Sign in to your account
-              </h1>
+              </p>
               <Formik
                 initialValues={INTIAL_VALUES}
                 onSubmit={handleSubmit}
@@ -202,8 +193,14 @@ const LoginPage = () => {
                 enableReinitialize
               >
                 <Form>
+                 <div>
+                 <p className="  font-light font-rubik leading-tight tracking-tight text-gray-900 ">
+                 Enter your Email</p>
+                 </div>
+                 <Spacer size="xs" />
+
                   <Input
-                    label="Your email"
+                 
                     placeholder="Enter email"
                     name="email"
                     type="email"
@@ -211,10 +208,9 @@ const LoginPage = () => {
                   <Spacer size="xs" />
                   <div className="flex flex-row justify-center items-center mb-5">
                     <Checkbox onValueChange={handleCheckTermsandconditions}>
-                      I am an agency
+                    <p className="font-light font-rubik leading-tight tracking-tight text-gray-900">  I am an agency</p>
                     </Checkbox>
                   </div>
-                <h2> Login as Agent</h2>
                   {loading ? (
                     <button
                       disabled
@@ -229,7 +225,7 @@ const LoginPage = () => {
                       type="submit"
                       className="w-full text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
                     >
-                      Send otp
+                      Send OTP
                     </button>
                   )}
                 </Form>
