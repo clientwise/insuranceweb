@@ -86,7 +86,6 @@ const Home: React.FC = () => {
       .then((response) => {
         console.log("commisson", response.data);
         setCommission(response.data);
-        console.log(commission);
         const totals = calculateTotals(data);
         setTotalPremium(totals.totalPremium);
         setCompletedPolicies(totals.completedPolicies);
@@ -96,7 +95,7 @@ const Home: React.FC = () => {
         setError("Failed to fetch client details.");
       })
       .finally(() => setLoading(false));
-  }, [commission, data, makeApiCall]);
+  }, [data, makeApiCall]);
 
   React.useEffect(() => {
     makeApiCall(GetTodaysEventApi())
