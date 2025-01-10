@@ -34,7 +34,7 @@ const Home: React.FC = () => {
   const [clients, setClients] = React.useState<ClientType[]>([]);
   const [news, setNews] = React.useState<NewsItem[]>([]);
   const [notice, setNotice] = React.useState<TodayNoticeType[]>([]);
-  const [commission, setCommission] = React.useState<AgentCommissions[]>([]);
+  const [setCommission] = React.useState<AgentCommissions[]>([]);
   const [totalPremium, setTotalPremium] = React.useState(0);
   const [completedPolicies, setCompletedPolicies] = React.useState(0);
 
