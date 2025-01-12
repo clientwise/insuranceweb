@@ -2,17 +2,27 @@
 
 import { useState, useEffect } from "react";
 import { useParams } from "next/navigation";
+import router from "next/router";
 
 export default function ProductPage() {
+
+ 
+  
   const params = useParams();
   const productId = params.productId as string;
   const agency_id = localStorage.getItem("agency_id");
   const authToken = localStorage.getItem("authToken");
+
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [product, setProduct] = useState<any | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
+    if(authToken){
+      if(authToken==null){
+
+      router.replace("/");}
+    }
     const fetchProductDetails = async () => {
       if (productId && agency_id) {
         // Check if productId and agencyId are available

@@ -35,7 +35,7 @@ export default function About() {
         />
         <div >
         <h1 className="text-xl  text-black text-center mt-8">
-          India's Only AI Powered Agency Management Software specially built Insurance Companies
+          The Only AI Powered Agency Management Software specially built for Indian Insurance Companies
         </h1>
         <p className="text-black text-center mt-4">
           Contact: <a href="mailto:admin@goclientwise.in" className="underline">admin@goclientwise.in</a> for demo login
