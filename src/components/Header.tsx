@@ -28,7 +28,7 @@ const Header = () => {
     router.push(`/login`);
   }, [router]);
   const navigateToSignup = React.useCallback(() => {
-    router.push(`/signup`);
+    router.push(`/agentlogin`);
   }, [router]);
 
   return (

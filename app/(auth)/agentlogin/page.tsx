@@ -26,7 +26,6 @@ export default function SignUp() {
   React.useEffect(() => {
     if (emailLocal === null) {
       localStorage.clear();
-      router.replace("/login");
     }
   }, [emailLocal, router]);
 
@@ -45,7 +44,6 @@ export default function SignUp() {
           body: JSON.stringify({ email, password }),
         }
       );
-      console.log(response, "response of signup");
 
       if (response.ok) {
         const data = await response.json();
@@ -77,8 +75,7 @@ export default function SignUp() {
         setErrorMessage(errorData.message || "Login failed");
       }
     } catch (error) {
-      console.error("Login error:", error);
-      setErrorMessage("An error occurred. Please try again later.");
+      setErrorMessage("An error occurred. Please try again later" +error);
     } finally {
       setLoading(false);
     }
@@ -94,21 +91,25 @@ export default function SignUp() {
   });
 
   return (
-    <section className="bg-white">
-      <div className="py-8 px-4 mx-auto max-w-2xl lg:py-16">
-        <Image
-          src={Worklist}
-          alt="logo"
-          className={`w-14 sm:w-24 rounded-xl mb-4`}
-        />
-        <h2 className="mb-4 text-2xl font-rubik font-normal text-gray-900">
-          Login As Agent
-        </h2>
+    <section className="bg-gray-50 ">
+    <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
+      <Image
+        src={Worklist}
+        alt="logo"
+        className={`w-14 sm:w-24 rounded-xl mb-4`}
+      />
+    
+      <div className="  rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0  dark:border-gray-700">
+ 
+  
 
         {errorMessage && (
           <div className="text-red-500 mb-4">{errorMessage}</div>
         )}
-
+ <div className=" p-6 space-y-4 md:space-y-6 sm:p-8">
+              <p className="text-lg  font-light font-rubik leading-tight tracking-tight text-gray-900 ">
+                Sign in to your account
+              </p>
         <Formik
           initialValues={INITIAL_VALUES}
           onSubmit={handleSubmit}
@@ -116,37 +117,50 @@ export default function SignUp() {
           enableReinitialize
         >
           <Form>
-            <Input label="Email" placeholder="Email" name="email" />
-            <Input
-              label="Password"
-              placeholder="Enter Password"
-              name="password"
-              type="password"
-            />
-            <Spacer size="xs" />
+          <p className="font-light font-rubik leading-tight tracking-tight text-gray-900 ">Enter your Email</p>
+          <Spacer size="xs" />
 
-            <div className="flex justify-center items-center">
-              {loading ? (
-                <button
-                  disabled
-                  type="button"
-                  className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 inline-flex items-center"
-                >
-                  <LoadingIcon />
-                  Loading...
-                </button>
-              ) : (
-                <button
-                  type="submit"
-                  className="px-5 py-2.5 text-sm font-medium text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-                >
-                  Submit
-                </button>
-              )}
-            </div>
+          <Input  placeholder="Email" name="email" />
+          <Spacer size="xs" />
+            
+          <p className="font-light font-rubik leading-tight tracking-tight text-gray-900 ">
+          Enter your Password</p>             
+          <Spacer size="xs" />
+
+          <Input
+            placeholder="Enter Password"
+            name="password"
+            type="password"
+          />
+          <Spacer size="xs" />
+
+          <div className="flex justify-center items-center">
+            {loading ? (
+              <button
+                disabled
+                type="button"
+                className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 inline-flex items-center"
+              >
+                <LoadingIcon />
+                Loading...
+              </button>
+            ) : (
+              <button
+              type="submit"
+              className="px-5 py-2.5 text-sm font-medium text-white bg-gradient-to-r from-blue-700 to-blue-800 hover:from-blue-800 hover:to-blue-900 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg text-center dark:from-blue-600 dark:to-blue-700 dark:hover:from-blue-700 dark:hover:to-blue-800 dark:focus:ring-blue-800"
+            >
+                Submit
+              </button>
+            )}
+          </div>
           </Form>
         </Formik>
+
+        <Spacer size="xs" />
+        <a href="/login" className="font-light font-rubik leading-tight tracking-tight text-gray-900 text-right" style={{fontSize: "12px"}}>Login as Agency</a>
       </div>
+      </div></div>
     </section>
+
   );
 }

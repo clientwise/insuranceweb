@@ -68,7 +68,8 @@ export default function AddPolicy({ onClose, clientId }: Props) {
   }, [agencyId, authToken]);
 
   const [initialValues] = React.useState<PolicyPostType>({
-    amount: "",
+    name:"client_name",
+    amount: 0,
     client_id: clientId,
     policy_id: "",
     policy_name: "",
@@ -82,6 +83,7 @@ export default function AddPolicy({ onClose, clientId }: Props) {
 
   const handleSubmit = React.useCallback(
     ({
+      name,
       amount,
       client_id,
       policy_id,
@@ -107,7 +109,8 @@ export default function AddPolicy({ onClose, clientId }: Props) {
       );
       return makeApiCall(
         postPolicyApi(
-          parseInt(amount),
+          name,
+          amount,
           parseInt(client_id),
           policy_id,
           policy_type,
@@ -138,9 +141,7 @@ export default function AddPolicy({ onClose, clientId }: Props) {
           onSubmit={handleSubmit}
           validationSchema={Yup.object().shape({
             policy_name: Yup.string().required("Policy name is required"),
-            amount: Yup.string()
-              .matches(/^\d+(\.\d{1,2})?$/, "Invalid amount format")
-              .required("Amount is required"),
+            amount: Yup.number().required("Amount is required"),
             inception_date: Yup.date().required("Inception date is required"),
             frequency: Yup.string().required("Frequency is required"),
             policy_type: Yup.string().required("Policy Type is required"),

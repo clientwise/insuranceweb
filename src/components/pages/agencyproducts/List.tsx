@@ -51,11 +51,11 @@ const COLUMNS = [
     key: "category",
   },
   {
-    name: "Agent Commission",
+    name: "Agent %",
     key: "agent_commission_percentage",
   },
   {
-    name: "Agency Commission",
+    name: "Agency%",
     key: "agencyCommission_percentage",
   },
   {
@@ -236,14 +236,16 @@ export default function AgencyProductList({
               <p className="text-bold text-sm capitalize">{product.name}</p>
             </div>
           );
-        case "description":
-          return (
-            <div className="flex flex-col max-h-[20vh] overflow-y-auto">
-              <p className="text-bold text-sm capitalize">
-                {product.description}
-              </p>
-            </div>
-          );
+          case "description":
+            const truncatedText =
+              product.description.substring(0, 20) +
+              (product.description.length > 20 ? "..." : "");
+  
+            return (
+              <div className="flex flex-col">
+                <p className="text-bold text-sm capitalize">{truncatedText}</p>
+              </div>
+            );
         case "category":
           return (
             <div className="flex flex-col">

@@ -23,7 +23,7 @@ export default function DashHeader({}: DashHeaderProps) {
 
   const handleLogout = React.useCallback(() => {
     localStorage.clear();
-    router.replace("/");
+    router.replace("/login");
   }, [router]);
 
   return (

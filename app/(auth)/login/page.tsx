@@ -15,7 +15,6 @@ import useToast from "@/src/hooks/useToast";
 import Worklist from "../../../src/assets/kuantslogo.svg";
 import Image from "next/image";
 import { jwtDecode, JwtPayload } from "jwt-decode";
-import { Checkbox } from "@nextui-org/react";
 
 interface CustomJwtPayload extends JwtPayload {
   agency_name: string;
@@ -35,7 +34,6 @@ const LoginPage = () => {
   const [showOtp, setSetShowOtp] = useState(false);
   const [otp, setOtp] = useState("");
   const [otpLoading, setOtpLoading] = React.useState(false);
-  const [checkboxChecked, setCheckboxChecked] = React.useState(false);
 
   const router = useRouter();
 
@@ -43,7 +41,7 @@ const LoginPage = () => {
   const { showToast } = useToast();
 
   const navigateToSignup = React.useCallback(() => {
-    router.push(`/signup`);
+    router.push(`/agentlogin`);
   }, [router]);
 
   const navigateToHomePage = React.useCallback(() => {
@@ -55,14 +53,12 @@ const LoginPage = () => {
       setLoading(true);
       setEmail(email);
       localStorage.setItem("email", email);
-      console.log("Email sending for login", email);
 
-      return makeApiCall(LoginApi(email, checkboxChecked))
+      return makeApiCall(LoginApi(email, true))
         .then((response) => {
-          console.log(response, "RESPONSE OF OTP SENT");
-          console.log("LOGIN SUCCESS");
-          setSetShowOtp(true);
-          showToast("OTP sent successfully!!", { type: "success" });
+          if (response.ok){
+            setSetShowOtp(true);
+            showToast("OTP sent successfully!!", { type: "success" });}
         })
         .catch((error) => {
           console.error("Login Error:- ", error);
@@ -71,7 +67,7 @@ const LoginPage = () => {
         })
         .finally(() => setLoading(false));
     },
-    [checkboxChecked, makeApiCall, navigateToSignup, showToast]
+    [ makeApiCall, navigateToSignup, showToast]
   );
 
   const otpSubmit = React.useCallback(
@@ -79,14 +75,12 @@ const LoginPage = () => {
       setOtpLoading(true); // Set otpLoading to true
       return makeApiCall(OtpSubmitApi(email, otp))
         .then((response) => {
-          console.log(response, "RESPONSE OF OTP verify");
-          console.log("Decoding decoded");
+   
 
           const decoded = jwtDecode<CustomJwtPayload>(response.token); // Use the custom type
 
           console.log(decoded, "Token decoded");
           if (response?.success == true) {
-            console.log("OTP VERIfy SUCCESS");
             showToast("OTP verified successfully!!", { type: "success" });
             localStorage.setItem("authToken", response?.token);
             localStorage.setItem("is_admin", response?.is_admin);
@@ -98,7 +92,7 @@ const LoginPage = () => {
             localStorage.setItem("id", decoded.id.toString());
             localStorage.setItem("mobile", decoded.mobile);
 
-            if (checkboxChecked) {
+            if (true) {
               if (response?.status < 3) {
                 router.replace("/dashboard/agencyprofile");
               } else {
@@ -113,13 +107,12 @@ const LoginPage = () => {
           }
         })
         .catch((error) => {
-          console.error("OTP VERIFY Error:- ", error);
-          showToast("Some error occurred!!", { type: "error" });
+          showToast("Some error occurred!!", { type: error });
           return false;
         })
         .finally(() => setOtpLoading(false));
     },
-    [checkboxChecked, makeApiCall, navigateToHomePage, router, showToast]
+    [ makeApiCall, navigateToHomePage, router, showToast]
   );
 
   const onOtpChange = (text: string) => {
@@ -132,10 +125,7 @@ const LoginPage = () => {
       .email("Please enter a valid email"),
   });
 
-  const handleCheckTermsandconditions = React.useCallback((event: boolean) => {
-    setCheckboxChecked(event);
-    // setIserror(!event);
-  }, []);
+
   return (
     <section className="bg-gray-50 ">
       <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
@@ -194,7 +184,7 @@ const LoginPage = () => {
               >
                 <Form>
                  <div>
-                 <p className="  font-light font-rubik leading-tight tracking-tight text-gray-900 ">
+                 <p className="font-light font-rubik leading-tight tracking-tight text-gray-900 ">
                  Enter your Email</p>
                  </div>
                  <Spacer size="xs" />
@@ -206,11 +196,7 @@ const LoginPage = () => {
                     type="email"
                   />
                   <Spacer size="xs" />
-                  <div className="flex flex-row justify-center items-center mb-5">
-                    <Checkbox onValueChange={handleCheckTermsandconditions}>
-                    <p className="font-light font-rubik leading-tight tracking-tight text-gray-900">  I am an agency</p>
-                    </Checkbox>
-                  </div>
+                
                   {loading ? (
                     <button
                       disabled
@@ -227,8 +213,12 @@ const LoginPage = () => {
                     >
                       Send OTP
                     </button>
+                    
                   )}
-                </Form>
+                    <Spacer size="xs" />
+
+                    <a href="/agentlogin" className="font-light font-rubik leading-tight tracking-tight text-gray-900 text-right" style={{fontSize: "12px"}}>Login as Agent</a>
+                    </Form>
               </Formik>
             </div>
           )}

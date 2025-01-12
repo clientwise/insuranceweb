@@ -22,7 +22,6 @@ const PolicyDetails = ({ clientId, openPolicyAddModal }: Props) => {
     setLoading(true);
     makeApiCall(GetClientAllPolicy(clientId))
       .then((response) => {
-        console.log("Policy list response", response);
         if (response.data != null) {
           setPolicies(response.data);
         }

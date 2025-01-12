@@ -306,7 +306,8 @@ export type AgencyMarketingItemType = {
 };
 
 export type PolicyPostType = {
-  amount: string;
+  name:string,
+  amount: number;
   client_id: string;
   policy_id: string;
   policy_type: string;
