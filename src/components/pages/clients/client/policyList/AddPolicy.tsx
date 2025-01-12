@@ -110,7 +110,7 @@ export default function AddPolicy({ onClose, clientId }: Props) {
       return makeApiCall(
         postPolicyApi(
           name,
-          amount,
+          parseInt(amount.toString()),
           parseInt(client_id),
           policy_id,
           policy_type,
