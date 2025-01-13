@@ -7,7 +7,6 @@ import Spacer from "@/src/components/common/Spacer";
 import * as Yup from "yup";
 import { LoadingIcon } from "@/src/assets/images/Loading";
 import OtpInput from "react-otp-input";
-import { Button } from "@nextui-org/react";
 import { useRouter } from "next/navigation";
 import useApi from "@/src/hooks/useApi";
 import { LoginApi, OtpSubmitApi } from "@/src/apis";
@@ -15,6 +14,7 @@ import useToast from "@/src/hooks/useToast";
 import Worklist from "../../../src/assets/kuantslogo.svg";
 import Image from "next/image";
 import { jwtDecode, JwtPayload } from "jwt-decode";
+import { Button } from "@nextui-org/react";
 
 interface CustomJwtPayload extends JwtPayload {
   agency_name: string;
@@ -49,25 +49,26 @@ const LoginPage = () => {
   }, [router]);
 
   const handleSubmit = React.useCallback(
-    ({ email }: typeof INTIAL_VALUES) => {
+    async ({ email }: typeof INTIAL_VALUES) => {
       setLoading(true);
       setEmail(email);
       localStorage.setItem("email", email);
 
-      return makeApiCall(LoginApi(email, true))
+      return  makeApiCall(LoginApi(email, true))
         .then((response) => {
-          if (response.ok){
+          console.log(response.success, "response.ok")
+          if (response.success){
             setSetShowOtp(true);
             showToast("OTP sent successfully!!", { type: "success" });}
         })
         .catch((error) => {
           console.error("Login Error:- ", error);
           showToast(error.response?.data, { type: "error" });
-          navigateToSignup();
+          
         })
         .finally(() => setLoading(false));
     },
-    [ makeApiCall, navigateToSignup, showToast]
+    [ makeApiCall, showToast]
   );
 
   const otpSubmit = React.useCallback(
@@ -76,10 +77,7 @@ const LoginPage = () => {
       return makeApiCall(OtpSubmitApi(email, otp))
         .then((response) => {
    
-
           const decoded = jwtDecode<CustomJwtPayload>(response.token); // Use the custom type
-
-          console.log(decoded, "Token decoded");
           if (response?.success == true) {
             showToast("OTP verified successfully!!", { type: "success" });
             localStorage.setItem("authToken", response?.token);
@@ -98,8 +96,6 @@ const LoginPage = () => {
               } else {
                 router.replace("/dashboard/home");
               }
-            } else {
-              navigateToHomePage();
             }
           } else {
             console.log("OTP invalid ");
@@ -215,14 +211,15 @@ const LoginPage = () => {
                     </button>
                     
                   )}
-                    <Spacer size="xs" />
 
-                    <a href="/agentlogin" className="font-light font-rubik leading-tight tracking-tight text-gray-900 text-right" style={{fontSize: "12px"}}>Login as Agent</a>
                     </Form>
               </Formik>
+
             </div>
           )}
         </div>
+        <a href="/agentlogin" className="font-light font-rubik leading-tight tracking-tight text-gray-900 text-right" style={{fontSize: "12px"}}>Login as Agent</a>
+
       </div>
     </section>
   );

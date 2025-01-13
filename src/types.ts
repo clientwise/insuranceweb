@@ -162,14 +162,16 @@ export type ClientType = {
 };
 
 export type AgentCommissions = {
+  ID: string;
   transactionID: string;
   transaction_type: string;
-  policyNumber: string;
-  productName: string;
-  premiumAmount: number;
-  commissionAmount: number;
-  soldDate: string;
+  policy_number: string;
+  policy_name: string;
+  premium_amount: number;
+  commsision_amount: number;
+  sold_date: string;
   status: string;
+  client_name:string;
 };
 
 export type PolicyType = {

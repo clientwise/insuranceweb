@@ -54,6 +54,7 @@ const ClientMeeting = ({ clientId }: Props) => {
     meeting_id: "", // Initialize with clientId from props
     date: "",
     details: "",
+    client_id:parseInt(clientId)
   });
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any

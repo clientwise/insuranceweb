@@ -67,19 +67,19 @@ export default function AgencyPayoutTable() {
                   {commission.transaction_type}
                 </td>
                 <td className="border border-gray-300 px-4 py-2">
-                  {commission.policyNumber}
+                  {commission.policy_number}
                 </td>
                 <td className="border border-gray-300 px-4 py-2">
-                  {commission.productName}
+                  {commission.policy_name}
                 </td>
                 <td className="border border-gray-300 px-4 py-2">
-                  {commission.premiumAmount}
+                  {commission.premium_amount}
                 </td>
                 <td className="border border-gray-300 px-4 py-2">
-                  {commission.commissionAmount}
+                  {commission.commsision_amount}
                 </td>
                 <td className="border border-gray-300 px-4 py-2">
-                  {commission.soldDate}
+                  {commission.sold_date}
                 </td>
                 <td className="border border-gray-300 px-4 py-2">
                   {commission.status}

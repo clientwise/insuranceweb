@@ -85,7 +85,7 @@ const Home: React.FC = () => {
 
     makeApiCall(GetAgentCommmisions(agentID, agency_id))
       .then((response) => {
-        console.log("commisson", response.data);
+        console.log("commisson 1", response.data);
         setCommission(response.data);
         const totals = calculateTotals(data);
         setTotalPremium(totals.totalPremium);
