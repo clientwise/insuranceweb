@@ -11,6 +11,10 @@ import {
   Pagination,
   SortDescriptor,
   Chip,
+  Dropdown,
+  DropdownTrigger,
+  DropdownMenu,
+  DropdownItem,
 } from "@nextui-org/react";
 
 import { PolicyType, SelectType } from "@/src/types.js";
@@ -32,23 +36,20 @@ const COLUMNS = [
     sortable: true,
   },
 
-  {
-    name: "Policy Type",
-    key: "Policy Type",
-  },
+
   {
     name: "Premium",
     key: "Premium",
   },
   {
     name: "Policy Type",
-    key: "typeofbiz",
+    key: "policy_type",
   },
   {
     name: "Business Type",
-    key: "biztype",
+    key: "business_type",
   },
-  
+
   {
     name: "Inception Date",
     key: "inception_date",
@@ -64,8 +65,8 @@ export default function PolicyList({ policyList = [], loading }: Props) {
   const [filterValue, setFilterValue] = React.useState("");
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
   const [showFilter, setShowFilter] = React.useState(false);
-  const [selectedState, setSelectedState] = React.useState("all"); // State for selected filter
-  const [tempselectedState, setTempSelectedState] = React.useState("all"); // Temp state for selected filter
+  const [selectedState, setSelectedState] = React.useState("all");
+  const [tempselectedState, setTempSelectedState] = React.useState("all");
   const [dropdownFilter, setDropdownFilters] = React.useState<SelectType[]>([]);
   const [sortDescriptor, setSortDescriptor] = React.useState<SortDescriptor>({
     column: "sr_no",
@@ -99,7 +100,6 @@ export default function PolicyList({ policyList = [], loading }: Props) {
   const [page, setPage] = React.useState(1);
 
   const filteredItems = React.useMemo(() => {
-    // If policyList is empty, return an empty array immediately
     if (policyList?.length === 0) {
       return [];
     }
@@ -128,12 +128,12 @@ export default function PolicyList({ policyList = [], loading }: Props) {
     const end = start + rowsPerPage;
     return filteredItems?.slice(start, end);
   }, [page, filteredItems, rowsPerPage]);
-  // eslint-disable-next-line
+
   const onRowsPerPageChange = React.useCallback((e: any) => {
     setRowsPerPage(Number(e.target.value));
     setPage(1);
   }, []);
-  // eslint-disable-next-line
+
   const onSearchChange = React.useCallback((value: any) => {
     if (value) {
       setFilterValue(value);
@@ -143,46 +143,37 @@ export default function PolicyList({ policyList = [], loading }: Props) {
     }
   }, []);
 
-  // Handle the state selection change
-  const handleStateSelect = (value: string) => {
-    setTempSelectedState(value);
-  };
+  const handleStatusChange = async (policyId: string, newStatus: string, amount: number) => {
+    try {
+      // Assuming your API endpoint is /api/policies/:id
+      console.log(policyId, newStatus, amount, "policyId, newStatus, amount")
+      const response = await fetch(`https://staging.api.mypolicymate.in/policy/${policyId}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          "Authorization":`Bearer ${localStorage.getItem("authToken")}`,
+        },
+        body: JSON.stringify({
+          status: "Complete",
+          amount: amount
+          // Include other necessary data if needed
+        })
+      });
 
-  const renderStatus = React.useCallback((item: PolicyType) => {
-    switch (item?.status) {
-      case "active":
-        return (
-          <Chip variant="flat" color="success" size="sm">
-            Active
-          </Chip>
-        );
-      case "cold_lead":
-        return (
-          <Chip color="danger" variant="flat" size="sm">
-            Cold Lead
-          </Chip>
-        );
-      case "active":
-        return (
-          <Chip variant="flat" color="warning" size="sm">
-            Active
-          </Chip>
-        );
-      case "in_progress":
-        return (
-          <Chip variant="flat" color="success" size="sm">
-            In Progress
-          </Chip>
-        );
-      default:
-        return (
-          <Chip variant="flat" color="success" size="sm">
-            Inactive
-          </Chip>
-        );
+      if (response.ok) {
+        // Status updated successfully
+
+        // You might want to refetch the policy list or update the local state
+        // to reflect the change immediately.
+      } else {
+        // Handle error responses from the API
+        const errorData = await response.json();
+      }
+    } catch (error) {
+      // Handle network errors
+      console.error("Error updating policy status:", error);
     }
-  }, []);
-
+  };
   const renderCell = React.useCallback(
     (policy: PolicyType, columnKey: React.Key) => {
       const index = policyList
@@ -212,44 +203,53 @@ export default function PolicyList({ policyList = [], loading }: Props) {
         case "Premium":
           return (
             <div className="flex flex-col">
-              <p className="text-bold text-sm capitalize">{policy.amount}</p>
+              <p className="text-bold text-sm capitalize">{policy.Amount}</p>
             </div>
           );
-        case "typeofbiz":
+        case "policy_type":
           return (
             <div className="flex flex-col">
               <p className="text-bold text-sm capitalize">{policy.policy_type}</p>
             </div>
           );
-          case "biztype":
-            return (
-              <div className="flex flex-col">
-                <p className="text-bold text-sm capitalize">{policy.buisness_type}</p>
-              </div>
-            );
+        case "business_type":
+          return (
+            <div className="flex flex-col">
+              <p className="text-bold text-sm capitalize">{policy.buisness_type}</p>
+            </div>
+          );
         case "inception_date":
           return (
             <div className="flex flex-col">
               <p className="text-bold text-sm capitalize">
-                {policy.inception_date}
+                {policy.InceptionDate}
               </p>
             </div>
           );
-      
-       
+
+
         case "Status":
-          return renderStatus(policy);
-        // case "action":
-        //   return (
-        //     <div className="flex">
-        //       <Action item={client} />
-        //     </div>
-        //   );
+          return (
+            <Dropdown>
+              <DropdownTrigger>
+                <Chip variant="flat" color="default" size="sm">
+                  {policy.status}
+                </Chip>
+              </DropdownTrigger>
+              <DropdownMenu
+                aria-label="Status Actions"
+                onAction={(key) => handleStatusChange(policy.PolicyId, "",policy.Amount)}
+              >
+                <DropdownItem key="active">Active</DropdownItem>
+                <DropdownItem key="inactive">Inactive</DropdownItem>
+              </DropdownMenu>
+            </Dropdown>
+          );
         default:
           return null;
       }
     },
-    [policyList, renderStatus]
+    [policyList]
   );
 
   const bottomContent = React.useMemo(() => {

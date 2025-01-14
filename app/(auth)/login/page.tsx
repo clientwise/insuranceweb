@@ -40,9 +40,9 @@ const LoginPage = () => {
   const { makeApiCall } = useApi();
   const { showToast } = useToast();
 
-  const navigateToSignup = React.useCallback(() => {
-    router.push(`/agentlogin`);
-  }, [router]);
+  // const navigateToSignup = React.useCallback(() => {
+  //   router.push(`/agentlogin`);
+  // }, [router]);
 
   const navigateToHomePage = React.useCallback(() => {
     router.replace("/dashboard");

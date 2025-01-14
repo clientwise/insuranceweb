@@ -172,20 +172,21 @@ export type AgentCommissions = {
   sold_date: string;
   status: string;
   client_name:string;
+  agent_name: string;
 };
 
 export type PolicyType = {
   policy_id: string;
   name: string;
   status: string;
-  inception_date: string;
+  InceptionDate: string;
   frequency: string;
   next_due_date: string;
   maturity_date: string;
   client_id: number;
   agent_id: number;
   client_name: string;
-  amount: string;
+  Amount: number;
   PolicyId: string;
   Status: string;
   buisness_type: string;

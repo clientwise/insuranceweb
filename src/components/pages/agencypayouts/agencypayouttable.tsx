@@ -39,10 +39,10 @@ export default function AgencyPayoutTable() {
       <table className="table-auto border-collapse border border-gray-400 w-full">
         <thead>
           <tr className="bg-gray-200">
-            <th className="border border-gray-300 px-4 py-2">Transaction ID</th>
+          <th className="border border-gray-300 px-4 py-2">
+          Agent Name            </th>
             <th className="border border-gray-300 px-4 py-2">
-              Transaction Type
-            </th>
+Transaction Type         </th>
             <th className="border border-gray-300 px-4 py-2">Policy Number</th>
             <th className="border border-gray-300 px-4 py-2">Product Name</th>
             <th className="border border-gray-300 px-4 py-2">Premium Amount</th>
@@ -61,7 +61,7 @@ export default function AgencyPayoutTable() {
             .map((commission) => (
               <tr key={commission.transactionID}>
                 <td className="border border-gray-300 px-4 py-2">
-                  {commission.transactionID}
+                  {commission.agent_name}
                 </td>
                 <td className="border border-gray-300 px-4 py-2">
                   {commission.transaction_type}
