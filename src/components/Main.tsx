@@ -116,6 +116,16 @@ function SidebarNew({}: { setExpandedMain: (expanded: boolean) => void }) {
           active={pathname === "/dashboard/agencypayouts"}
           href="/dashboard/agencypayouts"
         />
+              <SidebarItem
+          icon={
+            <Home
+              color={pathname === "/dashboard/agencynoticeboard" ? "#683FDB": "#fff"}
+            />
+          }
+          text={"NoticeBoard"}
+          active={pathname === "/dashboard/agencynoticeboard"}
+          href="/dashboard/agencynoticeboard"
+        />
       </Sidebar>
       
     );

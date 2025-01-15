@@ -2,110 +2,93 @@
 
 import { nextLocalStorage } from "@/src/utils/nextLocalStorage";
 import * as React from "react";
-import { GetAgencyCommmisions } from "@/src/apis";
-import useApi from "@/src/hooks/useApi";
-import { AgentCommissions } from "@/src/types";
-import { Tabs, Tab } from "@nextui-org/react"; // Import Tabs and Tab from NextUI
 
-export default function AgencyPayoutTable() {
-  const [commission, setCommission] = React.useState<AgentCommissions[]>([]);
+interface Notice {
+  id: number;
+  title: string;
+  description: string;
+  date: string;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  [key: string]: any;
+}
+
+export default function AgencyNoticeBoardTable() {
+  const [notices, setNotices] = React.useState<Notice[]>([]);
+  const [isLoading, setIsLoading] = React.useState(true);
   const agency_id = nextLocalStorage()?.getItem("agency_id") ?? "";
-  const agentID = nextLocalStorage()?.getItem("id") ?? "";
-  const [isLoading, setLoading] = React.useState(true);
-  const { makeApiCall } = useApi();
-  const [selectedTab, setSelectedTab] = React.useState("tab1"); // State for selected tab
+  const authToken = nextLocalStorage()?.getItem("authToken") ?? "";
 
   React.useEffect(() => {
-    setLoading(true);
-    makeApiCall(GetAgencyCommmisions( agency_id))
-      .then((response) => {
-        console.log("Events list response", response);
-        if (response.data != null) {
-          setCommission(response.data);
-          console.log(response.data);
-        }
-      })
-      .catch((error) => {
+    const fetchNotices = async () => {
+      setIsLoading(true);
+      try {
+        const response = await fetch(
+          "https://staging.api.mypolicymate.in/api/notice-board/agency/" +
+            agency_id,
+          {
+            headers: {
+              Authorization: `Bearer ${authToken}`, // Replace with your actual auth token
+            },
+          }
+        );
+        if (!response.ok) throw new Error("Failed to fetch notices");
+        const data = await response.json();
+        const activeNotices = data.notices.filter(
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          (notice: any) => notice.status === "active"
+        );
+
+        setNotices(activeNotices || []); // Adjust based on the actual response structure
+      } catch (error) {
         console.error(error);
-      })
-      .finally(() => setLoading(false));
-  }, [agency_id, agentID, makeApiCall]);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchNotices();
+  }, [agency_id, authToken]);
 
   if (isLoading) return <div>Loading...</div>;
-  if (commission.length == 0) return <div>No data Available</div>;
 
-  const renderTable = (status: string) => (
+  if (notices.length === 0) return <div>No notices available.</div>;
+
+  return (
     <div className="table-container">
       <table className="table-auto border-collapse border border-gray-400 w-full">
         <thead>
           <tr className="bg-gray-200">
-          <th className="border border-gray-300 px-4 py-2">
-          Agent Name            </th>
-            <th className="border border-gray-300 px-4 py-2">
-Transaction Type         </th>
-            <th className="border border-gray-300 px-4 py-2">Policy Number</th>
-            <th className="border border-gray-300 px-4 py-2">Product Name</th>
-            <th className="border border-gray-300 px-4 py-2">Premium Amount</th>
-            <th className="border border-gray-300 px-4 py-2">
-              Commission Amount
-            </th>
-            <th className="border border-gray-300 px-4 py-2">Sold Date</th>
-            <th className="border border-gray-300 px-4 py-2">Status</th>
-
-            {/* Add more table headers as needed */}
+            <th className="border border-gray-300 px-4 py-2">Notice Type</th>
+            <th className="border border-gray-300 px-4 py-2">Date</th>
+            <th className="border border-gray-300 px-4 py-2">Title</th>
+            <th className="border border-gray-300 px-4 py-2">Description</th>
+            <th className="border border-gray-300 px-4 py-2">Download</th>
           </tr>
         </thead>
         <tbody>
-          {commission
-            .filter((commission) => commission.status === status) // Filter by status
-            .map((commission) => (
-              <tr key={commission.transactionID}>
-                <td className="border border-gray-300 px-4 py-2">
-                  {commission.agent_name}
-                </td>
-                <td className="border border-gray-300 px-4 py-2">
-                  {commission.transaction_type}
-                </td>
-                <td className="border border-gray-300 px-4 py-2">
-                  {commission.policy_number}
-                </td>
-                <td className="border border-gray-300 px-4 py-2">
-                  {commission.policy_name}
-                </td>
-                <td className="border border-gray-300 px-4 py-2">
-                  {commission.premium_amount}
-                </td>
-                <td className="border border-gray-300 px-4 py-2">
-                  {commission.commsision_amount}
-                </td>
-                <td className="border border-gray-300 px-4 py-2">
-                  {commission.sold_date}
-                </td>
-                <td className="border border-gray-300 px-4 py-2">
-                  {commission.status}
-                </td>
-              </tr>
-            ))}
+          {notices.map((notice) => (
+            <tr key={notice.id}>
+              <td className="border border-gray-300 px-4 py-2">
+                {notice.CreatedAt.split("T")[0]}
+              </td>
+
+              <td className="border border-gray-300 px-4 py-2">
+                {notice.content_type}
+              </td>
+
+              <td className="border border-gray-300 px-4 py-2">
+                {notice.title}
+              </td>
+              <td className="border border-gray-300 px-4 py-2">
+                {notice.content}
+              </td>
+              <td className="border border-gray-300 px-4 py-2">
+                {notice.content_url}
+              </td>
+            </tr>
+          ))}
         </tbody>
       </table>
-    </div>
-  );
-  return (
-    <div className="table-container">
-      <Tabs
-        aria-label="Payout Tabs"
-        selectedKey={selectedTab}
-        onSelectionChange={(key) => setSelectedTab(key.toString())}
-      >
-        <Tab key="approved" title="Approved">
-          {renderTable("completed")} {/* Pass "Approved" status */}
-        </Tab>
-        <Tab key="pending" title="Pending">
-          {renderTable("pending")} {/* Pass "Approved" status */}
-        </Tab>
-
-        {/* Add more tabs as needed */}
-      </Tabs>
     </div>
   );
 }
