@@ -8,6 +8,7 @@ interface Notice {
   title: string;
   description: string;
   date: string;
+  url: string;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   [key: string]: any;
 }
@@ -83,7 +84,7 @@ export default function NoticeboardTable() {
                 {notice.content}
               </td>
               <td className="border border-gray-300 px-4 py-2">
-                {notice.content_url} Doownload
+                <a href ={notice.content_file}> Download</a>
               </td>
             </tr>
           ))}
