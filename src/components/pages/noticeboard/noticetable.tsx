@@ -58,8 +58,8 @@ export default function NoticeboardTable() {
       <table className="table-auto border-collapse border border-gray-400 w-full">
         <thead>
           <tr className="bg-gray-200">
-            <th className="border border-gray-300 px-4 py-2">Notice Type</th>
-            <th className="border border-gray-300 px-4 py-2">Date</th>
+            <th className="border border-gray-300 px-4 py-2">Notice Date</th>
+            <th className="border border-gray-300 px-4 py-2">Type</th>
             <th className="border border-gray-300 px-4 py-2">Title</th>
             <th className="border border-gray-300 px-4 py-2">Description</th>
             <th className="border border-gray-300 px-4 py-2">Download</th>
@@ -83,7 +83,7 @@ export default function NoticeboardTable() {
                 {notice.content}
               </td>
               <td className="border border-gray-300 px-4 py-2">
-                {notice.content_url}
+                {notice.content_url} Doownload
               </td>
             </tr>
           ))}
